@@ -1,8 +1,8 @@
-#!/home/USERNAME/.local/bin/python3
+#!/home/ef22yrqyi32q/.local/bin/python3
 import os
 import sys
 sys.path.insert(0,
-                '/home/USERNAME/public_html/python/cgi-bin/venv/lib/python3.5'
+                '/home/ef22yrqyi32q/public_html/python/cgi-bin/venv/lib/python3.5'
                 '/site-packages')
 from wsgiref.handlers import CGIHandler
 from app import app
