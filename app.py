@@ -11,6 +11,7 @@ def index():
 @app.route('/enrollment')
 def enrollment():
     if request.method == "GET":
+
         return render_template("enrollment.html")
 
 if __name__ == '__main__':
