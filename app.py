@@ -61,7 +61,7 @@ def enrollment():
     if request.method == "GET":
         type = request.args['type']
         cur = mysql.connection.cursor()
-        query = 'SELECT * from Slots WHERE recurring=1'
+        query = 'SELECT * from slots WHERE recurring=1'
         cur.execute(query)
         records = cur.fetchall()
         slots = {}
