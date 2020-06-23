@@ -1,0 +1,59 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+World of Music
+{% endblock %}
+
+
+
+{% block body %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+
+    <div class="navbar-nav  d-flex">
+        <li class="nav-item active">
+            <a class="nav-link h5 mx-3" href="/dashboard">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link h5 mx-3" href="/enrollment?type=student">Enrollment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link h5 mx-3" href="/payment">Payment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link h5 mx-3" href="/dailyTransactions">Daily Transactions</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link h5 mx-3" href="/studioSessions">Studio Sessions</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link h5 mx-3" href="/attendance">Attendance</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link h5 mx-3" href="/leads">Leads</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link h5 mx-3" href="/slots">Slots</a>
+        </li>
+        <li class="float-right">
+            <a class="nav-link h5 mx-3" href="/logout">Log out</a>
+        </li>
+    </div>
+</nav>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success text-center mx-2">{{ message }}</div>
+    {% endfor %}
+
+  {% endif %}
+{% endwith %}
+{% block content %}
+
+{% endblock %}
+
+{% endblock %}
+

@@ -5,6 +5,7 @@
     padding-left: 35px;
     margin-bottom: 12px;
     margin-top: 12px;
+    margin-right: 20px;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -64,4 +65,13 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+  select{
+    overflow: hidden
+  }
+  .select2-selection--single {
+    padding-bottom: 30px !important;
+  }
+  .select2-container{
+    display: block!important;
   }
