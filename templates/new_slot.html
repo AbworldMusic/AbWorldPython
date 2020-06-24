@@ -30,6 +30,8 @@ World of Music | Dashboard
 
 
 {% block content %}
+<div id="tab" hidden>Slots</div>
+
 
 <div class=' d-flex justify-content-start bg-light'>
     <div class="my-4 container-fluid mx-3">
@@ -91,7 +93,7 @@ World of Music | Dashboard
                     </label><br>
                     <div class="input-group date w-50" id="datetimepicker3" data-target-input="nearest">
                         <input type="text" class="form-control datetimepicker-input"
-                               data-target="#datetimepicker3" name="time"/>
+                               data-target="#datetimepicker3" name="date"/>
                         <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -104,11 +106,11 @@ World of Music | Dashboard
                     <label for="Slot-day" class=" font-weight-bold">
                         Slot Time
                     </label>
-                    <input type="hidden" name="time" class="time">
+                    <input type="hidden" class="time">
 
                     <div class="input-group date w-50" id="datetimepicker2" data-target-input="nearest">
                         <input type="text" class="form-control datetimepicker-input"
-                               data-target="#datetimepicker2"/>
+                               data-target="#datetimepicker2"  name="time"/>
                         <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>

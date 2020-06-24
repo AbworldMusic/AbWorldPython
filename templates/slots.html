@@ -30,6 +30,7 @@ World of Music | Dashboard
 
 
 {% block content %}
+<div id="tab" hidden>Slots</div>
 
 <div class=' d-flex justify-content-start bg-light'>
     <div class="my-4 container-fluid mx-3">
@@ -53,7 +54,12 @@ World of Music | Dashboard
                 {% for i in results %}
                 <tr>
                     <td>
-                        <p>{{i[2]}} {{ i[3]}}</p>
+                        {% if i[4] %}
+                        <p>{{i[2]}} {{ i[3] }}</p>
+                        {% else %}
+                        <p>{{i[5]}} {{ i[3] }}</p>
+                        {% endif %}
+
                     </td>
 
                     <td>
