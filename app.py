@@ -153,7 +153,21 @@ def slots():
         return redirect('/login')
 
     if request.method == "GET":
-        return render_template('slots.html')
+        cur = mysql.connection.cursor()
+        query = "SELECT * FROM slots"
+        cur.execute(query)
+        results = cur.fetchall()
+
+        return render_template('slots.html',results=results)
+
+
+@app.route("/new_slot", methods=['GET','POST'])
+def new_slot():
+    if "username" not in session:
+        flash("You must be logged in to view that page")
+        return redirect('/login')
+    if request.method=="GET":
+        return render_template("new_slot.html")
     else:
         time = request.form['time']
         recurring = "True"
@@ -169,6 +183,20 @@ def slots():
         cur.execute(query)
         mysql.connection.commit()
         flash("Slot create successfully")
+        return redirect('/slots')
+
+@app.route("/delete_slot", methods=['GET'])
+def delete_slot():
+    if "username" not in session:
+        flash("You must be logged in to view that page")
+        return redirect('/login')
+    if request.method=="GET":
+        id = request.args['id']
+        query = "DELETE from slots WHERE id="+id
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("Slot has been deleted")
         return redirect('/slots')
 
 
