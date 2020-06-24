@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, request, session, flash
 from flask_bootstrap import Bootstrap
 from flask_mysqldb import MySQL
 import datetime
+import time
 import os
 
 app = Flask(__name__)
@@ -157,7 +158,18 @@ def slots():
         query = "SELECT * FROM slots"
         cur.execute(query)
         results = cur.fetchall()
+        a = {}
+        for i in results:
 
+            if i[3].strip()!="":
+
+                a[time.strftime( "%I:%M %p", time.strptime(i[3], "%I:%M %p"))]=i
+
+        b = sorted((time.strptime(d, "%I:%M %p") for d in a.keys()))
+        results = []
+        for i in b:
+            t = ((time.strftime( "%I:%M %p",i)))
+            results.append(a[t])
         return render_template('slots.html',results=results)
 
 
@@ -172,17 +184,32 @@ def new_slot():
         time = request.form['time']
         recurring = "True"
         recurring = request.form['recurring']
+        cur = mysql.connection.cursor()
         if recurring == "False":
+
+
             date = request.form['date']
+            checkQuery = "SELECT id FROM slots WHERE date='"+date+"' AND time='"+time+"'"
+            cur.execute(checkQuery)
+            if len(cur.fetchall())!=0:
+                flash("Slot already exists")
+                return redirect('/new_slot')
+
             query = "INSERT into slots(time, recurring, date) values('" + time + "'," + recurring + ",'"+date+"')"
         else:
             day = request.form['day']
+            checkQuery = "SELECT id FROM slots WHERE day='" + day + "' AND time='" + time + "'"
+            cur.execute(checkQuery)
+            if len(cur.fetchall()) != 0:
+                flash("Slot already exists")
+                return redirect('/new_slot')
+
             query = "INSERT into slots(day, time, recurring) values('" + day + "','" + time + "'," + recurring + ")"
 
-        cur = mysql.connection.cursor()
+
         cur.execute(query)
         mysql.connection.commit()
-        flash("Slot create successfully")
+        flash("Slot created successfully")
         return redirect('/slots')
 
 @app.route("/delete_slot", methods=['GET'])
