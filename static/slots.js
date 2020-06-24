@@ -1,5 +1,16 @@
 
+
 $('select').select2();
+
+$('#datetimepicker1').datetimepicker({
+    format: 'LT'
+});
+$('#datetimepicker2').datetimepicker({
+    format: 'LT'
+});
+$('#datetimepicker3').datetimepicker({
+    format: 'L'
+});
 
 $("#recurring-tab").click(function(){
     console.log("asd")
@@ -22,41 +33,6 @@ $("#one-time-tab").click(function(){
 
     $("#recurring-tab").removeClass("btn-primary")
     $("#recurring-tab").addClass("btn-outline-primary")
-
-})
-
-$('.hours').on('keyup', function(){
-    console.log('hours')
-   if(parseInt($(this).val())>12){
-    $(this).val(12)
-   }
-   else if(parseInt($(this).val())<0){
-    $(this).val(0)
-   }
-})
-$('.minutes').on('keyup', function(){
-   if(parseInt($(this).val())>59){
-    $(this).val(59)
-   }
-   else if(parseInt($(this).val())<0){
-    $(this).val(0)
-   }
-})
-
-$('.submit').click(function(e){
-    e.preventDefault();
-    let hours = $(this).parents('form').find(".hours").val();
-    let minutes = $(this).parents('form').find(".minutes").val();
-    if(minutes==""){
-        minutes="00"
-    }
-    if(hours==""){
-        hours="00"
-    }
-    let ampm = $(this).parents('form').find(".ampm").children("option:selected").val();
-    let time = hours +":"+ minutes +" "+ampm;
-    $(this).parents('form').find(".time").val(time);
-    $(this).parents('form').submit();
 
 })
 
