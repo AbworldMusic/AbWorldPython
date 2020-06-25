@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session, flash
+from flask import Flask, render_template, redirect, request, session, flash, jsonify
 from flask_bootstrap import Bootstrap
 from flask_mysqldb import MySQL
 import datetime
@@ -226,6 +226,107 @@ def delete_slot():
         flash("Slot has been deleted")
         return redirect('/slots')
 
+
+@app.route("/inventory", methods=['GET','POST'])
+def inventory():
+    if "username" not in session:
+        flash("You must be logged in to view that page")
+        return redirect('/login')
+    if request.method=="GET":
+        return render_template("inventory.html")
+    else:
+        name = request.form['name']
+        type = request.form['type']
+        description = request.form['description']
+        price = request.form['price']
+        images = request.files.getlist("images[]")
+        for i in images:
+            i.save(os.path.join(app.config['UPLOAD_FOLDER'],i.filename))
+        cur = mysql.connection.cursor()
+        query="INSERT into inventory(type, product_name, description, price) values('"+type+"','"+name+"','"+description+"','"+price+"')"
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("Item added succesfully")
+        return redirect("/inventory")
+
+@app.route("/payment", methods=['GET','POST'])
+def payment():
+    if "username" not in session:
+        flash("You must be logged in to view that page")
+        return redirect('/login')
+    if request.method=="GET":
+        cur = mysql.connection.cursor()
+        query = "SELECT id, product_name, price from inventory"
+        cur.execute(query)
+        results = cur.fetchall()
+        mydate = datetime.datetime.now()
+        month = mydate.strftime("%B")
+        return render_template("payment.html", results=results, month=month)
+    else:
+
+        id = request.form['id']
+        mydate = datetime.datetime.now()
+        date = mydate.strftime("%d %m %Y %I:%M %p")
+        product_id = request.form['product']
+        cur = mysql.connection.cursor()
+
+        if id.strip()=="":
+            name = request.form['name']
+            if name.strip()=="":
+                flash("Enter a valid name")
+                return redirect("/payment")
+            query = "INSERT into sales (buyer_name, product_id, date) values('" + name + "'," + product_id + ",'" + date + "')"
+            cur.execute(query)
+            mysql.connection.commit()
+            flash("Payment recorded")
+
+        else:
+            query = "SELECT id FROM enrollment WHERE id="+id
+            cur.execute(query)
+            results = cur.fetchone()
+            if results is None:
+                flash("No student found by that Id")
+                return redirect("/payment")
+            else:
+                query = "INSERT into sales (student_id, product_id, date) values("+id+","+product_id+",'"+date+"')"
+                cur.execute(query)
+                mysql.connection.commit()
+                flash("Payment recorded")
+        return redirect("/payment")
+
+@app.route("/markFeePaid", methods=['POST'])
+def markFeePaid():
+    if request.method=="POST":
+        id = request.form['id']
+        month = request.form['month']
+        query = "UPDATE enrollment SET fee_month='"+month+"' WHERE id="+id
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("Fee paid")
+        return  redirect("/payment")
+
+@app.route("/getStatus", methods=['GET','POST'])
+def getStatus():
+    id = request.form['id']
+    query = "SELECT name, fee_month from enrollment WHERE id="+id
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    last_fee_paid = cur.fetchone()
+    if last_fee_paid is None:
+        print("No student")
+        return jsonify({"name": 'No student found'})
+    name = last_fee_paid[0]
+    last_fee_paid = last_fee_paid[1]
+
+    mydate = datetime.datetime.now()
+    feeMonth = mydate.strftime("%B")
+    if last_fee_paid == feeMonth:
+        status="Paid"
+    else:
+        status= "Due"
+
+    return jsonify({"name":name, "status": status, "month": feeMonth})
 
 @app.route("/dashboard", methods=["GET"])
 def dashboard():

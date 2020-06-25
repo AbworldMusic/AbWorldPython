@@ -1,0 +1,66 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Dashboard
+{% endblock %}
+
+{% block head %}
+
+{{ super() }}
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"
+      xmlns="http://www.w3.org/1999/html"/>
+<link rel="stylesheet" href="../static/style.css">
+{% endblock %}
+
+{% block content %}
+<div id="tab" hidden>Inventory</div>
+
+<div class=' d-flex justify-content-start bg-light'>
+    <div class="my-4 container-fluid mx-3">
+        <h1>World of Music</h1>
+        <h4>Inventory</h4>
+    </div>
+</div>
+
+<div class="container  my-4">
+    <h4 class="m-3">Add a new item to the inventory</h4>
+    <form action="/inventory" enctype="multipart/form-data" method="post">
+        <div class="col-md-6 ">
+            <div class="form-group">
+                <label for="name">Item Name</label>
+                <input type="text" id="name" name="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="type">Item Type</label>
+                <select name="type" id="type" class="form-control">
+                    <option value="Guitar">Guitar</option>
+                    <option value="keyboard">Keyboard</option>
+                    <option value="Drums">Drums</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="desc">Item Description</label>
+                <textarea name="description" id="desc" cols="30" rows="3" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="price">Price in Rupess</label>
+                <input type="number" name="price" id="price" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="images">Items images</label>
+                <input type="file" name="images[]" multiple="multiple" id="images" class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Submit</button>
+            </div>
+
+            
+        </div>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="../static/inventory.js"></script>
+{% endblock %}
