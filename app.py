@@ -266,7 +266,7 @@ def payment():
 
         id = request.form['id']
         mydate = datetime.datetime.now()
-        date = mydate.strftime("%d %m %Y %I:%M %p")
+        date = mydate.strftime("%d/%m/%Y %I:%M %p")
         product_id = request.form['product']
         cur = mysql.connection.cursor()
 
@@ -301,7 +301,7 @@ def otherSales():
         buyer = request.form['buyer']
         price = request.form['price']
         mydate = datetime.datetime.now()
-        date = mydate.strftime("%d %m %Y %I:%M %p")
+        date = mydate.strftime("%d/%m/%Y %I:%M %p")
 
         cur = mysql.connection.cursor()
         query = "INSERT into sales (product_name, buyer_name, date, product_price) values('"+name+"','"+buyer+"','"+date+"','"+price+"')"
