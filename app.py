@@ -334,8 +334,8 @@ def allSales():
                     result = cur.fetchone()
                     studentName = result[0]
                     sales.append((product[0], product[1], studentName, i[4]))
-        else:
-            sales.append((i[5],i[6],i[2],i[4]))
+            else:
+                sales.append((i[5],i[6],i[2],i[4]))
 
         return render_template("all_sales.html", sales=sales)
 
