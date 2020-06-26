@@ -67,6 +67,7 @@ def enrollment():
         records = cur.fetchall()
         slots = {}
         for i in records:
+
             slots[i[0]] = i[2]+" "+i[3]
         mydate = datetime.datetime.now()
         mydate = mydate.strftime("%B")
@@ -160,16 +161,20 @@ def slots():
         results = cur.fetchall()
         a = {}
         for i in results:
-
+            # If the time exists
             if i[3].strip()!="":
-
-                a[time.strftime( "%I:%M %p", time.strptime(i[3], "%I:%M %p"))]=i
-
+                a[time.strftime("%I:%M %p", time.strptime(i[3], "%I:%M %p"))]=i
+        # Sort according to time using strftime
         b = sorted((time.strptime(d, "%I:%M %p") for d in a.keys()))
         results = []
+
         for i in b:
             t = ((time.strftime( "%I:%M %p",i)))
-            results.append(a[t])
+            slotId = a[t][0]
+            slotQuery = "SELECT COUNT(*) from student_slots WHERE slot_id="+str(slotId)
+            cur.execute(slotQuery)
+            count = cur.fetchone()
+            results.append([a[t][0],a[t][1],a[t][2],a[t][3],a[t][4],a[t][5],8-int(count[0])])
         return render_template('slots.html',results=results)
 
 
@@ -309,6 +314,8 @@ def otherSales():
         mysql.connection.commit()
         flash("Payment recorded successfully")
         return redirect("/payment")
+
+
 @app.route("/allSales", methods=['GET','POST'])
 def allSales():
     if request.method=="GET":
