@@ -22,6 +22,7 @@ World of Music | Dashboard
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css"/>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 {{ super() }}
 
@@ -46,6 +47,9 @@ World of Music | Dashboard
                aria-controls="recurring" aria-selected="true">Recurring Slot</a>
             <a class="btn btn-outline-primary mr-3 mb-4" id="one-time-tab" data-toggle="pill" href="#one-time"
                role="tab" aria-controls="one-time" aria-selected="false">One Time Slot</a>
+            <a class="btn btn-outline-primary mr-3 mb-4" data-toggle="pill" href="/slots"
+               role="tab" aria-controls="one-time" aria-selected="false"><i class="fa fa-bookmark"></i> View all slots</a>
+
 
         </div>
         <div id="recurring" class="active" aria-labelledby="recurring-tab" role="tabpanel">

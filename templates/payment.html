@@ -11,6 +11,8 @@ World of Music | Dashboard
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"
       xmlns="http://www.w3.org/1999/html"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../static/style.css">
 {% endblock %}
 
@@ -28,6 +30,8 @@ World of Music | Dashboard
     <div class="my-3">
         <a href="#" class="btn btn-primary fee-payment-tab my-3 mr-2">Fee payment</a>
         <a href="#" class="btn btn-outline-primary instrument-sales-tab my-3 mr-2">Instrument Sales</a>
+        <a href="#" class="btn btn-outline-primary other-sales-tab my-3 mr-2">Other Sales</a>
+        <a href="/allSales" class="btn btn-outline-primary my-3 mr-2"><i class="fa fa-shopping-cart"></i> View all Sales</a>
     </div>
     <div class="fee-payment row">
         <div class="col-md-6">
@@ -73,18 +77,51 @@ World of Music | Dashboard
                     </div>
                     <div class="form-group">
                         <label>Enter name if not student</label>
-                        <input type="text" name="name" placeholder="Please specify name if not student" class="form-control">
+                        <input type="text" name="name" placeholder="Please specify name if not student"
+                               class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Product bought</label>
                         <select name="product" id="" class="form-control">
                             {% for i in results %}
-                                <option value="{{i[0]}}">{{ i[1] }} :  ₹ {{ i[2] }}</option>
+                            <option value="{{i[0]}}">{{ i[1] }} : ₹ {{ i[2] }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="other-sales d-none">
+        <div class="row">
+            <div class="col-md-6">
+                <form method="post" action="/otherSales">
+                    <div class="form-group">
+                        <label>
+                            Buyer Name
+                        </label>
+                        <input type="text" placeholder="Enter buyer's full name" name="buyer" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Item Name
+                        </label>
+                        <input type="text" name="name" class="form-control" placeholder="Enter name of item/service">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Price in Rupees
+                        </label>
+                        <input type="number" name="price" class="form-control" placeholder="Enter price of item/service">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary">
+                            Submit
+                        </button>
                     </div>
                 </form>
 

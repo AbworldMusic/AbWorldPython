@@ -1,0 +1,72 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Dashboard
+{% endblock %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"
+      xmlns="http://www.w3.org/1999/html"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="../static/style.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://momentjs.com/downloads/moment.js"></script>
+
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css"/>
+
+
+{{ super() }}
+
+
+{% endblock %}
+
+
+{% block content %}
+<div id="tab" hidden>Payment</div>
+
+<div class=' d-flex justify-content-start bg-light'>
+    <div class="my-4 container-fluid mx-3">
+        <h1>World of Music</h1>
+        <h4>All Sales</h4>
+    </div>
+</div>
+<div class="d-flex justify-content-center">
+    <div class="container m-4 mt-5">
+        <a class="btn btn-outline-primary my-3 " href="/payment"> <i class="fa fa-plus"></i> Register new payment</a>
+        <div id="all-slots" aria-labelledby="view-all-slots" role="tabpanel">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Payment for</th>
+                    <th>Amount</th>
+                    <th>Payment made by</th>
+                    <th>Date and time</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in sales %}
+                <tr>
+                    <td>{{i[0]}}</td>
+                    <td>{{i[1]}}</td>
+                    <td>{{i[2]}}</td>
+                    <td>{{i[3]}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
+    <script src="../static/slots.js"></script>
+
+    {% endblock %}

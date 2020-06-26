@@ -39,20 +39,52 @@ $(".check-status").click(function(){
 })
 
 $(".fee-payment-tab").click(function(){
-    $(".fee-payment-tab").addClass('btn-primary')
-    $(".instrument-sales-tab").removeClass('btn-primary')
-    $(".fee-payment-tab").removeClass('btn-outline-primary')
     $(".instrument-sales-tab").addClass('btn-outline-primary')
-    $('.fee-payment').removeClass("d-none");
+    $(".instrument-sales-tab").removeClass('btn-primary')
+
+    $(".other-sales-tab").addClass('btn-outline-primary')
+    $(".other-sales-tab").removeClass('btn-primary')
+
+    $(".fee-payment-tab").removeClass('btn-outline-primary')
+    $(".fee-payment-tab").addClass('btn-primary')
+
+
     $(".instrument-sales").addClass('d-none');
+    $('.other-sales').addClass("d-none");
+    $('.fee-payment').removeClass("d-none");
 })
 
 $(".instrument-sales-tab").click(function(){
-    $(".instrument-sales-tab").addClass('btn-primary')
-    $(".fee-payment-tab").addClass('btn-primary')
     $(".instrument-sales-tab").removeClass('btn-outline-primary')
+    $(".instrument-sales-tab").addClass('btn-primary')
+
+    $(".other-sales-tab").addClass('btn-outline-primary')
+    $(".other-sales-tab").removeClass('btn-primary')
+
+
     $(".fee-payment-tab").addClass('btn-outline-primary')
+    $(".fee-payment-tab").removeClass('btn-primary')
+
     $('.instrument-sales').removeClass("d-none");
+    $('.other-sales').addClass("d-none");
+    $(".fee-payment").addClass('d-none');
+
+
+})
+
+$(".other-sales-tab").click(function(){
+    $(".other-sales-tab").removeClass('btn-outline-primary')
+    $(".other-sales-tab").addClass('btn-primary')
+
+    $(".instrument-sales-tab").addClass('btn-outline-primary')
+    $(".instrument-sales-tab").removeClass('btn-primary')
+
+
+    $(".fee-payment-tab").addClass('btn-outline-primary')
+    $(".fee-payment-tab").removeClass('btn-primary')
+
+    $('.instrument-sales').addClass("d-none");
+    $('.other-sales').removeClass("d-none");
     $(".fee-payment").addClass('d-none');
 
 
