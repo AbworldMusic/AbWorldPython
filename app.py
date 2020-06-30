@@ -268,35 +268,45 @@ def payment():
         month = mydate.strftime("%B")
         return render_template("payment.html", results=results, month=month)
     else:
-
-        id = request.form['id']
-        mydate = datetime.datetime.now()
-        date = mydate.strftime("%d/%m/%Y %I:%M %p")
-        product_id = request.form['product']
-        cur = mysql.connection.cursor()
-
-        if id.strip()=="":
-            name = request.form['name']
-            if name.strip()=="":
-                flash("Enter a valid name")
+        payment_by = request.form['payment_by']
+        if payment_by.strip()=="Student":
+            cur = mysql.connection.cursor()
+            student_id = request.form['student_id']
+            studentIdCheck = "SELECT * from enrollment WHERE id="+str(student_id)
+            cur.execute(studentIdCheck)
+            student = cur.fetchone()
+            if student is None:
+                flash("No student found with that ID")
                 return redirect("/payment")
-            query = "INSERT into sales (buyer_name, product_id, date) values('" + name + "'," + product_id + ",'" + date + "')"
-            cur.execute(query)
-            mysql.connection.commit()
-            flash("Payment recorded")
+            buyer_name = ""
+            buyer_email = ""
+            buyer_phone = ""
 
         else:
-            query = "SELECT id FROM enrollment WHERE id="+id
-            cur.execute(query)
-            results = cur.fetchone()
-            if results is None:
-                flash("No student found by that Id")
+            student_id = "0"
+            buyer_name = request.form['buyer_name']
+            buyer_email = request.form['buyer_email']
+            buyer_phone = request.form['buyer_phone']
+            if buyer_email.strip() == "" or buyer_name.strip() == "" or buyer_phone.strip() == "":
+                flash("invalid data entered. Please make sure buyer name, email and phone are filled in")
                 return redirect("/payment")
-            else:
-                query = "INSERT into sales (student_id, product_id, date) values("+id+","+product_id+",'"+date+"')"
-                cur.execute(query)
-                mysql.connection.commit()
-                flash("Payment recorded")
+        mydate = datetime.datetime.now()
+        date = mydate.strftime("%d/%m/%Y %I:%M %p")
+        product_id = request.form['product_id']
+        product_name = ''
+        product_price = ''
+        if product_id == "Others":
+            product_id= "0"
+            product_name = request.form['product_name']
+            product_price = request.form['product_price']
+        cur = mysql.connection.cursor()
+        query = "INSERT into sales(student_id, buyer_name, buyer_email, buyer_phone, product_id, date, product_name,\
+                product_price) values("+str(student_id)+",'"+buyer_name+"','"+buyer_email+"','"+buyer_phone+"',"+str(product_id)+",\
+                '"+date+"','"+product_name+"','"+product_price+"')"
+        print(query)
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("Payment successfully recorded")
         return redirect("/payment")
 
 @app.route('/otherSales', methods=['POST'])

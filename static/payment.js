@@ -89,3 +89,38 @@ $(".other-sales-tab").click(function(){
 
 
 })
+
+$(".student-tab").on("change",function(){
+    $("form .student-div").show()
+    $("form .non-student-div").hide()
+    $("form #student_id_input").prop('required',true);
+    $("form #buyer_name").prop('required',false);
+    $("form #buyer_email").prop('required',false);
+    $("form #buyer_phone").prop('required',false);
+    $("form #product_name").prop('required',false);
+    $("form #product_price").prop('required',false);
+})
+
+$(".non-student-tab").on("change",function(){
+    $(".non-student-div").show()
+    $(".student-div").hide()
+    $("form #student_id_input").prop('required',false);
+    $("form #buyer_name").prop('required',true);
+    $("form #buyer_email").prop('required',true);
+    $("form #buyer_phone").prop('required',true);
+    $("form #product_name").prop('required',false);
+    $("form #product_price").prop('required',false);
+})
+
+$(".product-select").on("change", function(){
+    if($(this).val().trim()=="Others"){
+        $(".off-inventory-item").show();
+        $("form #product_name").prop('required',true);
+        $("form #product_price").prop('required',true);
+    }
+    else{
+        $(".off-inventory-item").hide();
+        $("form #product_name").prop('required',false);
+        $("form #product_price").prop('required',false);
+    }
+})
