@@ -41,9 +41,9 @@ def login():
             if records[0][4] == password:
                 session['username'] = records[0][2]
                 session['logged_in'] = True
-                flash("Logged in successfully")
+                flash("Logged in successfully", "success")
                 return redirect('/dashboard')
-        flash("Incorrect credentials")
+        flash("Incorrect credentials","danger")
         return redirect("/login")
 
 @app.route("/logout", methods=['GET', 'POST'])
@@ -55,7 +55,7 @@ def logout():
 @app.route('/enrollment', methods=['GET', "POST"])
 def enrollment():
     if "username" not in session:
-        flash("You must be logged in to view that page")
+        flash("You must be logged in to view that page",'danger')
         return redirect('/login')
 
 
@@ -129,7 +129,7 @@ def enrollment():
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
-        flash("Enrollment succesful")
+        flash("Enrollment successful", 'success')
 
         #Upload picture
         if "picture" in request.files:
@@ -151,7 +151,7 @@ def enrollment():
 @app.route("/slots", methods=['GET', 'POST'])
 def slots():
     if "username" not in session:
-        flash("You must be logged in to view that page")
+        flash("You must be logged in to view that page", 'danger')
         return redirect('/login')
 
     if request.method == "GET":
@@ -181,7 +181,7 @@ def slots():
 @app.route("/new_slot", methods=['GET','POST'])
 def new_slot():
     if "username" not in session:
-        flash("You must be logged in to view that page")
+        flash("You must be logged in to view that page", 'danger')
         return redirect('/login')
     if request.method=="GET":
         return render_template("new_slot.html")
@@ -197,7 +197,7 @@ def new_slot():
             checkQuery = "SELECT id FROM slots WHERE date='"+date+"' AND time='"+time+"'"
             cur.execute(checkQuery)
             if len(cur.fetchall())!=0:
-                flash("Slot already exists")
+                flash("Slot already exists", "danger")
                 return redirect('/new_slot')
 
             query = "INSERT into slots(time, recurring, date) values('" + time + "'," + recurring + ",'"+date+"')"
@@ -206,7 +206,7 @@ def new_slot():
             checkQuery = "SELECT id FROM slots WHERE day='" + day + "' AND time='" + time + "'"
             cur.execute(checkQuery)
             if len(cur.fetchall()) != 0:
-                flash("Slot already exists")
+                flash("Slot already exists", "danger")
                 return redirect('/new_slot')
 
             query = "INSERT into slots(day, time, recurring) values('" + day + "','" + time + "'," + recurring + ")"
@@ -214,13 +214,13 @@ def new_slot():
 
         cur.execute(query)
         mysql.connection.commit()
-        flash("Slot created successfully")
+        flash("Slot created successfully", "success")
         return redirect('/slots')
 
 @app.route("/delete_slot", methods=['GET'])
 def delete_slot():
     if "username" not in session:
-        flash("You must be logged in to view that page")
+        flash("You must be logged in to view that page","danger")
         return redirect('/login')
     if request.method=="GET":
         id = request.args['id']
@@ -228,14 +228,14 @@ def delete_slot():
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
-        flash("Slot has been deleted")
+        flash("Slot has been deleted", "danger")
         return redirect('/slots')
 
 
 @app.route("/inventory", methods=['GET','POST'])
 def inventory():
     if "username" not in session:
-        flash("You must be logged in to view that page")
+        flash("You must be logged in to view that page", "danger")
         return redirect('/login')
     if request.method=="GET":
         return render_template("inventory.html")
@@ -251,13 +251,13 @@ def inventory():
         query="INSERT into inventory(type, product_name, description, price) values('"+type+"','"+name+"','"+description+"','"+price+"')"
         cur.execute(query)
         mysql.connection.commit()
-        flash("Item added succesfully")
+        flash("Item added succesfully", "success")
         return redirect("/inventory")
 
 @app.route("/payment", methods=['GET','POST'])
 def payment():
     if "username" not in session:
-        flash("You must be logged in to view that page")
+        flash("You must be logged in to view that page", "danger")
         return redirect('/login')
     if request.method=="GET":
         cur = mysql.connection.cursor()
@@ -276,7 +276,7 @@ def payment():
             cur.execute(studentIdCheck)
             student = cur.fetchone()
             if student is None:
-                flash("No student found with that ID")
+                flash("No student found with that ID", "danger")
                 return redirect("/payment")
             buyer_name = ""
             buyer_email = ""
@@ -288,7 +288,7 @@ def payment():
             buyer_email = request.form['buyer_email']
             buyer_phone = request.form['buyer_phone']
             if buyer_email.strip() == "" or buyer_name.strip() == "" or buyer_phone.strip() == "":
-                flash("invalid data entered. Please make sure buyer name, email and phone are filled in")
+                flash("invalid data entered. Please make sure buyer name, email and phone are filled in", "danger")
                 return redirect("/payment")
         mydate = datetime.datetime.now()
         date = mydate.strftime("%d/%m/%Y %I:%M %p")
@@ -306,7 +306,7 @@ def payment():
         print(query)
         cur.execute(query)
         mysql.connection.commit()
-        flash("Payment successfully recorded")
+        flash("Payment successfully recorded", "success")
         return redirect("/payment")
 
 
@@ -381,7 +381,7 @@ def markFeePaid():
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
-        flash("Fee paid")
+        flash("Fee paid","success")
         return  redirect("/payment")
 
 @app.route("/getStatus", methods=['GET','POST'])
@@ -409,7 +409,7 @@ def getStatus():
 @app.route("/dashboard", methods=["GET"])
 def dashboard():
     if "username" not in session:
-        flash("You must be logged in to view that page")
+        flash("You must be logged in to view that page", "danger")
         return redirect('/login')
 
     if request.method == "GET":
