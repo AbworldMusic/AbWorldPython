@@ -314,7 +314,7 @@ def payment():
 def allSales():
     if request.method=="GET":
         cur = mysql.connection.cursor()
-        query = "SELECT * from sales"
+        query = "SELECT * from sales order by id"
         cur.execute(query)
         records = cur.fetchall()
         sales = []
@@ -336,21 +336,38 @@ def allSales():
                     sales.append((productName,productPrice,buyerName,buyerPhone, date))
                 #if student find name
                 else:
-                    studentQuery = "SELECT name, phone from enrollment WHERE id="+str(i[1])
+                    studentQuery = "SELECT name, phone, father_phone from enrollment WHERE id="+str(i[1])
                     cur.execute(studentQuery)
                     result = cur.fetchone()
                     studentName = result[0]
-                    studentPhone = result[1]
+                    if result[1].strip() == "":
+                        studentPhone = result[1]
+                    else:
+                        studentPhone = result[2]
                     productName = product[0]
                     productPrice = product[1]
                     sales.append((productName, productPrice, studentName, studentPhone, date))
             else:
 
-                studentName = i[2]
-                studentPhone = i[3]
-                buyerName = i[2]
-                buyerPhone = i[4]
-                sales.append((productName, productPrice, buyerName, buyerPhone, date))
+                if int(i[1])==0:
+                    productName = i[7]
+                    productPrice = i[8]
+                    buyerName = i[2]
+                    buyerPhone = i[4]
+                    sales.append((productName,productPrice,buyerName,buyerPhone, date))
+                #if student find name
+                else:
+                    studentQuery = "SELECT name, phone, father_phone from enrollment WHERE id="+str(i[1])
+                    cur.execute(studentQuery)
+                    result = cur.fetchone()
+                    studentName = result[0]
+                    if result[1].strip()=="":
+                        studentPhone = result[1]
+                    else:
+                        studentPhone = result[2]
+                    productName = i[7]
+                    productPrice = i[8]
+                    sales.append((productName, productPrice, studentName, studentPhone, date))
 
 
         return render_template("all_sales.html", sales=sales)
