@@ -309,22 +309,6 @@ def payment():
         flash("Payment successfully recorded")
         return redirect("/payment")
 
-@app.route('/otherSales', methods=['POST'])
-def otherSales():
-    if request.method=="POST":
-        name = request.form['name']
-        buyer = request.form['buyer']
-        price = request.form['price']
-        mydate = datetime.datetime.now()
-        date = mydate.strftime("%d/%m/%Y %I:%M %p")
-
-        cur = mysql.connection.cursor()
-        query = "INSERT into sales (product_name, buyer_name, date, product_price) values('"+name+"','"+buyer+"','"+date+"','"+price+"')"
-        cur.execute(query)
-        mysql.connection.commit()
-        flash("Payment recorded successfully")
-        return redirect("/payment")
-
 
 @app.route("/allSales", methods=['GET','POST'])
 def allSales():
@@ -335,24 +319,39 @@ def allSales():
         records = cur.fetchall()
         sales = []
         for i in records:
+            date = i[6]
             #Check if its in the inventory
-            if i[5]=='':
-                productQuery = "SELECT product_name, price from inventory WHERE id=" + str(i[3])
+            product_id = int(i[5])
+            if product_id!=0:
+                productQuery = "SELECT product_name, price from inventory WHERE id=" + str(i[5])
                 cur.execute(productQuery)
                 product = cur.fetchone()
 
                 #Chek if it is not a student
                 if int(i[1])==0:
-                    sales.append((product[0],product[1],i[2],i[4]))
+                    productName = product[0]
+                    productPrice = product[1]
+                    buyerName = i[2]
+                    buyerPhone = i[4]
+                    sales.append((productName,productPrice,buyerName,buyerPhone, date))
                 #if student find name
                 else:
-                    studentQuery = "SELECT name from enrollment WHERE id="+str(i[1])
+                    studentQuery = "SELECT name, phone from enrollment WHERE id="+str(i[1])
                     cur.execute(studentQuery)
                     result = cur.fetchone()
                     studentName = result[0]
-                    sales.append((product[0], product[1], studentName, i[4]))
+                    studentPhone = result[1]
+                    productName = product[0]
+                    productPrice = product[1]
+                    sales.append((productName, productPrice, studentName, studentPhone, date))
             else:
-                sales.append((i[5],i[6],i[2],i[4]))
+
+                studentName = i[2]
+                studentPhone = i[3]
+                buyerName = i[2]
+                buyerPhone = i[4]
+                sales.append((productName, productPrice, buyerName, buyerPhone, date))
+
 
         return render_template("all_sales.html", sales=sales)
 
