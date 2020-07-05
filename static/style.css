@@ -75,3 +75,41 @@
   .select2-container{
     display: block!important;
   }
+  nav{
+    width: 200px;
+    max-width: 200px;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+  }
+
+  @media only screen and (min-width: 768px) {
+      .mobile-nav{
+        display: none;
+      }
+      .main{
+        padding-left: 200px;
+      }
+  }
+  @media only screen and (max-width: 768px) {
+    .mobile-nav{
+        display: block;
+    }
+    nav{
+        margin-left: -200px;
+        margin-top: 48px;
+        padding-top: 20px;
+        z-index: 100;
+    }
+    .main{
+        padding: 0px;
+        padding-top: 48px;
+    }
+    .logo{
+        display: none;
+    }
+  }
+  .logo{
+    height: 70px;
+    width: 100px;
+  }

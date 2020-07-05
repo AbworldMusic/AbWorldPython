@@ -10,10 +10,23 @@ World of Music
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="d-flex">
+<div class="mobile-nav nav-toggler position-fixed p-2 w-100 bg-primary">
+    <i class="fa fa-bars p-2 text-white" id="toggle-nav-btn"></i>
+
+    <a href=""><img src="../static/Logo.png" height="30" width="40" alt="WoM" class="float-right mr-2"></a>
+
+</div>
+<nav class="nav navbar-dark  flex-column bg-primary " id="nav">
 
 
-    <div class="navbar-nav  d-flex">
+    <ul class="navbar-nav " >
+
+        <li>
+            <a href=""><img src="../static/Logo.png" alt="WoM" class="logo m-3 mb-4"></a>
+        </li>
         <li class="nav-item Home">
             <a class="nav-link h5 mx-3" href="/dashboard">Home</a>
         </li>
@@ -45,9 +58,11 @@ World of Music
         <li class="float-right">
             <a class="nav-link h5 mx-3" href="/logout">Log out</a>
         </li>
-    </div>
+    </ul>
 </nav>
 
+
+{% block content %}
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
@@ -56,14 +71,37 @@ World of Music
 
   {% endif %}
 {% endwith %}
-{% block content %}
-
 {% endblock %}
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 <!--Script to make nav item active-->
 <script>
-    $("."+$("#tab").text()).addClass("active")
+    window.onload = function(){
+        let tab = document.getElementById("tab").innerHTML;
+        let item = document.getElementsByClassName(tab)[0];
+        item.classList.add("active")
 
+    }
+    var navbarOpen = false;
+    document.getElementById("toggle-nav-btn").onclick = function(){
+        let nav = document.getElementById("nav");
+        if(navbarOpen){
+            nav.style.marginLeft = "-200px";
+            navbarOpen = false;
+        }
+        else{
+            nav.style.marginLeft = "0px";
+            navbarOpen = true;
+        }
+
+    }
+    document.onclick = function(e){
+        if (e.pageX>200 && navbarOpen){
+            nav.style.marginLeft = "-200px";
+            navbarOpen = false;
+        }
+    }
 </script>
 {% endblock %}
+</div>
+
 

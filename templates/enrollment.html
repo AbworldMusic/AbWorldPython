@@ -3,19 +3,18 @@
 <!--Not using layout for this page becasue flask has a bug for carousel-->
 
 
-
 {% block head %}
 {{ super() }}
 
-    <title>World of Music | Enrollment</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../static/style.css">
+<title>World of Music | Enrollment</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../static/style.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
 
 {% endblock %}
@@ -23,318 +22,328 @@
 
 {% block content %}
 <div id="tab" hidden>Enrollment</div>
-
-<div class=' d-flex justify-content-start bg-light'>
-    <div class="my-4 container-fluid mx-3 ">
-        <h1>World of Music</h1>
-        <h5>Enrollment</h5>
+<div class="w-100 d-flex flex-column main">
+    <div class='d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3 ">
+            <h1>World of Music</h1>
+            <h5>Enrollment</h5>
+        </div>
     </div>
-</div>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
     {% for message in messages %}
-      <div class="alert alert-success text-center mx-2">{{ message }}</div>
+    <div class="alert alert-success text-center mx-2">{{ message }}</div>
     {% endfor %}
 
-  {% endif %}
-{% endwith %}
-<div class='container my-4'>
-    <form method="post"  enctype = "multipart/form-data">
-        <input type="hidden" name="type" value="{{student}}">
-        <div id="enrollment" class="carousel slide container" data-interval="false" data-ride="carousel">
-            <div class='d-flex justify-content-end'>
-                <div class="mt-1 font-weight-bold mr-2">Enrollment Type:</div>
-                {% if student %}
-                <a href="/enrollment?type=student" class="btn btn-primary mr-2">Student</a>
-                <a href="/enrollment?type=working" class="btn border btn-light">Working Professional</a>
-                {% else %}
-                <a href="/enrollment?type=working" class="btn btn-primary mr-2">Working Professional</a>
-                <a href="/enrollment?type=student" class="btn border btn-light">Student</a>
-                {% endif %}
+    {% endif %}
+    {% endwith %}
+    <div class='container my-4'>
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" name="type" value="{{student}}">
+            <div id="enrollment" class="carousel slide container" data-interval="false" data-ride="carousel">
+                <div class='d-flex justify-content-end'>
+                    <div class="mt-1 font-weight-bold mr-2">Enrollment Type:</div>
+                    {% if student %}
+                    <a href="/enrollment?type=student" class="btn btn-primary mr-2">Student</a>
+                    <a href="/enrollment?type=working" class="btn border btn-light">Working Professional</a>
+                    {% else %}
+                    <a href="/enrollment?type=working" class="btn btn-primary mr-2">Working Professional</a>
+                    <a href="/enrollment?type=student" class="btn border btn-light">Student</a>
+                    {% endif %}
 
-            </div>
+                </div>
 
-            <!-- The slideshow -->
-            <div class="carousel-inner">
-                <div class="carousel-item active" id='basic-info'>
+                <!-- The slideshow -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active" id='basic-info'>
 
-                    <div class='student-info info'>
-                        <div class="d-flex py-2 mt-4 my-3 border-bottom">
-                            <h6>Basic information</h6>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="studentName" class='mt-2 w-25'>Name: </label>
-                            <input type="text" class='form-control w-50' name='studentName' id='studentName' required>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="studentAge" class=' mt-2 w-25'>Gender: </label>
-                            <div class='w-50'>
-                                <label class="check-box form-group  "> Male
-                                    <input type="radio" name="gender" value="Male" required>
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group  "> Female
-                                    <input type="radio" name="gender" value="Female" required>
-                                    <span class="checkmark"></span>
-                                </label>
+                        <div class='student-info info'>
+                            <div class="d-flex py-2 mt-4 my-3 border-bottom">
+                                <h6>Basic information</h6>
                             </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="studentName" class='mt-2 w-25'>Name: </label>
+                                <input type="text" class='form-control w-50' name='studentName' id='studentName'
+                                       required>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="studentAge" class=' mt-2 w-25'>Gender: </label>
+                                <div class='w-50'>
+                                    <label class="check-box form-group  "> Male
+                                        <input type="radio" name="gender" value="Male" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group  "> Female
+                                        <input type="radio" name="gender" value="Female" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="studentAge" class=' mt-2 w-25'>Age: </label>
+                                <input type="number" class='form-control  w-50' name='studentAge' id='studentAge'
+                                       required>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="studentDob" class=' mt-2 w-25'>Date of birth: </label>
+                                <input type="date" class='form-control  w-50' name='studentDob' id='studentDob'
+                                       required>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="address" class=' mt-2 w-25'>Address: </label>
+                                <input type="text" class='form-control  w-50' name='address' id='address' required>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="picture" class=' mt-2 w-25'>Picture/ Profile photo: </label>
+                                <input type="file" class='form-control  w-50' name='picture' id='picture'>
+                            </div>
+                            {% if not student %}
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="phone" class=' mt-2 w-25'>Phone Number: </label>
+                                <input type="number" class='form-control  w-50' name='phone' id='phone' required>
+                            </div>
+                            {% endif %}
                         </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="studentAge" class=' mt-2 w-25'>Age: </label>
-                            <input type="number" class='form-control  w-50' name='studentAge' id='studentAge' required>
+                        {% if student %}
+                        <div class='parent1-info info'>
+                            <div class="d-flex py-2 mt-4 my-3 border-bottom">
+                                <h6>Father/Guardian 2 information</h6>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="fatherName" class='mt-2 w-25'>Name: </label>
+                                <input type="text" class='form-control w-50' name='fatherName' id='fatherName'>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="fatherPhone" class=' mt-2 w-25'>Phone: </label>
+                                <input type="number" class='form-control  w-50' name='fatherPhone' id='fatherPhone'>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="fatherEmail" class=' mt-2 w-25'>Email: </label>
+                                <input type="email" class='form-control  w-50' name='fatherEmail' id='fatherEmail'>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="fatheroccupation" class=' mt-2 w-25'>Occupation: </label>
+                                <input type="text" class='form-control  w-50' name='fatheroccupation'
+                                       id='fatheroccupation'>
+                            </div>
+
+
                         </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="studentDob" class=' mt-2 w-25'>Date of birth: </label>
-                            <input type="date" class='form-control  w-50' name='studentDob' id='studentDob' required>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="address" class=' mt-2 w-25'>Address: </label>
-                            <input type="text" class='form-control  w-50' name='address' id='address' required>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="picture" class=' mt-2 w-25'>Picture/ Profile photo: </label>
-                            <input type="file" class='form-control  w-50' name='picture' id='picture'>
-                        </div>
-                        {% if not student %}
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="phone" class=' mt-2 w-25'>Phone Number: </label>
-                            <input type="number" class='form-control  w-50' name='phone' id='phone' required>
+
+                        <div class='parent2-info info'>
+                            <div class="d-flex py-2 mt-4 my-3 border-bottom">
+                                <h6>Mother/Guardian 2 information</h6>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="motherName" class='mt-2 w-25'>Name: </label>
+                                <input type="text" class='form-control w-50' name='motherName' id='motherName'>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="motherPhone" class=' mt-2 w-25'>Phone: </label>
+                                <input type="number" class='form-control  w-50' name='motherPhone' id='motherPhone'>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="motherEmail" class=' mt-2 w-25'>Email: </label>
+                                <input type="email" class='form-control  w-50' name='motherEmail' id='motherEmail'>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="motheroccupation" class=' mt-2 w-25'>Occupation: </label>
+                                <input type="text" class='form-control  w-50' name='motheroccupation'
+                                       id='motheroccupation'>
+                            </div>
                         </div>
                         {% endif %}
-                    </div>
-                    {% if student %}
-                    <div class='parent1-info info'>
-                        <div class="d-flex py-2 mt-4 my-3 border-bottom">
-                            <h6>Father/Guardian 2 information</h6>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="fatherName" class='mt-2 w-25'>Name: </label>
-                            <input type="text" class='form-control w-50' name='fatherName' id='fatherName'>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="fatherPhone" class=' mt-2 w-25'>Phone: </label>
-                            <input type="number" class='form-control  w-50' name='fatherPhone' id='fatherPhone'>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="fatherEmail" class=' mt-2 w-25'>Email: </label>
-                            <input type="email" class='form-control  w-50' name='fatherEmail' id='fatherEmail'>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="fatheroccupation" class=' mt-2 w-25'>Occupation: </label>
-                            <input type="text" class='form-control  w-50' name='fatheroccupation' id='fatheroccupation'>
-                        </div>
-
-
-                    </div>
-
-                    <div class='parent2-info info'>
-                        <div class="d-flex py-2 mt-4 my-3 border-bottom">
-                            <h6>Mother/Guardian 2 information</h6>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="motherName" class='mt-2 w-25'>Name: </label>
-                            <input type="text" class='form-control w-50' name='motherName' id='motherName'>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="motherPhone" class=' mt-2 w-25'>Phone: </label>
-                            <input type="number" class='form-control  w-50' name='motherPhone' id='motherPhone'>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="motherEmail" class=' mt-2 w-25'>Email: </label>
-                            <input type="email" class='form-control  w-50' name='motherEmail' id='motherEmail'>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="motheroccupation" class=' mt-2 w-25'>Occupation: </label>
-                            <input type="text" class='form-control  w-50' name='motheroccupation' id='motheroccupation'>
+                        <div class="d-flex justify-content-end my-5">
+                            <a class="btn btn-primary mr-3" data-slide="next" data-target="#enrollment"
+                               href="javascript:void(0)">
+                                Next
+                            </a>
                         </div>
                     </div>
-                    {% endif %}
-                    <div class="d-flex justify-content-end my-5">
-                        <a class="btn btn-primary mr-3" data-slide="next" data-target="#enrollment"
-                           href="javascript:void(0)">
-                            Next
-                        </a>
-                    </div>
-                </div>
 
-                <div class="carousel-item personalize-info">
-                    <div class='cousre-info info'>
-                        <div class="d-flex py-2 mt-4 my-3 border-bottom">
-                            <h6>Course and Batch</h6>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="fatherName" class='mt-2 w-25'>Instrument: </label>
-                            <div class='w-50'>
-                                <label class="check-box form-group  "> Guitar
-                                    <input type="radio" name="Instrument" value="Guitar" required>
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group  "> Keyboard
-                                    <input type="radio" name="Instrument" value="Keyboard">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group  "> Drums
-                                    <input type="radio" name="Instrument" value="Drums">
-                                    <span class="checkmark"></span>
-                                </label>
+                    <div class="carousel-item personalize-info">
+                        <div class='cousre-info info'>
+                            <div class="d-flex py-2 mt-4 my-3 border-bottom">
+                                <h6>Course and Batch</h6>
                             </div>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="fatherName" class='mt-2 w-25'>Does student have the instrument? </label>
-                            <div class='w-50'>
-                                <label class="check-box form-group  "> Yes
-                                    <input type="radio" name="haveInstrument" value="Yes" required>
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group  "> No
-                                    <input type="radio" name="haveInstrument" value="No">
-                                    <span class="checkmark"></span>
-                                </label>
-
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="fatherName" class='mt-2 w-25'>Instrument: </label>
+                                <div class='w-50'>
+                                    <label class="check-box form-group  "> Guitar
+                                        <input type="radio" name="Instrument" value="Guitar" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group  "> Keyboard
+                                        <input type="radio" name="Instrument" value="Keyboard">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group  "> Drums
+                                        <input type="radio" name="Instrument" value="Drums">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="fatherName" class='mt-2 w-25'>Course: </label>
-                            <div class='w-50' role="tablist">
-                                <label class="check-box form-group hobby"> Hobby
-                                    <input type="radio" name="Course" value="Hobby" required>
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group intermediate"> Intermediate
-                                    <input type="radio" name="Course" value="Intermediate">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group advanced"> Advanced
-                                    <input type="radio" name="Course" value="Advanced">
-                                    <span class="checkmark"></span>
-                                </label>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="fatherName" class='mt-2 w-25'>Does student have the instrument? </label>
+                                <div class='w-50'>
+                                    <label class="check-box form-group  "> Yes
+                                        <input type="radio" name="haveInstrument" value="Yes" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group  "> No
+                                        <input type="radio" name="haveInstrument" value="No">
+                                        <span class="checkmark"></span>
+                                    </label>
+
+                                </div>
                             </div>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="fatherName" class='mt-2 w-25'>Batch: </label>
-                            <div class='w-50'>
-                                <select name="batch-day[]" multiple="multiple" id="batch">
-                                {% for i in slots %}
-                                    <option value="{{i}}">{{slots[i]}}</option>
-                                {% endfor %}
-                                </select>
-
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="fatherName" class='mt-2 w-25'>Course: </label>
+                                <div class='w-50' role="tablist">
+                                    <label class="check-box form-group hobby"> Hobby
+                                        <input type="radio" name="Course" value="Hobby" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group intermediate"> Intermediate
+                                        <input type="radio" name="Course" value="Intermediate">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group advanced"> Advanced
+                                        <input type="radio" name="Course" value="Advanced">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="fatherName" class='mt-2 w-25'>Batch: </label>
+                                <div class='w-50'>
+                                    <select name="batch-day[]" multiple="multiple" id="batch">
+                                        {% for i in slots %}
+                                        <option value="{{i}}">{{slots[i]}}</option>
+                                        {% endfor %}
+                                    </select>
 
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="joiningDate" class=' mt-2 w-25'>Date of joining: </label>
-                            <input type="date" class='form-control  w-50' name='joiningDate' id='joiningDate' required>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between my-5 mx-2">
-                        <a class="btn btn-light   border border-dark" href="#enrollment" data-slide="prev">
-                            Previous
-                        </a>
-                        <a class="btn btn-primary " href="#enrollment" data-slide="next">
-                            Next
-                        </a>
-                    </div>
-                </div>
-                <div class="carousel-item fee-info">
-                    <div class='cousre-info info'>
-                        <div class="d-flex py-2 mt-4 my-3 border-bottom">
-                            <h6>Fee and other details</h6>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label class=' mt-2 w-25'>Advacend to be paid: </label>
-                            <label class=' mt-2 w-50 font-weight-bold'>₹ 500</label>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label class='mt-2 w-25'>Advance paid </label>
-                            <div class='w-50'>
-                                <label class="check-box form-group  " id="advancePaid "> Yes
-                                    <input type="radio" name="advancePaid" value="1" required>
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group  "> No
-                                    <input type="radio" name="advancePaid" value="0">
-                                    <span class="checkmark"></span>
-                                </label>
-
-                            </div>
-                        </div>
-
-                        <div class="row d-flex justify-content-around my-2">
-                            <label class=' mt-2 w-25'>Fee to paid for the month
-                                of {{date}}: </label>
-                            <div class="w-50">
-                                <label style="display: none;" class=' mt-2 w-100 font-weight-bold' id="hobby-fee">₹
-                                    500</label>
-                                <label style="display: none;" class=' mt-2 w-100 font-weight-bold'
-                                       id="intermediate-fee">₹ 1000</label>
-                                <label style="display: none;" class=' mt-2 w-100 font-weight-bold' id="advanced-fee">₹
-                                    1500</label>
-                            </div>
-                        </div>
-                        <div class="row d-flex justify-content-around my-2">
-                            <label for="feePaid" class='mt-2 w-25'>Fee paid </label>
-                            <div class='w-50' id="feePaid">
-                                <label class="check-box form-group  "> Yes
-                                    <input type="radio" name="feePaid" value="1" required>
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group  "> No
-                                    <input type="radio" name="feePaid" value="0">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="my-2 mx-2">
-                            <label for="joiningDate" class=' mt-2'>How did they get to know about World of Music</label>
-
-                            <div class='w-100'>
-                                <label class="check-box form-group mr-2 "> Google
-                                    <input type="radio" name="awareness" value="Google">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group mr-2 "> Instagram
-                                    <input type="radio" name="awareness" value="Instagram">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group mr-2 "> Facebook
-                                    <input type="radio" name="awareness" value="Facebook">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group mr-2 "> JustDial
-                                    <input type="radio" name="awareness" value="JustDial">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group mr-2 "> Word of Mouth
-                                    <input type="radio" name="awareness" value="Word of Mouth">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="check-box form-group mr-2 "> Others
-                                    <input type="radio" name="awareness" value="Others">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <input type="text" placeholder='Please Specify if Others' class='form-control  w-50'
-                                       name='awarenessOther' id='awarenessOther'>
-
+                                </div>
                             </div>
 
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="joiningDate" class=' mt-2 w-25'>Date of joining: </label>
+                                <input type="date" class='form-control  w-50' name='joiningDate' id='joiningDate'
+                                       required>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between my-5 mx-2">
+                            <a class="btn btn-light   border border-dark" href="#enrollment" data-slide="prev">
+                                Previous
+                            </a>
+                            <a class="btn btn-primary " href="#enrollment" data-slide="next">
+                                Next
+                            </a>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between my-5 mx-2">
-                        <a class="btn btn-light   border border-dark" href="#enrollment" data-slide="prev">
-                            Previous
-                        </a>
+                    <div class="carousel-item fee-info">
+                        <div class='cousre-info info'>
+                            <div class="d-flex py-2 mt-4 my-3 border-bottom">
+                                <h6>Fee and other details</h6>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label class=' mt-2 w-25'>Advacend to be paid: </label>
+                                <label class=' mt-2 w-50 font-weight-bold'>₹ 500</label>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label class='mt-2 w-25'>Advance paid </label>
+                                <div class='w-50'>
+                                    <label class="check-box form-group  " id="advancePaid "> Yes
+                                        <input type="radio" name="advancePaid" value="1" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group  "> No
+                                        <input type="radio" name="advancePaid" value="0">
+                                        <span class="checkmark"></span>
+                                    </label>
 
-                        <button class="btn float-right btn-primary btn-block w-25">Submit</button>
+                                </div>
+                            </div>
 
+                            <div class="row d-flex justify-content-around my-2">
+                                <label class=' mt-2 w-25'>Fee to paid for the month
+                                    of {{date}}: </label>
+                                <div class="w-50">
+                                    <label style="display: none;" class=' mt-2 w-100 font-weight-bold' id="hobby-fee">₹
+                                        500</label>
+                                    <label style="display: none;" class=' mt-2 w-100 font-weight-bold'
+                                           id="intermediate-fee">₹ 1000</label>
+                                    <label style="display: none;" class=' mt-2 w-100 font-weight-bold'
+                                           id="advanced-fee">₹
+                                        1500</label>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="feePaid" class='mt-2 w-25'>Fee paid </label>
+                                <div class='w-50' id="feePaid">
+                                    <label class="check-box form-group  "> Yes
+                                        <input type="radio" name="feePaid" value="1" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group  "> No
+                                        <input type="radio" name="feePaid" value="0">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="my-2 mx-2">
+                                <label for="joiningDate" class=' mt-2'>How did they get to know about World of
+                                    Music</label>
+
+                                <div class='w-100'>
+                                    <label class="check-box form-group mr-2 "> Google
+                                        <input type="radio" name="awareness" value="Google">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group mr-2 "> Instagram
+                                        <input type="radio" name="awareness" value="Instagram">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group mr-2 "> Facebook
+                                        <input type="radio" name="awareness" value="Facebook">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group mr-2 "> JustDial
+                                        <input type="radio" name="awareness" value="JustDial">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group mr-2 "> Word of Mouth
+                                        <input type="radio" name="awareness" value="Word of Mouth">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="check-box form-group mr-2 "> Others
+                                        <input type="radio" name="awareness" value="Others">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <input type="text" placeholder='Please Specify if Others' class='form-control  w-50'
+                                           name='awarenessOther' id='awarenessOther'>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between my-5 mx-2">
+                            <a class="btn btn-light   border border-dark" href="#enrollment" data-slide="prev">
+                                Previous
+                            </a>
+
+                            <button class="btn float-right btn-primary btn-block w-25">Submit</button>
+
+                        </div>
                     </div>
                 </div>
+
+
             </div>
-
-
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="../static/enrollment.js"></script>

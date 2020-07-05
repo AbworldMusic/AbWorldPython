@@ -1,0 +1,22 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Daily Transactions
+{% endblock %}
+
+
+{% block content %}
+<div id="tab" class="d-none ">Daily-Transactions</div>
+<div class="w-100 d-flex flex-column main">
+<div class=' d-flex justify-content-start bg-light'>
+    <div class="my-4 container-fluid mx-3">
+        <h1>World of Music</h1>
+        <h4>Transactions</h4>
+    </div>
+</div>
+{{ super() }}
+<div class="container my-4">
+    <h4>Today: <label class="ml-3">{{date}}</label></h4>
+</div>
+</div>
+{% endblock %}

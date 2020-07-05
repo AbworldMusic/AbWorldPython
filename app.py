@@ -306,7 +306,6 @@ def payment():
         query = "INSERT into sales(student_id, buyer_name, buyer_email, buyer_phone, product_id, date, product_name,\
                 product_price) values("+str(student_id)+",'"+buyer_name+"','"+buyer_email+"','"+buyer_phone+"',"+str(product_id)+",\
                 '"+date+"','"+product_name+"','"+product_price+"')"
-        print(query)
         cur.execute(query)
         mysql.connection.commit()
         flash("Payment successfully recorded", "success")
@@ -395,13 +394,16 @@ def getStatus():
     cur.execute(query)
     last_fee_paid = cur.fetchone()
     if last_fee_paid is None:
-        print("No student")
         return jsonify({"name": 'No student found'})
     name = last_fee_paid[0]
     last_fee_paid = last_fee_paid[1]
 
-    mydate = datetime.datetime.now()
-    feeMonth = mydate.strftime("%B")
+    month_number = time.strptime(last_fee_paid, "%B").tm_mon
+    if month_number == 12:
+        month_number = 0
+
+    feeMonth = time.strptime(str(month_number+1),"%m")
+    feeMonth = time.strftime("%B", feeMonth)
     if last_fee_paid == feeMonth:
         status="Paid"
     else:
@@ -419,6 +421,12 @@ def dashboard():
         user = session['username']
         return render_template("dashboard.html", user=user)
 
+@app.route("/dailyTransactions", methods=['GET'])
+def daily_transaction():
+    if request.method == "GET":
+        mydate = datetime.datetime.now()
+        date = mydate.strftime("%d %B %Y, %A")
+        return render_template("daily_transactions.html", date=date)
 
 if __name__ == '__main__':
     app.run(debug=True)

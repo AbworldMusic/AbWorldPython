@@ -19,134 +19,138 @@ World of Music | Dashboard
 
 {% block content %}
 <div id="tab" hidden>Payment</div>
-
-<div class=' d-flex justify-content-start bg-light'>
-    <div class="my-4 container-fluid mx-3">
-        <h1>World of Music</h1>
-        <h4>Payment</h4>
-    </div>
-</div>
-<div class="container my-4">
-    <div class="my-3">
-        <a href="#" class="btn btn-primary fee-payment-tab my-3 mr-2">Fee payment</a>
-        <a href="#" class="btn btn-outline-primary instrument-sales-tab my-3 mr-2">Instrument Sales</a>
-        <a href="/allSales" class="btn btn-outline-primary my-3 mr-2"><i class="fa fa-shopping-cart"></i> View all Sales</a>
-    </div>
-    <div class="fee-payment row">
-        <div class="col-md-6">
-            <input type="text" placeholder="Enter Student ID" id='student_id' class="form-control">
-            <div class="my-3 details d-none">
-
-                <div class="my-2">
-                    <label class="font-weight-bold">Name: </label><label class="ml-2 name"></label>
-                </div>
-                <div class="my-2">
-                    <label class="font-weight-bold">Month: </label><label class="ml-2 month"></label>
-                </div>
-                <div class="my-2">
-                    <label class="font-weight-bold">Status: </label><label class="ml-2 status"></label>
-                </div>
-            </div>
-            <div class="my-3 text-danger no-student-found d-none font-weight-bold ">
-                No student found by that ID
-            </div>
-            <div class="my-3 loader d-none">
-                <img src="../static/loader.gif" alt="Loading.." width="30" height="30">
-            </div>
-            <div class="mt-3">
-                <button class="btn btn-light border border-dark check-status">Check Status</button>
-                <div class="my-3 received d-none">
-                    <form action="/markFeePaid" method="post">
-                        <input type="hidden" name="month" value="{{month}}">
-                        <input type="hidden" name="id" id="enrollment_id">
-                        <button class="btn btn-success">Mark fee for {{month}} as paid</button>
-                    </form>
-                </div>
-
-            </div>
+<div class="w-100 d-flex flex-column main">
+    <div class=' d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3">
+            <h1>World of Music</h1>
+            <h4>Payment</h4>
         </div>
     </div>
-    <div class="instrument-sales d-none">
-        <div class="row">
+    {{ super() }}
+    <div class="container my-4">
+        <div class="my-3">
+            <a href="#" class="btn btn-primary fee-payment-tab my-3 mr-2">Fee payment</a>
+            <a href="#" class="btn btn-outline-primary instrument-sales-tab my-3 mr-2">Other Sales</a>
+            <a href="/allSales" class="btn btn-outline-primary my-3 mr-2"><i class="fa fa-shopping-cart"></i> View all
+                Sales</a>
+        </div>
+        <div class="fee-payment row">
             <div class="col-md-6">
-                <label>Accepting payment from</label>
-                <form action="/payment" method="post">
-                    <div class="form-group">
-                        <label class="check-box form-group  "> Student
-                            <input type="radio" name="payment_by" value="Student" class="student-tab" required>
-                            <span class="checkmark"></span>
-                        </label>
-                        <br>
-                        <label class="check-box form-group "> Non Student
-                            <input type="radio" name="payment_by" value="Non Student" class="non-student-tab" required>
-                            <span class="checkmark"></span>
-                        </label>
+                <input type="text" placeholder="Enter Student ID" id='student_id' class="form-control">
+                <div class="my-3 details d-none">
 
+                    <div class="my-2">
+                        <label class="font-weight-bold">Name: </label><label class="ml-2 name"></label>
+                    </div>
+                    <div class="my-2">
+                        <label class="font-weight-bold">Month: </label><label class="ml-2 month"></label>
+                    </div>
+                    <div class="my-2">
+                        <label class="font-weight-bold">Status: </label><label class="ml-2 status"></label>
+                    </div>
+                </div>
+                <div class="my-3 text-danger no-student-found d-none font-weight-bold ">
+                    No student found by that ID
+                </div>
+                <div class="my-3 loader d-none">
+                    <img src="../static/loader.gif" alt="Loading.." width="30" height="30">
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-light border border-dark check-status">Check Status</button>
+                    <div class="my-3 received d-none">
+                        <form action="/markFeePaid" method="post">
+                            <input type="hidden" name="month" id="feeMonth">
+                            <input type="hidden" name="id" id="enrollment_id">
+                            <button class="btn btn-success">Mark fee for <span class="month"></span> as paid</button>
+                        </form>
                     </div>
 
-
-                    <div class="form-group student-div" style="display: none">
-                        <label>Enter student id</label>
-                        <input type="text" name="student_id" id="student_id_input" placeholder="Student id"
-                               class="form-control">
-                    </div>
-                    <div class="non-student-div" style="display: none">
-                        <div class="form-group">
-                            <label>Enter name of client</label>
-                            <input type="text" name="buyer_name" id="buyer_name"
-                                   placeholder="Please specify name if not student"
-                                   class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Enter email id of client</label>
-                            <input type="email" name="buyer_email" id="buyer_email" placeholder="Client Email"
-                                   class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Enter cleint's phone number</label>
-                            <input type="text" name="buyer_phone" id="buyer_phone" placeholder="Client Phone Number"
-                                   class="form-control">
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label>Product bought</label>
-                        <select name="product_id" id="" class="form-control product-select" required>
-                            {% for i in results %}
-                            <option value="{{i[0]}}">{{ i[1] }} : ₹ {{ i[2] }}</option>
-                            {% endfor %}
-                            <option value="Others">Others</option>
-                        </select>
-                    </div>
-                    <div class="off-inventory-item" style="display: none;">
-                        <div class="form-group">
-                            <label>
-                                Item Name
-                            </label>
-                            <input type="text" name="product_name" class="form-control" id="product_name"
-                                   placeholder="Enter name of item/service">
-                        </div>
-                        <div class="form-group">
-                            <label>
-                                Price in Rupees
-                            </label>
-                            <input type="number" name="product_price" id="product_price" class="form-control"
-                                   placeholder="Enter price of item/service">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-
+                </div>
             </div>
         </div>
+        <div class="instrument-sales d-none">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Accepting payment from</label>
+                    <form action="/payment" method="post">
+                        <div class="form-group">
+                            <label class="check-box form-group  "> Student
+                                <input type="radio" name="payment_by" value="Student" class="student-tab" required>
+                                <span class="checkmark"></span>
+                            </label>
+                            <br>
+                            <label class="check-box form-group "> Non Student
+                                <input type="radio" name="payment_by" value="Non Student" class="non-student-tab"
+                                       required>
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div>
+
+
+                        <div class="form-group student-div" style="display: none">
+                            <label>Enter student id</label>
+                            <input type="text" name="student_id" id="student_id_input" placeholder="Student id"
+                                   class="form-control">
+                        </div>
+                        <div class="non-student-div" style="display: none">
+                            <div class="form-group">
+                                <label>Enter name of client</label>
+                                <input type="text" name="buyer_name" id="buyer_name"
+                                       placeholder="Please specify name if not student"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Enter email id of client</label>
+                                <input type="email" name="buyer_email" id="buyer_email" placeholder="Client Email"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Enter cleint's phone number</label>
+                                <input type="text" name="buyer_phone" id="buyer_phone" placeholder="Client Phone Number"
+                                       class="form-control">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Product bought</label>
+                            <select name="product_id" id="" class="form-control product-select" required>
+                                {% for i in results %}
+                                <option value="{{i[0]}}">{{ i[1] }} : ₹ {{ i[2] }}</option>
+                                {% endfor %}
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                        <div class="off-inventory-item" style="display: none;">
+                            <div class="form-group">
+                                <label>
+                                    Item Name
+                                </label>
+                                <input type="text" name="product_name" class="form-control" id="product_name"
+                                       placeholder="Enter name of item/service">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Price in Rupees
+                                </label>
+                                <input type="number" name="product_price" id="product_price" class="form-control"
+                                       placeholder="Enter price of item/service">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
     </div>
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="../static/payment.js"></script>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script src="../static/payment.js"></script>
 {% endblock %}

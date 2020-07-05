@@ -26,7 +26,8 @@ $(".check-status").click(function(){
           $(".details").removeClass("d-none")
           $(".name").html(data['name'])
           $(".status").html(data['status'])
-          $(".month").html(data['month'])
+          $(".month").text(data['month'])
+          $("#feeMonth").val(data['month'])
           if(data['status']=="Due"){
             $(".received").removeClass("d-none")
             $("#enrollment_id").val(id)
