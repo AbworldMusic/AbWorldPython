@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_mysqldb import MySQL
 import datetime
 import time
+from time import mktime
 import os
 
 app = Flask(__name__)
@@ -426,8 +427,13 @@ def dashboard():
 @app.route("/dailyTransactions", methods=['GET'])
 def daily_transaction():
     if request.method == "GET":
-        mydate = datetime.datetime.now()
+        if "on" in request.args:
+            mydate = time.strptime(request.args['on'], '%m/%d/%Y')
+            mydate = datetime.datetime.fromtimestamp(mktime(mydate))
+        else:
+            mydate = datetime.datetime.now()
         date = mydate.strftime("%d %B %Y, %A")
+        date2 = mydate.strftime("%d/%m/%YYYY")
 
         salesDate = mydate.strftime("%d %m %Y")
         cur = mysql.connection.cursor()
@@ -437,6 +443,7 @@ def daily_transaction():
 
         dailySales = {"inventory_sales":0,"fee_payment":0,"enrollment":0}
         for i in result:
+
             product_id = i[5]
             if int(product_id) != 0:
                 product_query = "SELECT price from inventory WHERE id="+str(product_id)
@@ -476,7 +483,7 @@ def daily_transaction():
                 elif course=="Advanced":
                     dailySales[key] = dailySales[key] + 1500
         print(dailySales)
-        return render_template("daily_transactions.html", date=date, dailySales=dailySales)
+        return render_template("daily_transactions.html", date=date,date2=date2, dailySales=dailySales)
 
 if __name__ == '__main__':
     app.run(debug=True)

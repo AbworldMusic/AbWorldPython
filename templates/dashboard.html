@@ -6,7 +6,35 @@ World of Music | Dashboard
 
 
 {% block content %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <div id="tab" hidden>Home</div>
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Day', 'Sales'],
+          ['Day before',  660],
+          ['Yesterday',  0],
+          ['Today',  0]
+
+        ]);
+
+        var options = {
+          curveType: 'function',
+          lineWidth: 5,
+          legend: { position: 'top' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+
+
+
+</script>
 <div class="w-100 d-flex flex-column main">
     <div class=' d-flex justify-content-start bg-light'>
         <div class="my-4 container-fluid mx-3">
@@ -15,6 +43,12 @@ World of Music | Dashboard
         </div>
     </div>
     {{ super() }}
+
+    <div class="container-fluid my-4">
+        <div class="col-md-4 bg-light rounded p-2">
+            <div id="curve_chart" style="height: 300px;, width: 100%"></div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
