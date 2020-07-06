@@ -122,13 +122,14 @@ def enrollment():
             awarenessOther=""
         mydate = datetime.datetime.now()
         feeMonth = mydate.strftime("%B")
+        last_fee_paid_date = mydate.strftime("%Y-%m-%d")
         query= "INSERT into enrollment (name, type, gender, age, dob, phone, address, father_name, father_email, father_phone, \
                 father_occupation, mother_name, mother_email, mother_phone, mother_occupation, instrument, have_instrument,\
-                course, joining_date, advance_paid, fee_paid, fee_month, awareness, awareness_other) values( \
+                course, joining_date, advance_paid, fee_paid,last_fee_paid_date, fee_month, awareness, awareness_other) values( \
                 '"+name+"','"+type+"','"+gender+"','"+age+"','"+dob+"','"+phone+"','"+address+"','"+fatherName+"','"+ \
                 fatherEmail+"','"+fatherPhone+"','"+fatherOccupation+"','"+motherName+"','"+motherEmail+"','"+ \
                 motherPhone+"','"+motherOccupation+"','"+instrument+"','"+haveInstrument+"','"+course+"','"+ \
-                joiningDate+"',"+advancePaid+","+feePaid+",'"+feeMonth+"','"+awareNess+"','"+awarenessOther+"')"
+                joiningDate+"',"+advancePaid+","+feePaid+",'"+last_fee_paid_date+",'"+feeMonth+"','"+awareNess+"','"+awarenessOther+"')"
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
@@ -136,7 +137,6 @@ def enrollment():
 
         #Upload picture
         if "picture" in request.files:
-            print("File selected")
             f = request.files['picture']
             f.save(os.path.join(app.config['UPLOAD_FOLDER'],f.filename))
 
@@ -379,7 +379,9 @@ def markFeePaid():
     if request.method=="POST":
         id = request.form['id']
         month = request.form['month']
-        query = "UPDATE enrollment SET fee_month='"+month+"' WHERE id="+id
+        mydate = datetime.datetime.now()
+        date = mydate.strftime("%Y-%m-%d")
+        query = "UPDATE enrollment SET fee_month='"+month+"', last_fee_paid_date='"+date+"' WHERE id="+id
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
@@ -426,7 +428,56 @@ def daily_transaction():
     if request.method == "GET":
         mydate = datetime.datetime.now()
         date = mydate.strftime("%d %B %Y, %A")
-        return render_template("daily_transactions.html", date=date)
+
+        salesDate = mydate.strftime("%d %m %Y")
+        cur = mysql.connection.cursor()
+        query = "SELECT * FROM sales WHERE date like '%"+salesDate.replace(" ","%")+"%'"
+        cur.execute(query)
+        result = cur.fetchall()
+
+        dailySales = {"inventory_sales":0,"fee_payment":0,"enrollment":0}
+        for i in result:
+            product_id = i[5]
+            if int(product_id) != 0:
+                product_query = "SELECT price from inventory WHERE id="+str(product_id)
+                cur.execute(product_query)
+                product_price = cur.fetchone()
+                dailySales['inventory_sales'] = dailySales['inventory_sales'] + float(product_price[0])
+            else:
+                product_price = i[8]
+                dailySales['inventory_sales'] = dailySales['inventory_sales'] + float(product_price)
+
+        joinDate = mydate.strftime("%Y-%m-%d")
+
+        cur = mysql.connection.cursor()
+        enrollments = "SELECT advance_paid, course, fee_paid, joining_date, last_fee_paid_date FROM enrollment " \
+                      "WHERE joining_date like '%" + joinDate + "%' OR last_fee_paid_date like '%" + joinDate + "%'"
+        cur.execute(enrollments)
+        result = cur.fetchall()
+
+        for i in result:
+            advance_paid = int(i[0])
+            joining_date = i[3]
+            last_fee_paid_date = i[4]
+            if advance_paid and last_fee_paid_date not in joining_date and last_fee_paid_date.strip()!="":
+                dailySales['enrollment'] = dailySales['enrollment'] + 500
+
+            course = i[1]
+            fee_paid = i[2]
+            print(last_fee_paid_date, joining_date)
+            if last_fee_paid_date.strip() != "" and last_fee_paid_date not in joining_date :
+                key = "fee_payment"
+            else:
+                key = "enrollment"
+            if fee_paid:
+                if course=="Hobby":
+                    dailySales[key] = dailySales[key] + 500
+                elif course=="Intermediate":
+                    dailySales[key] = dailySales[key] + 1000
+                elif course=="Advanced":
+                    dailySales[key] = dailySales[key] + 1500
+        print(dailySales)
+        return render_template("daily_transactions.html", date=date, dailySales=dailySales)
 
 if __name__ == '__main__':
     app.run(debug=True)

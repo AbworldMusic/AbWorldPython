@@ -8,15 +8,32 @@ World of Music | Daily Transactions
 {% block content %}
 <div id="tab" class="d-none ">Daily-Transactions</div>
 <div class="w-100 d-flex flex-column main">
-<div class=' d-flex justify-content-start bg-light'>
-    <div class="my-4 container-fluid mx-3">
-        <h1>World of Music</h1>
-        <h4>Transactions</h4>
+    <div class=' d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3">
+            <h1>World of Music</h1>
+            <h4>Transactions</h4>
+        </div>
     </div>
-</div>
-{{ super() }}
-<div class="container my-4">
-    <h4>Today: <label class="ml-3">{{date}}</label></h4>
-</div>
+    {{ super() }}
+    <div class="container my-4">
+        <h4>Today: <label class="ml-3">{{date}}</label></h4>
+        <div class="bg-light my-4 p-3 rounded col-md-6">
+            <h5>Cash Inflow: <label class="text-success">
+                ₹ {{
+                dailySales['inventory_sales']+dailySales['fee_payment']+dailySales['enrollment'] }}</label></h5>
+            <div class="py-2">
+
+                <h6>Enrollments: <label class="text-primary">
+                    ₹ {{
+                    dailySales['enrollment']}}</label></h6>
+                <h6>Inventroy sales: <label class="text-primary">
+                    ₹ {{
+                    dailySales['inventory_sales']}}</label></h6>
+                <h6>Fee payment: <label class="text-primary">
+                    ₹ {{
+                    dailySales['fee_payment']}}</label></h6>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
