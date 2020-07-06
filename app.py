@@ -482,8 +482,39 @@ def daily_transaction():
                     dailySales[key] = dailySales[key] + 1000
                 elif course=="Advanced":
                     dailySales[key] = dailySales[key] + 1500
-        print(dailySales)
+
         return render_template("daily_transactions.html", date=date,date2=date2, dailySales=dailySales)
 
+@app.route("/inventoryItems", methods=['GET'])
+def inventoryItems():
+    if request.method=="GET":
+        cur = mysql.connection.cursor()
+        query = "SELECT id, product_name, description, type, price from inventory"
+        cur.execute(query)
+        results = cur.fetchall()
+        data = []
+        for i in results:
+            data.append({
+                "id": i[0],
+                "product_name": i[1],
+                "description": i[2],
+                "type": i[3],
+                "price": i[4]
+            })
+
+        return render_template("inventory_items.html", data=data)
+
+@app.route("/delete_item", methods=["GET"])
+def delete_item():
+    if request.method=="GET":
+        if "id" in request.args:
+            id = request.args["id"]
+            query = "DELETE from inventory WHERE id="+str(id)
+            print(query)
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            mysql.connection.commit()
+            flash("Item deleted",'danger')
+            return redirect("/inventoryItems")
 if __name__ == '__main__':
     app.run(debug=True)
