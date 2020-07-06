@@ -459,12 +459,11 @@ def daily_transaction():
             advance_paid = int(i[0])
             joining_date = i[3]
             last_fee_paid_date = i[4]
-            if advance_paid and last_fee_paid_date not in joining_date and last_fee_paid_date.strip()!="":
+            if advance_paid and last_fee_paid_date in joining_date and last_fee_paid_date.strip()!="":
                 dailySales['enrollment'] = dailySales['enrollment'] + 500
 
             course = i[1]
             fee_paid = i[2]
-            print(last_fee_paid_date, joining_date)
             if last_fee_paid_date.strip() != "" and last_fee_paid_date not in joining_date :
                 key = "fee_payment"
             else:
