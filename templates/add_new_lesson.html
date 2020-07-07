@@ -1,0 +1,66 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Dashboard
+{% endblock %}
+
+
+{% block content %}
+
+<div id="tab" hidden>LessonPlan</div>
+<div class="w-100 d-flex flex-column main">
+    <div class=' d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3">
+            <h1>World of Music</h1>
+            <h4>Levels and Lessons</h4>
+        </div>
+    </div>
+    {{ super() }}
+
+    <div class="container-fluid my-4">
+        <div class="my-2">
+            <a href="/lessonPlan" class="btn btn-outline-primary">
+                <i class="fa fa-arrow-left"></i> View All Levels
+            </a>
+        </div>
+        <div class="col-md-6 bg-light rounded p-3 mt-4">
+            <form method="post" class="form-group" enctype="multipart/form-data">
+                <h4>Add a new Lesson to {{level}}</h4>
+                <div class="my-3">
+                    <label for="lesson_name">Lesson Name</label>
+                    <input type="text" id="lesson_name" name="name" class="form-control">
+                </div>
+
+                <input type="hidden" name="level" value="{{level_id}}">
+
+                <div class="my-3">
+                    <label for="lesson_cat">Lesson for</label>
+                    <select name="category" id="lesson_cat" class="form-control">
+                        <option>Guitar</option>
+                        <option>Kayboard</option>
+                        <option>Drums</option>
+                    </select>
+                </div>
+
+                <div class="my-3">
+                    <label for="lesson_pos">Lesson Position</label>
+                    <input type="text" id="lesson_pos" name='position' placeholder="What positions do you want this lesson to be displayed at" class="form-control">
+                </div>
+                <div class="my-3">
+                    <label for="lesson_desc">Lesson Description</label>
+                    <textarea type="text" id="lesson_desc" name='desc' class="form-control" rows="5"></textarea>
+                </div>
+
+                <div class="my-3">
+                    <label for="lesson_images">Lesson images</label>
+                    <input type="file" multiple="multiple" id="lesson_images" name='images[]' class="form-control">
+                </div>
+
+
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

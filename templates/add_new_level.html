@@ -1,0 +1,47 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Dashboard
+{% endblock %}
+
+
+{% block content %}
+
+<div id="tab" hidden>LessonPlan</div>
+<div class="w-100 d-flex flex-column main">
+    <div class=' d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3">
+            <h1>World of Music</h1>
+            <h4>Levels and Lessons</h4>
+        </div>
+    </div>
+    {{ super() }}
+
+    <div class="container-fluid my-4">
+        <div class="my-2">
+            <a href="/lessonPlan" class="btn btn-outline-primary">
+                <i class="fa fa-arrow-left"></i> View All Levels
+            </a>
+        </div>
+        <div class="col-md-6 bg-light rounded p-3 mt-4">
+            <form method="post" class="form-group">
+                <h4>Add a new Level</h4>
+                <div class="my-3">
+                    <label for="level_name">Level Name</label>
+                    <input type="text" id="level_name" name="name" class="form-control">
+                </div>
+                <div class="my-3">
+                    <label for="level_pos">Level Position</label>
+                    <input type="text" id="level_pos" name='position' placeholder="What positions do you want this level to be displayed at" class="form-control">
+                </div>
+                <div class="my-4">
+                    <label for="level_color">Level Color</label><br>
+                    <input type="color" id="level_color" name="color">
+                </div>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
