@@ -433,7 +433,7 @@ def daily_transaction():
         else:
             mydate = datetime.datetime.now()
         date = mydate.strftime("%d %B %Y, %A")
-        date2 = mydate.strftime("%d/%m/%YYYY")
+        date2 = mydate.strftime("%m/%d/%YYYY")
 
         salesDate = mydate.strftime("%d %m %Y")
         cur = mysql.connection.cursor()
