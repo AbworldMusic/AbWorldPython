@@ -516,5 +516,54 @@ def delete_item():
             mysql.connection.commit()
             flash("Item deleted",'danger')
             return redirect("/inventoryItems")
+
+@app.route("/students", methods=['GET','POST'])
+def students():
+    if request.method=="GET":
+        query = "SELECT id, name, gender, instrument, course from enrollment"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        results = cur.fetchall()
+        data = []
+        for i in results:
+            data.append({
+                "id": i[0],
+                "name": i[1],
+                "gender": i[2],
+                "instrument": i[3],
+                "course": i[4]
+            })
+        return render_template("students.html", data=data)
+
+@app.route("/student_dashboard", methods=["GET"])
+def student_dashboard():
+    if request.method=="GET":
+        if "id" in request.args:
+            id = request.args['id']
+            query = "SELECT * from enrollment WHERE id="+id
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            result = cur.fetchone()
+            data = {"id": id,
+                    "name": result[1],
+                    "type": result[2],
+                    "gender": result[3],
+                    "age": result[4],
+                    "dob": result[5],
+                    "phone": result[6],
+                    "address": result[7],
+                    "father_name": result[8],
+                    "father_email": result[9],
+                    "father_phone": result[10],
+                    "father_occupation": result[11],
+                    "mother_name": result[12],
+                    "mother_email": result[13],
+                    "mother_phone": result[14],
+                    "mother_occupation": result[15],
+                    "instrument": result[16],
+                    "course": result[18],
+                    "joining_date": result[19]
+                    }
+            return render_template("student_dashboard.html", data=data)
 if __name__ == '__main__':
     app.run(debug=True)
