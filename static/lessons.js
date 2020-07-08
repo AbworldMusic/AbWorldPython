@@ -9,7 +9,7 @@ $(document).ready(function(){
             imagesDiv = $(".images")
             for(i=0;i<data.length;i++){
                 div = document.createElement("DIV")
-                $(div).addClass('col-6')
+                $(div).addClass('col-6 m-2')
                 img = document.createElement("IMG")
                 img.src = "MySite/images/"+data[i]
                 div.appendChild(img)
