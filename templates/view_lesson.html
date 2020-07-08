@@ -1,0 +1,76 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Dashboard
+{% endblock %}
+
+
+{% block content %}
+
+<div id="tab" hidden>LessonPlan</div>
+<div class="w-100 d-flex flex-column main">
+    <div class=' d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3">
+            <h1>World of Music</h1>
+            <h4>Levels and Lessons</h4>
+        </div>
+    </div>
+    {{ super() }}
+
+    <div class="container-fluid my-4">
+        <div class="my-2">
+            <a href="/lessonPlan" class="btn btn-outline-primary">
+                <i class="fa fa-arrow-left"></i> View All Levels
+            </a>
+        </div>
+        <div class="d-none" id="lesson_id">
+            {{data['id']}}
+        </div>
+        <div class="col-md-6 bg-light rounded p-3 mt-4">
+            <div class="row">
+                <div class="col-6">
+                    <h5>Lesson Name</h5>
+                </div>
+                <div class="col-6">
+                    <h5>{{data['name']}}</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h5>Category</h5>
+                </div>
+                <div class="col-6">
+                    <p>{{data['category']}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h5>Level</h5>
+                </div>
+                <div class="col-6">
+                    <p>{{data['level']}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h5>Lesson Description/Body</h5>
+                </div>
+                <div class="col-12">
+                    <p>{{data['desc']}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h5>Images</h5>
+                </div>
+                <div class="col-12">
+                    <div class="images"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../static/lessons.js"></script>
+{% endblock %}

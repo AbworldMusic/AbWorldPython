@@ -643,5 +643,50 @@ def add_new_lesson():
         flash("Lessons added successfully", 'success')
         return redirect("/lessonPlan")
 
+@app.route("/load_lessons", methods=['GET',"POST"])
+def load_lessons():
+    if request.method == "POST":
+        cur = mysql.connection.cursor()
+        query = "SELECT id, title from lessons WHERE level="+request.form['id']
+        print(query)
+        cur.execute(query)
+        result = cur.fetchall()
+        data = []
+        for i in result:
+            data.append({
+                "id": i[0],
+                "name": i[1]
+            })
+        return jsonify(data)
+
+@app.route("/view_lesson", methods=["GET", 'POST'])
+def view_lesson():
+    if request.method=="GET":
+        if "id" in request.args:
+            cur = mysql.connection.cursor()
+            query = "SELECT title, category, description, level from lessons WHERE id="+request.args['id']
+            cur.execute(query)
+            result = cur.fetchone()
+            data = {
+                'id': request.args['id'],
+                'name': result[0],
+                'category': result[1],
+                'desc': result[2],
+                'level': result[3]
+            }
+            return render_template("view_lesson.html",data=data)
+
+@app.route("/view_images_for_lesson", methods=['GET',"POST"])
+def view_images_for_lesson():
+    cur = mysql.connection.cursor()
+    query = "SELECT filename from files WHERE type='lesson' AND link_id="+request.form['id']
+    cur.execute(query)
+    result = cur.fetchall()
+    data = []
+    for i in result:
+        data.append(i[0])
+    return jsonify(data)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
