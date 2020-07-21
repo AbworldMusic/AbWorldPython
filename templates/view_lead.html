@@ -1,0 +1,119 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Dashboard
+{% endblock %}
+
+
+{% block content %}
+
+<div id="tab" hidden>Leads</div>
+<div class="w-100 d-flex flex-column main">
+    <div class=' d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3">
+            <h1>World of Music</h1>
+            <h5>Lead name: {{data['name']}}</h5>
+        </div>
+    </div>
+    {{ super() }}
+
+    <div class="container my-4">
+        <div class="my-2">
+            <a href="/leads" class="btn btn-outline-primary">
+                <i class="fa fa-arrow-left"></i> View All Leads
+            </a>
+        </div>
+        <div class="d-none" id="lead_id">
+            {{data['id']}}
+        </div>
+        <div class="col-md-8 bg-light rounded p-3 mt-4">
+            <div class="my-3 h5 ">
+                Lead details
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p>Name:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['name']}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p>Phone:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['phone']}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p>Email:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['email']}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p>Enquiry for:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['enquiry_for']}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p>Enquiry was made on:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['created_at']}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p>Last updated:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['updated_at']}}</p>
+                </div>
+            </div>
+            <form action="/update_lead_notes" method="post">
+                <input type="hidden" name="id" value="{{data['id']}}">
+                <div class="row">
+                    <div class="col-12">
+                        <p>Notes:</p>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <textarea name="note" class="form-control">{{data['note']}}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mx-3 mt-2 mb-4">Update notes</button>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-6">
+                    <p>Current status:</p>
+                </div>
+                <div class="col-6 font-weight-bold">
+                    <p style="color: {{data['color']}}">{{data['status']}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    Change status
+                </div>
+                <div class="col-12 mt-3">
+                    <a href="/update_lead_status?id={{data['id']}}&&status=stall" class="btn btn-primary mr-3">Stall</a>
+                    <a href="/update_lead_status?id={{data['id']}}&&status=completed" class="btn btn-success mr-3">Completed</a>
+                    <a href="/update_lead_status?id={{data['id']}}&&status=suppress" class="btn btn-danger mr-3">Suppress</a>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+{% endblock %}

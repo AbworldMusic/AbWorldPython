@@ -687,6 +687,139 @@ def view_images_for_lesson():
         data.append(i[0])
     return jsonify(data)
 
+@app.route("/leads", methods=['POST','GET'])
+def leads():
+    if request.method=="GET":
+        cur = mysql.connection.cursor()
+        query = "SELECT * from leads"
+        cur.execute(query)
+        results = cur.fetchall()
+        data = []
+        for i in results:
+            record = {}
+            record['id']=i[0]
+            record['name'] = i[1]
+            record['phone'] = i[2]
+            record['email'] = i[3]
+            record['enquiry_for'] = i[4]
+            record['note'] = i[5]
+            record['is_pending'] = i[6]
+            record['is_stalled'] = i[7]
+            record['is_converted'] = i[8]
+            if i[6]:
+                record['status'] = "Pending"
+                record['color'] = "orange"
+            elif i[7]:
+                record['status'] = "Stalled"
+                record['color'] = "#007bff"
+            elif i[8]:
+                record['status'] = "Completed"
+                record['color'] = "green"
+            elif i[9]:
+                record['status'] = "Suppressed"
+                record['color'] = "red"
+
+            else:
+                record['status'] = "Pending"
+                record['color'] = "orange"
+            record["created_at"] = i[10]
+            record["updated_at"] = i[11]
+
+            data.append(record)
+
+        return render_template("all_leads.html", data=data)
+
+
+@app.route("/new_lead", methods=['POST',"GET"])
+def new_lead():
+    if request.method=="GET":
+        return render_template("leads.html")
+    else:
+        name = request.form['name']
+        phone = request.form['phone']
+        email = request.form['email']
+        note = request.form['note']
+        enquiry_for = request.form['enquiry_for']
+        cur = mysql.connection.cursor()
+        mydate = datetime.datetime.now()
+        date = mydate.strftime("%d/%m/%Y %I:%M %p")
+
+        query = "INSERT into leads (name, phone, email, enquiry_for, note, is_pending, created_at) values('"+name+"'" \
+              ",'"+phone+"','"+email+"','"+enquiry_for+"','"+note+"', 1 ,'"+date+"')"
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("Lead registered successfully","success")
+        return redirect("/leads")
+
+@app.route("/view_lead", methods=['GET','POST'])
+def view_lead():
+    if "id" in request.args:
+        id = request.args['id']
+        cur = mysql.connection.cursor()
+        query = 'SELECT * from leads WHERE id='+id
+        cur.execute(query)
+        result = cur.fetchone()
+        data = {"id": result[0], "name": result[1], "phone": result[2], 'email': result[3],"enquiry_for": result[4], "note": result[5]}
+        if result[6]:
+            data['status'] = "Pending"
+            data['color'] = "orange"
+        elif result[7]:
+            data['status'] = "Stalled"
+            data['color'] = "#007bff"
+        elif result[8]:
+            data['status'] = "Completed"
+            data['color'] = "green"
+        elif result[9]:
+            data['status'] = "Suppressed"
+            data['color'] = "red"
+
+        else:
+            data['status'] = "Pending"
+            data['color'] = "orange"
+        data["created_at"] = result[10]
+        data["updated_at"] = result[11]
+
+        return render_template("view_lead.html", data=data)
+
+@app.route("/update_lead_notes", methods=['POST'])
+def update_lead_notes():
+    id = request.form['id']
+    note = request.form['note']
+    mydate = datetime.datetime.now()
+    date = mydate.strftime("%d/%m/%Y %I:%M %p")
+    cur = mysql.connection.cursor()
+    query = "UPDATE leads set note='"+note+"', updated_at='"+date+"' WHERE id="+id
+    cur.execute(query)
+    mysql.connection.commit()
+    flash("Lead updated", "success")
+    return redirect("/leads")
+
+@app.route("/update_lead_status", methods=['GET','POST'])
+def update_lead_status():
+    if request.method=="GET":
+        id = request.args['id']
+        status = request.args['status']
+        pending = 0
+        stalled = 0
+        completed = 0
+        suppressed = 0
+
+        mydate = datetime.datetime.now()
+        date = mydate.strftime("%d/%m/%Y %I:%M %p")
+        if status=="stall":
+            stalled = 1
+        if status=="completed":
+            completed = 1
+        if status =="suppress":
+            suppressed = 1
+
+        cur = mysql.connection.cursor()
+        query = "UPDATE leads set is_pending="+str(pending)+",is_stalled="+str(stalled)+"," \
+                "is_converted="+str(completed)+", is_suppressed="+str(suppressed)+", updated_at='"+date+"' WHERE id="+id
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("lead status updated")
+        return redirect("/view_lead?id="+id)
 
 if __name__ == '__main__':
     app.run(debug=True)

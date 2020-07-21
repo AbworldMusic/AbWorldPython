@@ -1,0 +1,65 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Dashboard
+{% endblock %}
+
+{% block head %}
+
+{{ super() }}
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"
+      xmlns="http://www.w3.org/1999/html"/>
+<link rel="stylesheet" href="../static/style.css">
+{% endblock %}
+
+{% block content %}
+<div id="tab" hidden>Leads</div>
+<div class="w-100 d-flex flex-column main">
+
+    <div class=' d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3">
+            <h1>World of Music</h1>
+            <h4>Enquiries</h4>
+        </div>
+    </div>
+    {{ super() }}
+    <div class="container  my-4">
+        <a href="/leads" class="btn btn-outline-primary my-3"><i class="fa fa-arrow-right mr-2"></i>View all leads</i></a>
+        <h4 class="m-3">Add a new enquiry</h4>
+        <form action="/new_lead" method="post">
+            <div class="col-lg-6 ">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="name">Phone</label>
+                    <input type="number" id="phone" name="phone" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="name">Email</label>
+                    <input type="email" id="email" name="email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="enquiry_for">Enquiry for</label>
+                    <input type="text" id="enquiry_for" name="enquiry_for" placeholder="What is this enquiry for" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="desc">Note (Optional)</label>
+                    <textarea name="note" id="desc" cols="30" rows="3" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary">Submit</button>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="../static/inventory.js"></script>
+</div>
+{% endblock %}
