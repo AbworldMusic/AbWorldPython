@@ -132,16 +132,24 @@ def enrollment():
                 '" + name + "','" + type + "','" + gender + "','" + age + "','" + dob + "','" + phone + "','" + address + "','" + fatherName + "','" + \
                 fatherEmail + "','" + fatherPhone + "','" + fatherOccupation + "','" + motherName + "','" + motherEmail + "','" + \
                 motherPhone + "','" + motherOccupation + "','" + instrument + "','" + haveInstrument + "','" + course + "','" + \
-                joiningDate + "'," + advancePaid + "," + feePaid + ",'" + last_fee_paid_date + ",'" + feeMonth + "','" + awareNess + "','" + awarenessOther + "')"
+                joiningDate + "'," + advancePaid + "," + feePaid + ",'" + last_fee_paid_date + "','" + feeMonth + "','" + awareNess + "','" + awarenessOther + "')"
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
         flash("Enrollment successful", 'success')
+        getLastEnrollment = "SELECT id from enrollment order by id DESC LIMIT 1"
+        cur.execute(getLastEnrollment)
+        link_id = cur.fetchone()[0]
 
         # Upload picture
         if "picture" in request.files:
             f = request.files['picture']
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+            if f.filename.strip() != "":
+                query = "INSERT into files (filename, type, link_id) values ('" + f.filename + "','profile'," + str(link_id) + ")"
+                cur.execute(query)
+                mysql.connection.commit()
+
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
 
         # Create slots
         StudentIdQuery = "SELECT id from enrollment WHERE name='" + name + "' AND dob='" + dob + "'"
