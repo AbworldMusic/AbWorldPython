@@ -101,6 +101,7 @@ def enrollment():
             motherPhone = ""
             motherOccupation = ""
             type = "Working"
+            email = request.form['email']
         if type == "True":
             phone = ""
             fatherName = request.form['fatherName']
@@ -112,6 +113,7 @@ def enrollment():
             motherEmail = request.form['motherEmail']
             motherOccupation = request.form['motheroccupation']
             type = 'Student'
+            email = ''
         instrument = request.form['Instrument']
         haveInstrument = request.form['haveInstrument']
         course = request.form['Course']
@@ -128,11 +130,11 @@ def enrollment():
         last_fee_paid_date = mydate.strftime("%Y-%m-%d")
         query = "INSERT into enrollment (name, type, gender, age, dob, phone, address, father_name, father_email, father_phone, \
                 father_occupation, mother_name, mother_email, mother_phone, mother_occupation, instrument, have_instrument,\
-                course, joining_date, advance_paid, fee_paid,last_fee_paid_date, fee_month, awareness, awareness_other) values( \
+                course, joining_date, advance_paid, fee_paid,last_fee_paid_date, fee_month, awareness, awareness_other, email) values( \
                 '" + name + "','" + type + "','" + gender + "','" + age + "','" + dob + "','" + phone + "','" + address + "','" + fatherName + "','" + \
                 fatherEmail + "','" + fatherPhone + "','" + fatherOccupation + "','" + motherName + "','" + motherEmail + "','" + \
                 motherPhone + "','" + motherOccupation + "','" + instrument + "','" + haveInstrument + "','" + course + "','" + \
-                joiningDate + "'," + advancePaid + "," + feePaid + ",'" + last_fee_paid_date + "','" + feeMonth + "','" + awareNess + "','" + awarenessOther + "')"
+                joiningDate + "'," + advancePaid + "," + feePaid + ",'" + last_fee_paid_date + "','" + feeMonth + "','" + awareNess + "','" + awarenessOther + "','"+email+"')"
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
@@ -171,20 +173,20 @@ def slots():
 
     if request.method == "GET":
         cur = mysql.connection.cursor()
-        query = "SELECT * FROM slots"
+        query = "SELECT * FROM slots WHERE recurring=true"
         cur.execute(query)
         results = cur.fetchall()
         a = {}
         for i in results:
             # If the time exists
             if i[3].strip() != "":
-                a[time.strftime("%I:%M %p", time.strptime(i[3], "%I:%M %p"))] = i
+                a[time.strftime("%A %I:%M %p", time.strptime(i[2]+" "+i[3], "%A %I:%M %p"))] = i
         # Sort according to time using strftime
-        b = sorted((time.strptime(d, "%I:%M %p") for d in a.keys()))
+        b = sorted((time.strptime(d, "%A %I:%M %p") for d in a.keys()))
         results = []
 
         for i in b:
-            t = ((time.strftime("%I:%M %p", i)))
+            t = ((time.strftime("%A %I:%M %p", i)))
             slotId = a[t][0]
             slotQuery = "SELECT COUNT(*) from student_slots WHERE slot_id=" + str(slotId)
             cur.execute(slotQuery)
@@ -581,7 +583,8 @@ def student_dashboard():
                     "mother_occupation": result[15],
                     "instrument": result[16],
                     "course": result[18],
-                    "joining_date": result[19]
+                    "joining_date": result[19],
+                    "email": result[26]
                     }
             return render_template("student_dashboard.html", data=data)
 
@@ -613,6 +616,7 @@ def add_new_level():
         color = request.form['color']
         cur = mysql.connection.cursor()
         query = "INSERT into levels (name, position, color) values('"+name+"',"+position+",'"+color+"')"
+        print(query)
         cur.execute(query)
         mysql.connection.commit()
         flash("Level was created successfully", "success")
@@ -829,5 +833,86 @@ def update_lead_status():
         flash("lead status updated")
         return redirect("/view_lead?id="+id)
 
+@app.route("/edit_student", methods=["GET","POST"])
+def edit_student():
+    if request.method=="GET":
+        id = request.args['id']
+        query = "SELECT name, gender, type, instrument, course, joining_date, father_name, father_phone, father_email, father_occupation,"+ \
+                "mother_name, mother_phone, mother_email, mother_occupation, phone, email from enrollment WHERE id="+str(id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        record = cur.fetchone()
+
+        data = {
+            "id": str(id),
+            "name": record[0],
+            "gender": record[1],
+            "type": record[2],
+            "instrument": record[3],
+            "course": record[4],
+            "joining_date": record[5],
+            "father_name": record[6],
+            "father_phone": record[7],
+            "father_email": record[8],
+            "father_occupation": record[9],
+            "mother_name": record[10],
+            "mother_phone": record[11],
+            "mother_email": record[12],
+            "mother_occupation": record[12],
+            "phone": record[13],
+            "email": record[14]
+        }
+        print(data)
+        return render_template("edit_student.html", data=data)
+    else:
+        id = request.form['id']
+        name = request.form['studentName']
+        gender = request.form['gender']
+        instrument = request.form['instrument']
+        type = request.form['type']
+        if type=="Student":
+            father_name = request.form['father_name']
+            father_phone = request.form['father_phone']
+            father_email = request.form['father_email']
+            father_occupation = request.form['father_occupation']
+            mother_name = request.form['mother_name']
+            mother_phone = request.form['mother_phone']
+            mother_email = request.form['mother_email']
+            mother_occupation = request.form['mother_occupation']
+            phone = ''
+            email = ''
+        else:
+            father_name = ''
+            father_phone = ''
+            father_email = ''
+            father_occupation = ''
+            mother_name = ''
+            mother_phone = ''
+            mother_email = ''
+            mother_occupation = ''
+            phone = request.form['phone']
+            email = request.form['email']
+        query = "UPDATE enrollment set name='"+name+"',gender='"+gender+"',"+\
+            "instrument='"+instrument+"',father_name='"+father_name+"',father_phone='"+father_phone+"',"+ \
+            "father_phone = '"+father_phone+"', father_occupation = '"+father_occupation+"', "+ \
+            "mother_name='"+mother_name+"',mother_phone='"+mother_phone+"',"+ \
+            "mother_phone = '" + mother_phone + "', mother_occupation = '" + mother_occupation + "', " + \
+            "phone='"+phone+"', email='"+email+"' WHERE id="+str(id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("Student data updated successfully",'success')
+        return redirect("/students")
+
+@app.route("/delete_student", methods=["GET","POST"])
+def delete_student():
+    if request.method=="GET":
+        if "id" in request.args:
+            query = "DELETE from enrollment WHERE id="+str(request.args["id"])
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            mysql.connection.commit()
+            flash("Student deleted","danger")
+            return redirect("/students")
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,209 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Dashboard
+{% endblock %}
+
+
+{% block content %}
+
+<div id="tab" hidden>Students</div>
+
+<div class="w-100 d-flex flex-column main">
+    <div class=' d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3">
+            <h1>World of Music</h1>
+            <h4>{{data['name']}} | Edit</h4>
+        </div>
+    </div>
+    {{ super() }}
+
+    <div class="container-fluid my-4">
+        <form action="/edit_student" method="post">
+            <div class="col-md-8 bg-light rounded p-2">
+                <input type="hidden" name='id' value="{{data['id']}}">
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Student Full Name:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['name']}}", name="studentName">
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Gender:</p>
+                </div>
+                <div class="col-6">
+                    <div class='w-50 gender'>
+                        <label class="check-box form-group  "> Male
+                            {% if data['gender']=="Male" %}
+                                <input type="radio" name="gender" checked id="male_gender" value="Male" >
+                            {% else %}
+                                <input type="radio" name="gender" id="male_gender" value="Male" >
+                            {% endif %}
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="check-box form-group  "> Female
+                            {% if data['gender']=="Female" %}
+                                <input type="radio" name="gender" checked id="female_gender" value="Female" >
+                            {% else %}
+                                <input type="radio" name="gender" id="female_gender" value="Female" >
+                            {% endif %}
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Enrollment type:</p>
+                </div>
+                <div class="col-6">
+                    <select name="type" class="form-control" id="">
+                        {% if data['type']== "Student" %}
+                            <option value="Student" selected>Student</option>
+                            <option value="Working">Working</option>
+                        {% else %}
+                            <option value="Student">Student</option>
+                            <option value="Working" selected>Working</option>
+                        {% endif %}
+                    </select>
+
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Instrument:</p>
+                </div>
+                <div class="col-6">
+                    <div class='w-50 gender'>
+                        <label class="check-box form-group  "> Guitar
+                            {% if data['instrument']=="Guitar" %}
+                                <input type="radio" name="instrument" checked value="Guitar" >
+                            {% else %}
+                                <input type="radio" name="instrument" value="Guitar" >
+                            {% endif %}
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="check-box form-group  "> Keyboard
+                            {% if data['instrument']=="Keyboard" %}
+                                <input type="radio" name="instrument" checked value="Keyboard" >
+                            {% else %}
+                                <input type="radio" name="instrument"  value="Keyboard" >
+                            {% endif %}
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="check-box form-group  "> Drums
+                            {% if data['instrument']=="Drums" %}
+                                <input type="radio" name="instrument" checked value="Drums" >
+                            {% else %}
+                                <input type="radio" name="instrument"  value="Drums" >
+                            {% endif %}
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            {% if data['type']=="Student" %}
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Father Name:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['father_name']}}" name="father_name">
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Father Phone:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['father_phone']}}" name="father_phone">
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Father Email:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['father_email']}}" name="father_email">
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Father Occupation:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['father_occupation']}}" name="father_occupation">
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Mother Name:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['mother_name']}}" name="mother_name">
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Mother Phone:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['mother_phone']}}" name="mother_phone">
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Mother Email:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['mother_email']}}" name="mother_email">
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Mother Occupation:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['mother_occupation']}}" name="mother_occupation">
+                </div>
+            </div>
+            {% else %}
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Phone:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['phone']}}" name="phone">
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-6">
+                    <p>Email:</p>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" value="{{data['email']}}" name="email">
+                </div>
+            </div>
+
+            {% endif %}
+
+            <div class="d-flex justify-content-between mt-5">
+                <button class="btn btn-primary">Update</button>
+                 <a class="btn btn-danger py-1"
+           onclick="return confirm('Are you sure you want to delete this student?');"
+           href="delete_student?id={{data['id']}}">Delete</a>
+            </div>
+
+
+        </div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

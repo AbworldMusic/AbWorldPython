@@ -40,7 +40,7 @@
     {% endwith %}
     <div class='container my-4'>
         <form method="post" enctype="multipart/form-data">
-            <input type="hidden" name="type" value="{{student}}">
+            <input type="hidden" name="type" id="enrollment_type" value="{{student}}">
             <div id="enrollment" class="carousel slide container" data-interval="false" data-ride="carousel">
                 <div class='d-flex justify-content-end'>
                     <div class="mt-1 font-weight-bold mr-2">Enrollment Type:</div>
@@ -69,13 +69,13 @@
                             </div>
                             <div class="row d-flex justify-content-around my-2">
                                 <label for="studentAge" class=' mt-2 w-25'>Gender: </label>
-                                <div class='w-50'>
+                                <div class='w-50 gender'>
                                     <label class="check-box form-group  "> Male
-                                        <input type="radio" name="gender" value="Male" required>
+                                        <input type="radio" name="gender" id="male_gender" value="Male" required>
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="check-box form-group  "> Female
-                                        <input type="radio" name="gender" value="Female" required>
+                                        <input type="radio" name="gender" id="female_gender" value="Female" required>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -102,6 +102,10 @@
                             <div class="row d-flex justify-content-around my-2">
                                 <label for="phone" class=' mt-2 w-25'>Phone Number: </label>
                                 <input type="number" class='form-control  w-50' name='phone' id='phone' required>
+                            </div>
+                            <div class="row d-flex justify-content-around my-2">
+                                <label for="email" class=' mt-2 w-25'>Email: </label>
+                                <input type="email" class='form-control  w-50' name='email' id='email' required>
                             </div>
                             {% endif %}
                         </div>
@@ -155,8 +159,7 @@
                         </div>
                         {% endif %}
                         <div class="d-flex justify-content-end my-5">
-                            <a class="btn btn-primary mr-3" data-slide="next" data-target="#enrollment"
-                               href="javascript:void(0)">
+                            <a class="btn btn-primary mr-3 text-white next_btn"  id="next_btn">
                                 Next
                             </a>
                         </div>
@@ -171,15 +174,15 @@
                                 <label for="fatherName" class='mt-2 w-25'>Instrument: </label>
                                 <div class='w-50'>
                                     <label class="check-box form-group  "> Guitar
-                                        <input type="radio" name="Instrument" value="Guitar" required>
+                                        <input type="radio" name="Instrument" id="guitar" value="Guitar" required>
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="check-box form-group  "> Keyboard
-                                        <input type="radio" name="Instrument" value="Keyboard">
+                                        <input type="radio" name="Instrument" id="keyboard" value="Keyboard">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="check-box form-group  "> Drums
-                                        <input type="radio" name="Instrument" value="Drums">
+                                        <input type="radio" name="Instrument" id="drums" value="Drums">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -188,11 +191,11 @@
                                 <label for="fatherName" class='mt-2 w-25'>Does student have the instrument? </label>
                                 <div class='w-50'>
                                     <label class="check-box form-group  "> Yes
-                                        <input type="radio" name="haveInstrument" value="Yes" required>
+                                        <input type="radio" name="haveInstrument" id="haveInstrumentYes" value="Yes" required>
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="check-box form-group  "> No
-                                        <input type="radio" name="haveInstrument" value="No">
+                                        <input type="radio" name="haveInstrument" id="haveInstrumentNo" value="No">
                                         <span class="checkmark"></span>
                                     </label>
 
@@ -202,15 +205,15 @@
                                 <label for="fatherName" class='mt-2 w-25'>Course: </label>
                                 <div class='w-50' role="tablist">
                                     <label class="check-box form-group hobby"> Hobby
-                                        <input type="radio" name="Course" value="Hobby" required>
+                                        <input type="radio" name="Course" value="Hobby" id="hobby" required>
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="check-box form-group intermediate"> Intermediate
-                                        <input type="radio" name="Course" value="Intermediate">
+                                        <input type="radio" name="Course" id="intermediate" value="Intermediate">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="check-box form-group advanced"> Advanced
-                                        <input type="radio" name="Course" value="Advanced">
+                                        <input type="radio" name="Course" id="advanced" value="Advanced">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -237,7 +240,7 @@
                             <a class="btn btn-light   border border-dark" href="#enrollment" data-slide="prev">
                                 Previous
                             </a>
-                            <a class="btn btn-primary " href="#enrollment" data-slide="next">
+                            <a class="btn btn-primary next_btn" href="#enrollment" data-slide="next">
                                 Next
                             </a>
                         </div>

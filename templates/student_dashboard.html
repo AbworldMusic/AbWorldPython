@@ -20,127 +20,138 @@ World of Music | Dashboard
 
     <div class="container-fluid my-4">
         <div class="col-md-8 bg-light rounded p-2">
-            <div class="row my-2">
+            <div class="mb-2 d-flex justify-content-end">
+                <a href="edit_student?id={{data['id']}}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+            </div>
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Student Full Name:</h5>
+                    <p>Student Full Name:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['name']}}</h5>
+                    <p>{{data['name']}}</p>
                 </div>
             </div>
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Gender:</h5>
+                    <p>Gender:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['gender']}}</h5>
-                </div>
-            </div>
-            <div class="row my-2">
-                <div class="col-6">
-                    <h5>Enrollment type:</h5>
-                </div>
-                <div class="col-6">
-                    <h5>{{data['type']}}</h5>
+                    <p>{{data['gender']}}</p>
                 </div>
             </div>
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Instrument:</h5>
+                    <p>Enrollment type:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['instrument']}}</h5>
+                    <p>{{data['type']}}</p>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-6">
+                    <p>Instrument:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['instrument']}}</p>
                 </div>
             </div>
 
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Course:</h5>
+                    <p>Course:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['course']}}</h5>
+                    <p>{{data['course']}}</p>
                 </div>
             </div>
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Joining date:</h5>
+                    <p>Joining date:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['joining_date']}}</h5>
+                    <p>{{data['joining_date']}}</p>
                 </div>
             </div>
             {% if data['type']=="Student" %}
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Father Name:</h5>
+                    <p>Father Name:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['father_name']}}</h5>
-                </div>
-            </div>
-            <div class="row my-2">
-                <div class="col-6">
-                    <h5>Father Phone:</h5>
-                </div>
-                <div class="col-6">
-                    <h5>{{data['father_phone']}}</h5>
+                    <p>{{data['father_name']}}</p>
                 </div>
             </div>
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Father Email:</h5>
+                    <p>Father Phone:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['father_email']}}</h5>
-                </div>
-            </div>
-            <div class="row my-2">
-                <div class="col-6">
-                    <h5>Father Occupation:</h5>
-                </div>
-                <div class="col-6">
-                    <h5>{{data['father_occupation']}}</h5>
+                    <p>{{data['father_phone']}}</p>
                 </div>
             </div>
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Mother Name:</h5>
+                    <p>Father Email:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['mother_name']}}</h5>
-                </div>
-            </div>
-            <div class="row my-2">
-                <div class="col-6">
-                    <h5>Mother Phone:</h5>
-                </div>
-                <div class="col-6">
-                    <h5>{{data['mother_phone']}}</h5>
+                    <p>{{data['father_email']}}</p>
                 </div>
             </div>
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Mother Email:</h5>
+                    <p>Father Occupation:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['mother_email']}}</h5>
+                    <p>{{data['father_occupation']}}</p>
                 </div>
             </div>
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Mother Occupation:</h5>
+                    <p>Mother Name:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['mother_occupation']}}</h5>
+                    <p>{{data['mother_name']}}</p>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-6">
+                    <p>Mother Phone:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['mother_phone']}}</p>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-6">
+                    <p>Mother Email:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['mother_email']}}</p>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-6">
+                    <p>Mother Occupation:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['mother_occupation']}}</p>
                 </div>
             </div>
             {% else %}
-            <div class="row my-2">
+            <div class="row ">
                 <div class="col-6">
-                    <h5>Phone:</h5>
+                    <p>Phone:</p>
                 </div>
                 <div class="col-6">
-                    <h5>{{data['phone']}}</h5>
+                    <p>{{data['phone']}}</p>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-6">
+                    <p>Email:</p>
+                </div>
+                <div class="col-6">
+                    <p>{{data['email']}}</p>
                 </div>
             </div>
 
