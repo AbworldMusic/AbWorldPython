@@ -926,8 +926,7 @@ def API_login():
         cur = mysql.connection.cursor()
         cur.execute(query)
         result = cur.fetchone()
-        print(result)
-        if result is not Nonee:
+        if result is not None:
             return jsonify({
                 "message": "Login successful",
                 "id": studentID,
