@@ -920,25 +920,26 @@ def delete_student():
 
 @app.route("/API_login", methods=["POST"])
 def API_login():
-    studentID = request.form["student_id"]
-    query = "SELECT name, age, instrument, course from enrollment WHERE id="+str(studentID)
-    cur = mysql.connection.cursor()
-    cur.execute(query)
-    result = cur.fetchone()
-    print(result)
-    if len(result)>0:
-        return jsonify({
-            "message": "Login successful",
-            "id": studentID,
-            "name": result[0],
-            "age": result[1],
-            "instrument": result[2],
-            "course": result[3]
-        })
-    else:
-        return jsonify({
-            "message": "Login failed",
-        })
+    if request.method == "POST":
+        studentID = request.form["student_id"]
+        query = "SELECT name, age, instrument, course from enrollment WHERE id="+str(studentID)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        result = cur.fetchone()
+        print(result)
+        if len(result)>0:
+            return jsonify({
+                "message": "Login successful",
+                "id": studentID,
+                "name": result[0],
+                "age": result[1],
+                "instrument": result[2],
+                "course": result[3]
+            })
+        else:
+            return jsonify({
+                "message": "Login failed",
+            })
 
 if __name__ == '__main__':
     app.run(debug=True)
