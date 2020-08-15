@@ -927,7 +927,7 @@ def API_login():
         cur.execute(query)
         result = cur.fetchone()
         print(result)
-        if len(result)>0:
+        if result is not Nonee:
             return jsonify({
                 "message": "Login successful",
                 "id": studentID,
