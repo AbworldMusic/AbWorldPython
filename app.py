@@ -939,6 +939,27 @@ def API_login():
             return jsonify({
                 "message": "Login failed",
             })
+@app.route("/API_get_next_class", methods=["POST"])
+def API_get_next_class():
+    if request.method == "POST":
+        id = request.form['student_id']
+        query = "SELECT slot_id from student_slots WHERE student_id="+str(id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        result = cur.fetchall()
+        slots = []
+        sorted_slots = []
+        for i in result:
+            slot_time_query = "SELECT day, time from slots WHERE id="+str(i[0])
+            cur.execute(slot_time_query)
+            for j in cur.fetchall():
+               slots.append(j[0]+" "+j[1])
+        b = sorted((time.strptime(d, "%A %I:%M %p") for d in slots))
+        for i in b:
+            t = ((time.strftime("%A %I:%M %p", i)))
+            sorted_slots.append(t)
+        return jsonify({"slots": sorted_slots[::-1]})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
