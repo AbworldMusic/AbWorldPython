@@ -942,7 +942,7 @@ def API_login():
 @app.route("/API_get_class_details", methods=["GET"])
 def API_get_next_class():
     if request.method == "GET":
-        id = request.form['student_id']
+        id = request.args['id']
         query = "SELECT slot_id from student_slots WHERE student_id="+str(id)
         cur = mysql.connection.cursor()
         cur.execute(query)
