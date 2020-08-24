@@ -6,13 +6,18 @@ AB World Teacher's day
 
 {% block content%}
 
-<div class='header d-flex justify-content-center bg-light'>
+<div class='header d-flex justify-content-center bg-dark'>
     <div class="my-4 mx-2 text-center">
-        <h1>AB World</h1>
-        <h5>Teachers day</h5>
+        <h1 class="text-white">Ab World</h1>
+        <h5 class="text-white">Teachers day</h5>
     </div>
 </div>
-<div class=" w-100 pt-5">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<div class=" w-100 h-100 pt-5" style="background-image: url('https://cdn.pixabay.com/photo/2018/06/17/10/38/artist-3480274_960_720.jpg'); background-size: cover">
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}

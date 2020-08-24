@@ -6,13 +6,18 @@ AB World Teacher's day submission
 
 {% block content%}
 
-<div class='header d-flex justify-content-center bg-light'>
+<div class='header d-flex justify-content-center bg-dark'>
     <div class="my-4 mx-2 text-center">
-        <h1>AB World</h1>
-        <h5>Teachers day submission</h5>
+        <h1 class="text-white">Ab World</h1>
+        <h5 class="text-white">Teachers day submission</h5>
     </div>
 </div>
-<div class=" w-100 pt-5">
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<div class=" w-100 h-100 pt-5" style="background-image: url('https://cdn.pixabay.com/photo/2018/06/17/10/38/artist-3480274_960_720.jpg'); background-size: cover">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
@@ -26,10 +31,17 @@ AB World Teacher's day submission
             <form method="post" action="/teachers_day_submission" class="form-group" enctype="multipart/form-data">
 
                 <label for="name" class="font-weight-bold mt-4">Name</label>
-                <input id="name" name="name" type="text" class="form-control" required/>
+                <input id="name" name="name" type="text" class="form-control" required/>.
 
                 <label for="standard" class="font-weight-bold mt-4">Standard/Class</label>
-                <input id="standard" name="standard" type="text" class="form-control" required/>
+                <select class="form-control" name="standard" id="standard">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+
+                </select>
 
                 <label for="branch" class="font-weight-bold mt-4">Branch</label>
                 <select name="branch" id="branch" class="form-control" required>

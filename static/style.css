@@ -117,3 +117,10 @@
     height: 70px;
     width: 100px;
   }
+body, label, form, div, p{
+    font-family: 'Josefin Sans', sans-serif !important;
+
+}
+html, body{
+    height:100%;
+}
