@@ -6,7 +6,7 @@ AB World Teacher's day
 
 {% block content%}
 
-<div class='header d-flex justify-content-center bg-dark'>
+<div class='header d-flex justify-content-center' style="background: black">
     <div class="my-4 mx-2 text-center">
         <h1 class="text-white">Ab World</h1>
         <h5 class="text-white">Teachers day</h5>
@@ -17,7 +17,7 @@ AB World Teacher's day
     <link rel="stylesheet" href="../static/style.css">
 </head>
 
-<div class=" w-100 h-100 pt-5" style="background-image: url('https://cdn.pixabay.com/photo/2018/06/17/10/38/artist-3480274_960_720.jpg'); background-size: cover">
+<div class=" w-100 h-100 pt-5" style="background-image: url('https://images.unsplash.com/photo-1497250681960-ef046c08a56e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'); background-size: cover">
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
