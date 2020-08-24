@@ -73,10 +73,34 @@ AB World Teacher's day submission
                 <label for="wish_video" class='mt-4'>(Optional) </label>
                 <input type="file" class='form-control ' name='wish_video' id='wish_video'>
 
-                <button class="btn btn-block btn-primary mt-4 py-1">Login</button>
+
+                <script>
+                    function showLoader(){
+                        if($("#name").val().trim()!="" && $("#standard").val().trim()!="" && $("#top_angle_video").val().trim()!="" && $("#front_angle_video").val().trim()!=""){
+                            $('#loadModal').modal('toggle');
+                        }
+                    }
+                </script>
+                <button class="btn btn-block btn-primary mt-4 py-1" onclick="showLoader()">Submit</button>
             </form>
         </div>
     </div>
 </div>
+<div class="modal" id="loadModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="my-3 loader">
+            <h4>Uploading
+            <img src="../static/loader.gif" alt="Loading.." width="30" height="30"></h4>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
 {% endblock %}
