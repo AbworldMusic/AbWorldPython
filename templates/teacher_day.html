@@ -1,0 +1,35 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+AB World Teacher's day
+{% endblock %}
+
+{% block content%}
+
+<div class='header d-flex justify-content-center bg-light'>
+    <div class="my-4 mx-2 text-center">
+        <h1>AB World</h1>
+        <h5>Teachers day</h5>
+    </div>
+</div>
+<div class=" w-100 pt-5">
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{category}} text-center mx-2">{{ message }}</div>
+    {% endfor %}
+
+  {% endif %}
+{% endwith %}
+<div class="d-flex mt-5 flex-row justify-content-center ">
+    <div class="p-3 bg-light rounded col-sm-12 col-md-4 mx-4">
+      <form method="post" class="form-group">
+        <label for="password" class="font-weight-bold mt-4">Enter Passcode</label>
+        <input id="password" name="passcode" type="password" class="form-control"/>
+        <button class="btn btn-block btn-primary mt-4 py-1">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

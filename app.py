@@ -960,6 +960,66 @@ def API_get_next_class():
             sorted_slots.append(t)
         return jsonify({"slots": sorted_slots[::-1]})
 
+@app.route("/teachers_day",methods=["GET","POST"])
+def teachers_day():
+    if request.method=="GET":
+        return render_template("teacher_day.html")
+    else:
+        passcode = request.form['passcode']
+        if passcode.strip().upper()=="ABWRLD":
+            return render_template("teachers_day_submission.html")
+        else:
+            flash("Incorrect passcode", "danger")
+            return redirect("/teachers_day")
+
+@app.route("/teachers_day_submission",methods=["POST"])
+def teachers_day_submission():
+    if request.method=="POST":
+        name = request.form['name']
+        standard = request.form['standard']
+        branch = request.form['branch']
+        cur = mysql.connection.cursor()
+        insertQuery = "INSERT into teachers_day(name, standard, branch) values('"+name+"','"+standard+"','"+branch+"')"
+        cur.execute(insertQuery)
+        mysql.connection.commit()
+
+
+        getLastEntry = "SELECT id from teachers_day order by id DESC LIMIT 1"
+        cur.execute(getLastEntry)
+        link_id = cur.fetchone()[0]
+        if "top_angle_video" in request.files:
+            f = request.files['top_angle_video']
+
+            if f.filename.strip() != "":
+                query = "INSERT into files (filename, type, link_id) values ('" + f.filename + "','top_angle_video'," + str(
+                    link_id) + ")"
+                cur.execute(query)
+                mysql.connection.commit()
+
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+        if "front_angle_video" in request.files:
+            f = request.files['front_angle_video']
+            if f.filename.strip() != "":
+                query = "INSERT into files (filename, type, link_id) values ('" + f.filename + "','front_angle_video'," + str(
+                    link_id) + ")"
+                cur.execute(query)
+                mysql.connection.commit()
+
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+
+        if "wish_video" in request.files:
+            f = request.files['wish_video']
+            if f.filename.strip() != "":
+                query = "INSERT into files (filename, type, link_id) values ('" + f.filename + "','wish_video'," + str(
+                    link_id) + ")"
+                cur.execute(query)
+                mysql.connection.commit()
+
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+
+        flash("Way to go! Your entry was successfully submitted", "success")
+        return render_template("teachers_day_submission.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
