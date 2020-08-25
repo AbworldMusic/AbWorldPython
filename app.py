@@ -586,7 +586,14 @@ def student_dashboard():
                     "joining_date": result[19],
                     "email": result[26]
                     }
-            return render_template("student_dashboard.html", data=data)
+            image = ""
+            fileQuery  = "SELECT filename from files WHERE link_id="+ id
+            cur.execute(fileQuery)
+            result = cur.fetchone()
+
+            if result != None:
+                image = result[0]
+            return render_template("student_dashboard.html", data=data, image=image)
 
 
 @app.route("/lessonPlan", methods=['GET'])
