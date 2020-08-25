@@ -587,7 +587,7 @@ def student_dashboard():
                     "email": result[26]
                     }
             image = ""
-            fileQuery  = "SELECT filename from files WHERE link_id="+ id
+            fileQuery  = "SELECT filename from files WHERE type='profile' AND link_id="+ id
             cur.execute(fileQuery)
             result = cur.fetchone()
 
