@@ -1044,7 +1044,7 @@ def API_get_profile_picture_url():
         if result != None:
             image = result[0]
 
-        return jsonify({"image": image})
+        return jsonify({"image": "https://abworldmusic.in/MySite/images/"+str(image)})
 
 
 if __name__ == '__main__':
