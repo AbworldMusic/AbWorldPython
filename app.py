@@ -1053,7 +1053,8 @@ def API_update_profile_picture_url():
         id = request.form['id']
         image = request.files['image']
         if image.filename.strip() != "":
-                query = "UPDATE files WHERE type='profile' and link_id="+str(id)+" SET filename='"+image.filename.strip()+"'"
+                query = "UPDATE files SET filename='"+image.filename.strip()+"' WHERE type='profile' and link_id="+str(id)
+                print(query)
                 cur.execute(query)
                 mysql.connection.commit()
 
