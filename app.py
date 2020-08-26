@@ -923,50 +923,6 @@ def delete_student():
             return redirect("/students")
 
 
-# Mobile app APIs
-
-@app.route("/API_login", methods=["POST"])
-def API_login():
-    if request.method == "POST":
-        studentID = request.form["student_id"]
-        query = "SELECT name, age, instrument, course from enrollment WHERE id="+str(studentID)
-        cur = mysql.connection.cursor()
-        cur.execute(query)
-        result = cur.fetchone()
-        if result is not None:
-            return jsonify({
-                "message": "Login successful",
-                "id": studentID,
-                "name": result[0],
-                "age": result[1],
-                "instrument": result[2],
-                "course": result[3]
-            })
-        else:
-            return jsonify({
-                "message": "Login failed",
-            })
-@app.route("/API_get_class_details", methods=["GET"])
-def API_get_next_class():
-    if request.method == "GET":
-        id = request.args['id']
-        query = "SELECT slot_id from student_slots WHERE student_id="+str(id)
-        cur = mysql.connection.cursor()
-        cur.execute(query)
-        result = cur.fetchall()
-        slots = []
-        sorted_slots = []
-        for i in result:
-            slot_time_query = "SELECT day, time from slots WHERE id="+str(i[0])
-            cur.execute(slot_time_query)
-            for j in cur.fetchall():
-               slots.append(j[0]+" "+j[1])
-        b = sorted((time.strptime(d, "%A %I:%M %p") for d in slots))
-        for i in b:
-            t = ((time.strftime("%A %I:%M %p", i)))
-            sorted_slots.append(t)
-        return jsonify({"slots": sorted_slots[::-1]})
-
 @app.route("/teachers_day",methods=["GET","POST"])
 def teachers_day():
     if request.method=="GET":
@@ -1026,6 +982,69 @@ def teachers_day_submission():
 
         flash("Way to go! Your entry was successfully submitted", "success")
         return render_template("teachers_day_submission.html")
+
+
+
+# Mobile app APIs
+
+@app.route("/API_login", methods=["POST"])
+def API_login():
+    if request.method == "POST":
+        studentID = request.form["student_id"]
+        query = "SELECT name, age, instrument, course from enrollment WHERE id="+str(studentID)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        result = cur.fetchone()
+        if result is not None:
+            return jsonify({
+                "message": "Login successful",
+                "id": studentID,
+                "name": result[0],
+                "age": result[1],
+                "instrument": result[2],
+                "course": result[3]
+            })
+        else:
+            return jsonify({
+                "message": "Login failed",
+            })
+@app.route("/API_get_class_details", methods=["GET"])
+def API_get_next_class():
+    if request.method == "GET":
+        id = request.args['id']
+        query = "SELECT slot_id from student_slots WHERE student_id="+str(id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        result = cur.fetchall()
+        slots = []
+        sorted_slots = []
+        for i in result:
+            slot_time_query = "SELECT day, time from slots WHERE id="+str(i[0])
+            cur.execute(slot_time_query)
+            for j in cur.fetchall():
+               slots.append(j[0]+" "+j[1])
+        b = sorted((time.strptime(d, "%A %I:%M %p") for d in slots))
+        for i in b:
+            t = ((time.strftime("%A %I:%M %p", i)))
+            sorted_slots.append(t)
+        return jsonify({"slots": sorted_slots[::-1]})
+
+@app.route("/API_get_profile_picture_url", methods=["GET"])
+def API_get_profile_picture_url():
+    if request.method == "GET":
+        id  = request.args['id']
+        query = "SELECT filename from files WHERE link_id="+str(id)
+        cur  = mysql.connection.cursor()
+        cur.execute(query)
+        image = ''
+        fileQuery = "SELECT filename from files WHERE type='profile' AND link_id=" + id
+        cur.execute(fileQuery)
+        result = cur.fetchone()
+
+        if result != None:
+            image = result[0]
+
+        return jsonify({"image": image})
 
 
 if __name__ == '__main__':
