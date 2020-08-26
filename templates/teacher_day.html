@@ -11,31 +11,32 @@ AB World Teachers' day
     <div class="my-4 mx-2 text-center">
         <h1 class="text-white">Ab World</h1>
         <h5 class="text-white">Teachers' day</h5>
+    </div>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="../static/style.css">
+    </head>
 
-        <head>
-            <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&display=swap" rel="stylesheet">
-            <link rel="stylesheet" href="../static/style.css">
-        </head>
+    I
+    <div class=" w-100  py-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} text-center mx-2">{{ message }}</div>
+        {% endfor %}
 
-        I<div class=" w-100  py-5">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{category}} text-center mx-2">{{ message }}</div>
-            {% endfor %}
-
-            {% endif %}
-            {% endwith %}
-            <div class="d-flex mt-5 flex-row justify-content-center ">
-                <div class="p-3 bg-light rounded col-sm-12 col-md-4 mx-4">
-                    <form method="post" class="form-group">
-                        <label for="password" class="font-weight-bold mt-4">Enter Passcode</label>
-                        <input id="password" name="passcode" type="password" class="form-control"/>
-                        <button class="btn btn-block btn-primary mt-4 py-1">Login</button>
-                    </form>
-                </div>
+        {% endif %}
+        {% endwith %}
+        <div class="d-flex mt-5 flex-row justify-content-center ">
+            <div class="p-3 bg-light rounded col-sm-12 col-md-4 mx-4">
+                <form method="post" class="form-group">
+                    <label for="password" class="font-weight-bold mt-4">Enter Passcode</label>
+                    <input id="password" name="passcode" type="password" class="form-control"/>
+                    <button class="btn btn-block btn-primary mt-4 py-1">Login</button>
+                </form>
             </div>
         </div>
     </div>
+
 </div>
 {% endblock %}

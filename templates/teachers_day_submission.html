@@ -12,110 +12,110 @@ AB World Teachers' day submission
     <div class="my-4 mx-2 text-center">
         <h1 class="text-white">Ab World</h1>
         <h5 class="text-white">Teachers' day submission</h5>
+    </div>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="../static/style.css">
+    </head>
+    <div class=" w-100  py-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} text-center mx-2">{{ message }}</div>
+        {% endfor %}
 
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/style.css">
-</head>
-<div class=" w-100  py-5">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{category}} text-center mx-2">{{ message }}</div>
-    {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="d-flex mt-5 flex-row justify-content-center ">
+            <div class="p-3 bg-light rounded col-sm-12 col-md-4 mx-4">
+                <form method="post" action="/teachers_day_submission" class="form-group" enctype="multipart/form-data">
 
-    {% endif %}
-    {% endwith %}
-    <div class="d-flex mt-5 flex-row justify-content-center ">
-        <div class="p-3 bg-light rounded col-sm-12 col-md-4 mx-4">
-            <form method="post" action="/teachers_day_submission" class="form-group" enctype="multipart/form-data">
+                    <label for="name" class="font-weight-bold mt-4">Name</label>
+                    <input id="name" name="name" type="text" class="form-control" required/>.
 
-                <label for="name" class="font-weight-bold mt-4">Name</label>
-                <input id="name" name="name" type="text" class="form-control" required/>.
+                    <label for="standard" class="font-weight-bold mt-4">Standard/Class</label>
+                    <select class="form-control" name="standard" id="standard">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
 
-                <label for="standard" class="font-weight-bold mt-4">Standard/Class</label>
-                <select class="form-control" name="standard" id="standard">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    </select>
 
-                </select>
+                    <label for="branch" class="font-weight-bold mt-4">Branch</label>
+                    <select name="branch" id="branch" class="form-control" required>
+                        <option value="Banaswadi">Banaswadi</option>
+                        <option value="Bannerghatta Road">Bannerghatta Road</option>
+                        <option value="Basavanagudi">Basavanagudi</option>
+                        <option value="Basavanagudi">Basavanagudi</option>
+                        <option value="Electronic City "> Electronic City</option>
+                        <option value="Hebbal "> Hebbal</option>
+                        <option value="HSR Layout "> HSR Layout</option>
+                        <option value="JP Nagar "> JP Nagar</option>
+                        <option value="Kaggadasapura "> Kaggadasapura</option>
+                        <option value="Kanakapura Road "> Kanakapura Road</option>
+                        <option value="KR Puram "> KR Puram</option>
+                        <option value="Kudlu "> Kudlu</option>
+                        <option value="MS Palya  "> MS Palya</option>
+                        <option value="Mahalakshmi Layout  "> Mahalakshmi Layout</option>
+                        <option value="Marathahalli 1  "> Marathahalli 1</option>
+                        <option value="Marathahalli 2  "> Marathahalli 2</option>
+                        <option value="Nagarabhavi  "> Nagarabhavi</option>
+                        <option value="Ramamurthy Nagar 1   "> Ramamurthy Nagar 1</option>
+                        <option value="Ramamurthy Nagar Harivillu  "> Ramamurthy Nagar Harivillu</option>
+                        <option value="Ramamurthy Nagar 3 Horamavu  "> Ramamurthy Nagar 3 Horamavu</option>
+                        <option value="Sheshadripuram  "> Sheshadripuram</option>
+                        <option value="Uttarahalli  "> Uttarahalli</option>
+                        <option value="Vidyaranyapura  "> Vidyaranyapura</option>
+                        <option value="Whitefield  "> Whitefield</option>
+                        <option value="Yelahanka   "> Yelahanka</option>
 
-                <label for="branch" class="font-weight-bold mt-4">Branch</label>
-                <select name="branch" id="branch" class="form-control" required>
-                    <option value="Banaswadi">Banaswadi</option>
-                    <option value="Bannerghatta Road">Bannerghatta Road </option>
-                    <option value="Basavanagudi">Basavanagudi </option>
-                    <option value="Basavanagudi">Basavanagudi </option>
-                    <option value="Electronic City "> Electronic City  </option>
-                    <option value="Hebbal "> Hebbal  </option>
-                    <option value="HSR Layout "> HSR Layout  </option>
-                    <option value="JP Nagar "> JP Nagar  </option>
-                    <option value="Kaggadasapura "> Kaggadasapura  </option>
-                    <option value="Kanakapura Road "> Kanakapura Road  </option>
-                    <option value="KR Puram "> KR Puram  </option>
-                    <option value="Kudlu "> Kudlu  </option>
-                    <option value="MS Palya  ">  MS Palya   </option>
-                    <option value="Mahalakshmi Layout  ">  Mahalakshmi Layout   </option>
-                    <option value="Marathahalli 1  ">  Marathahalli 1   </option>
-                    <option value="Marathahalli 2  ">  Marathahalli 2   </option>
-                    <option value="Nagarabhavi  ">  Nagarabhavi   </option>
-                    <option value="Ramamurthy Nagar 1   ">   Ramamurthy Nagar 1    </option>
-                    <option value="Ramamurthy Nagar Harivillu  ">  Ramamurthy Nagar Harivillu   </option>
-                    <option value="Ramamurthy Nagar 3 Horamavu  ">  Ramamurthy Nagar 3 Horamavu   </option>
-                    <option value="Sheshadripuram  "> Sheshadripuram </option>
-                    <option value="Uttarahalli  ">  Uttarahalli   </option>
-                    <option value="Vidyaranyapura  ">  Vidyaranyapura   </option>
-                    <option value="Whitefield  ">  Whitefield   </option>
-                    <option value="Yelahanka   ">   Yelahanka    </option>
-
-                </select>
-
-
-
-                <label for="top_angle_video" class='font-weight-bold mt-4'>Top Angle Video: </label>
-                <input type="file" class='form-control ' name='top_angle_video' required id='top_angle_video'>
-
-                <label for="front_angle_video" class='font-weight-bold mt-4'>Front Angle Video: </label>
-                <input type="file" class='form-control ' name='front_angle_video' required id='front_angle_video'>
-
-                <label for="wish_video" class='font-weight-bold mt-4'>Wishing Video: </label>
-                <label for="wish_video" class='mt-4'>(Optional) </label>
-                <input type="file" class='form-control ' name='wish_video' id='wish_video'>
+                    </select>
 
 
-                <script>
+                    <label for="top_angle_video" class='font-weight-bold mt-4'>Top Angle Video: </label>
+                    <input type="file" class='form-control ' name='top_angle_video' required id='top_angle_video'>
+
+                    <label for="front_angle_video" class='font-weight-bold mt-4'>Front Angle Video: </label>
+                    <input type="file" class='form-control ' name='front_angle_video' required id='front_angle_video'>
+
+                    <label for="wish_video" class='font-weight-bold mt-4'>Wishing Video: </label>
+                    <label for="wish_video" class='mt-4'>(Optional) </label>
+                    <input type="file" class='form-control ' name='wish_video' id='wish_video'>
+
+
+                    <script>
                     function showLoader(){
                         if($("#name").val().trim()!="" && $("#standard").val().trim()!="" && $("#top_angle_video").val().trim()!="" && $("#front_angle_video").val().trim()!=""){
                             $('#loadModal').modal('toggle');
                         }
                     }
-                </script>
-                <button class="btn btn-block btn-primary mt-4 py-1" onclick="showLoader()">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal" id="loadModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
 
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        <div class="my-3 loader">
-            <h4>Uploading
-            <img src="../static/loader.gif" alt="Loading.." width="30" height="30"></h4>
-        </div>
-      </div>
-
-
-    </div>
-  </div>
-</div>
+                    </script>
+                    <button class="btn btn-block btn-primary mt-4 py-1" onclick="showLoader()">Submit</button>
+                </form>
             </div>
+        </div>
+    </div>
+    <div class="modal" id="loadModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="my-3 loader">
+                        <h4>Uploading
+                            <img src="../static/loader.gif" alt="Loading.." width="30" height="30"></h4>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}
