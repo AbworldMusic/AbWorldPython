@@ -1046,6 +1046,19 @@ def API_get_profile_picture_url():
 
         return jsonify({"image": "https://abworldmusic.in/MySite/images/"+str(image)})
 
+@app.route("/API_update_profile_picture_url", methods=["POST"])
+def API_update_profile_picture_url():
+    if request.method=="POST":
+        cur = mysql.connection.cursor()
+        id = request.form['id']
+        image = request.files['image']
+        if image.filename.strip() != "":
+                query = "UPDATE files WHERE type='profile' and link_id="+str(id)+" SET filename='"+image.filename.strip()+"'"
+                cur.execute(query)
+                mysql.connection.commit()
+
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
+        return "Updated"
 
 if __name__ == '__main__':
     app.run(debug=True)
