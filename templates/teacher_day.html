@@ -6,35 +6,36 @@ AB World Teacher's day
 
 {% block content%}
 
-<div class='header d-flex justify-content-center' style="background: black">
+<div class=" w-100  py-5"
+     style="min-height: 100%; background-image: url('https://images.unsplash.com/photo-1497250681960-ef046c08a56e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'); background-size: cover">
     <div class="my-4 mx-2 text-center">
         <h1 class="text-white">Ab World</h1>
         <h5 class="text-white">Teachers day</h5>
+
+        <head>
+            <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="../static/style.css">
+        </head>
+
+        I<div class=" w-100  py-5">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{category}} text-center mx-2">{{ message }}</div>
+            {% endfor %}
+
+            {% endif %}
+            {% endwith %}
+            <div class="d-flex mt-5 flex-row justify-content-center ">
+                <div class="p-3 bg-light rounded col-sm-12 col-md-4 mx-4">
+                    <form method="post" class="form-group">
+                        <label for="password" class="font-weight-bold mt-4">Enter Passcode</label>
+                        <input id="password" name="passcode" type="password" class="form-control"/>
+                        <button class="btn btn-block btn-primary mt-4 py-1">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/style.css">
-</head>
-
-<div class=" w-100  py-5" style="min-height: 100%; background-image: url('https://images.unsplash.com/photo-1497250681960-ef046c08a56e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'); background-size: cover">
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert alert-{{category}} text-center mx-2">{{ message }}</div>
-    {% endfor %}
-
-  {% endif %}
-{% endwith %}
-<div class="d-flex mt-5 flex-row justify-content-center ">
-    <div class="p-3 bg-light rounded col-sm-12 col-md-4 mx-4">
-      <form method="post" class="form-group">
-        <label for="password" class="font-weight-bold mt-4">Enter Passcode</label>
-        <input id="password" name="passcode" type="password" class="form-control"/>
-        <button class="btn btn-block btn-primary mt-4 py-1">Login</button>
-      </form>
-    </div>
-  </div>
-</div>
-
 {% endblock %}
