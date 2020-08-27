@@ -5,6 +5,24 @@ AB World Teachers' day submission
 {% endblock %}
 
 {% block content%}
+{% block head %}
+{{ super() }}
+
+<title>World of Music | Enrollment</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../static/style.css">
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/basic.min.css"/>
+
+
+{% endblock %}
+
 
 <div class=" w-100  py-5"
      style="min-height: 100%; background-image: url('https://images.unsplash.com/photo-1497250681960-ef046c08a56e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'); background-size: cover">
@@ -29,7 +47,8 @@ AB World Teachers' day submission
         {% endwith %}
         <div class="d-flex mt-5 flex-row justify-content-center ">
             <div class="p-3 bg-light rounded col-sm-12 col-md-4 mx-4">
-                <form method="post" action="/teachers_day_submission" class="form-group" enctype="multipart/form-data">
+                <form method="post" action="/teachers_day_submission" class="form-group "
+                      enctype="multipart/form-data">
 
                     <label for="name" class="font-weight-bold mt-4">Name</label>
                     <input id="name" name="name" type="text" class="form-control" required/>.
@@ -74,27 +93,38 @@ AB World Teachers' day submission
 
                     </select>
 
-
                     <label for="top_angle_video" class='font-weight-bold mt-4'>Top Angle Video: </label>
                     <input type="file" class='form-control ' name='top_angle_video' required id='top_angle_video'>
 
+                    <div class="top-angle-video">
+                        <div class="top-angle-progress">
+
+                        </div>
+                    </div>
+
                     <label for="front_angle_video" class='font-weight-bold mt-4'>Front Angle Video: </label>
                     <input type="file" class='form-control ' name='front_angle_video' required id='front_angle_video'>
+
+                    <div class="front-angle-video">
+                        <div class="front-angle-progress">
+
+                        </div>
+                    </div>
 
                     <label for="wish_video" class='font-weight-bold mt-4'>Wishing Video: </label>
                     <label for="wish_video" class='mt-4'>(Optional) </label>
                     <input type="file" class='form-control ' name='wish_video' id='wish_video'>
 
+                    <div class="wish-video">
+                        <div class="wish-progress">
+
+                        </div>
+                    </div>
 
                     <script>
-                    function showLoader(){
-                        if($("#name").val().trim()!="" && $("#standard").val().trim()!="" && $("#top_angle_video").val().trim()!="" && $("#front_angle_video").val().trim()!=""){
-                            $('#loadModal').modal('toggle');
-                        }
-                    }
 
                     </script>
-                    <button class="btn btn-block btn-primary mt-4 py-1" onclick="showLoader()">Submit</button>
+                    <button class="btn btn-block btn-primary mt-4 py-1" onclick="return showLoader()">Submit</button>
                 </form>
             </div>
         </div>
@@ -108,7 +138,7 @@ AB World Teachers' day submission
                 <div class="modal-body">
                     <div class="my-3 loader">
                         <h4>Uploading
-                            <img src="../static/loader.gif" alt="Loading.." width="30" height="30"></h4>
+                            <img src="../static/loader.gif" alt="Loading.." style="height: 30px; width: 30px"></h4>
                     </div>
                 </div>
 
@@ -118,5 +148,6 @@ AB World Teachers' day submission
     </div>
 
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../static/teachers_day.js"></script>
 {% endblock %}

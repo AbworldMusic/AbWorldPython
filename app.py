@@ -13,6 +13,7 @@ app.config['MYSQL_USER'] = 'ABWorldUser'
 app.config['MYSQL_PASSWORD'] = '0XR0MF*&jCKE'
 app.config['MYSQL_DB'] = 'ef22yrqyi32q'
 app.config['UPLOAD_FOLDER'] = 'images'
+app.config['MAX_CONTENT_LENGTH'] = 1000 * 1024 * 1024
 
 mysql = MySQL(app)
 
@@ -950,38 +951,33 @@ def teachers_day_submission():
         getLastEntry = "SELECT id from teachers_day order by id DESC LIMIT 1"
         cur.execute(getLastEntry)
         link_id = cur.fetchone()[0]
-        if "top_angle_video" in request.files:
-            f = request.files['top_angle_video']
 
-            if f.filename.strip() != "":
-                query = "INSERT into files (filename, type, link_id) values ('" + f.filename + "','top_angle_video'," + str(
-                    link_id) + ")"
-                cur.execute(query)
-                mysql.connection.commit()
+        return str(link_id)
 
-                f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
-        if "front_angle_video" in request.files:
-            f = request.files['front_angle_video']
-            if f.filename.strip() != "":
-                query = "INSERT into files (filename, type, link_id) values ('" + f.filename + "','front_angle_video'," + str(
-                    link_id) + ")"
-                cur.execute(query)
-                mysql.connection.commit()
+@app.route("/teachers_day_upload", methods=['POST'])
+def teachers_day_upload():
+    if request.method == "POST":
+        file = request.files["file"]
+        file_name = request.form['file_name']
+        file_type = request.form['file_type']
+        link_id = request.form['link_id']
+        chunk_number = request.form['chunk_number']
 
-                f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+        if chunk_number==0:
+            cur = mysql.connection.cursor()
+            query = "INSERT into files (filename, type, link_id) values ('"+file_name+"','"+file_type+"',"+str(link_id)+")"
+            cur.execute(query)
+            print(query)
+            mysql.connection.commit()
 
-        if "wish_video" in request.files:
-            f = request.files['wish_video']
-            if f.filename.strip() != "":
-                query = "INSERT into files (filename, type, link_id) values ('" + f.filename + "','wish_video'," + str(
-                    link_id) + ")"
-                cur.execute(query)
-                mysql.connection.commit()
-
-                f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
-
-        flash("Way to go! Your entry was successfully submitted", "success")
-        return render_template("teachers_day_submission.html")
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+        else:
+            with open(os.path.join(app.config['UPLOAD_FOLDER'], file_name), 'ab') as f:
+                f.seek(int(request.form['byteoffset']))
+                f.write(file.stream.read())
+            if chunk_number == request.form['total_chunks']:
+                return "Complete"
+        return str(chunk_number)
 
 
 
