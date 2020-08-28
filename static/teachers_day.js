@@ -1,4 +1,10 @@
+function OnComplete(){
+    window.location.href="/teachers_day?completed=true"
+}
+
 function showLoader(){
+    completed = 0;
+
     if($("#name").val().trim()!="" && $("#standard").val().trim()!="" && $("#top_angle_video").val().trim()!="" && $("#front_angle_video").val().trim()!=""){
         console.log("All inputs received")
     }
@@ -53,6 +59,12 @@ function showLoader(){
                        contentType: false,
                        success : function(data) {
                            if (data=="Complete"){
+                            completed = completed + 1;
+                            if (completed == 2 && $("#wish_video")[0].files.length==0){
+                              OnComplete();
+                            } else if(completed == 3){
+                              OnComplete();
+                            }
                             $(".top-angle-progress").width("100%")
                            }
                            else{
@@ -96,6 +108,13 @@ function showLoader(){
                        contentType: false,
                        success : function(data) {
                            if (data=="Complete"){
+                            completed = completed + 1;
+                            if (completed == 2 && $("#wish_video")[0].files.length==0){
+                              OnComplete();
+                            } else if(completed == 3){
+                              OnComplete();
+                            }
+
                             $(".front-angle-progress").width("100%")
                            }
                            else{
@@ -141,6 +160,12 @@ function showLoader(){
                        contentType: false,
                        success : function(data) {
                            if (data=="Complete"){
+                           completed = completed + 1;
+                            if (completed == 2 && $("#wish_video")[0].files.length==0){
+                              OnComplete();
+                            } else if(completed == 3){
+                              OnComplete();
+                            }
                             $(".wish-progress").width("100%")
                            }
                            else{

@@ -927,6 +927,8 @@ def delete_student():
 @app.route("/teachers_day",methods=["GET","POST"])
 def teachers_day():
     if request.method=="GET":
+        if "completed" in request.args:
+            flash("Way to go! Your entry was submitted successfully", 'success')
         return render_template("teacher_day.html")
     else:
         passcode = request.form['passcode']
@@ -975,9 +977,13 @@ def teachers_day_upload():
             with open(os.path.join(app.config['UPLOAD_FOLDER'], file_name), 'ab') as f:
                 f.seek(int(request.form['byteoffset']))
                 f.write(file.stream.read())
-            if chunk_number == request.form['total_chunks']:
-                return "Complete"
-        return str(chunk_number)
+                if str(f.tell()//(1024*1024*5)) == request.form['total_chunks']:
+                    return "Complete"
+
+                print(f.tell()//(1024*1024*5))
+                return str(f.tell()//(1024*1024*5))
+
+
 
 
 
