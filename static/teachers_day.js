@@ -7,7 +7,8 @@ function showLoader(){
     completed = 0;
 
     if($("#name").val().trim()!="" && $("#standard").val().trim()!="" && $("#top_angle_video").val().trim()!="" && $("#front_angle_video").val().trim()!=""){
-        $(".submit-btn").attr("disabled", "true")
+        $(".submit-btn").prop("disabled", "true")
+        $(".submit-btn").text("Uploading")
     }
     else{
        return true
@@ -16,6 +17,14 @@ function showLoader(){
     formData.append('name', $("#name").val().trim());
     formData.append('standard', $("#standard").val().trim());
     formData.append('branch', $("#branch").val().trim());
+
+    var top_angle_chunks = [];
+    var front_angle_chunks = [];
+    var wish_chunks = [];
+
+    var top_angle_progress = [];
+    var front_angle_progress = [];
+    var wish_progress = [];
 
     $.ajax({
         url: '/teachers_day_submission',
@@ -37,12 +46,11 @@ function showLoader(){
 
             while (chunk <= chunks) {
                   var offset = chunk*chunkSize;
-                  console.log('current chunk..', chunk);
-                  console.log('offset...', chunk*chunkSize);
-                  console.log('file blob from offset...', offset)
-                  console.log(file.slice(offset,offset+chunkSize));
-
-
+//                  console.log('current chunk..', chunk);
+//                  console.log('offset...', chunk*chunkSize);
+//                  console.log('file blob from offset...', offset)
+//                  console.log(file.slice(offset,offset+chunkSize));
+                  top_angle_chunks.push(chunk)
 
                   var formData = new FormData();
                   formData.append('file', file.slice(offset,offset+chunkSize));
@@ -59,8 +67,15 @@ function showLoader(){
                        processData: false,
                        contentType: false,
                        success : function(data) {
-                           if (data=="Complete"){
-                            completed = completed + 1;
+                            var index = top_angle_chunks.indexOf(parseInt(data));
+                            top_angle_chunks.pop(index)
+                            top_angle_progress.push(parseInt(data))
+
+
+
+                            if (top_angle_progress.length==chunks){
+                              completed = completed + 1;
+                            }
                             if (completed == 2 && $("#wish_video")[0].files.length==0){
                               OnComplete();
                             } else if(completed == 3){
@@ -69,7 +84,7 @@ function showLoader(){
                             $(".top-angle-progress").width("100%")
                            }
                            else{
-                            $(".top-angle-progress").width(((parseFloat(data)/chunks)*100).toString()+"%")
+                            $(".top-angle-progress").width(((top_angle_chunks.length/chunks)*100).toString()+"%")
                            }
                        }
                   });
@@ -88,11 +103,12 @@ function showLoader(){
 
             while (chunk <= chunks) {
                   var offset = chunk*chunkSize;
-                  console.log('current chunk..', chunk);
-                  console.log('offset...', chunk*chunkSize);
-                  console.log('file blob from offset...', offset)
-                  console.log(file.slice(offset,offset+chunkSize));
+//                  console.log('current chunk..', chunk);
+//                  console.log('offset...', chunk*chunkSize);
+//                  console.log('file blob from offset...', offset)
+//                  console.log(file.slice(offset,offset+chunkSize));
 
+                  front_angle_chunks.push(chunk)
                   var formData = new FormData();
                   formData.append('file', file.slice(offset,offset+chunkSize));
                   formData.append('chunk_number', chunk);
@@ -108,8 +124,13 @@ function showLoader(){
                        processData: false,
                        contentType: false,
                        success : function(data) {
-                           if (data=="Complete"){
-                            completed = completed + 1;
+                            var index = front_angle_chunks.indexOf(parseInt(data));
+                            front_angle_chunks.pop(index)
+                            front_angle_progress.push(parseInt(data))
+
+                            if (front_angle_progress.length==chunks){
+                              completed = completed + 1;
+                            }
                             if (completed == 2 && $("#wish_video")[0].files.length==0){
                               OnComplete();
                             } else if(completed == 3){
@@ -119,7 +140,7 @@ function showLoader(){
                             $(".front-angle-progress").width("100%")
                            }
                            else{
-                            $(".front-angle-progress").width(((parseFloat(data)/chunks)*100).toString()+"%")
+                            $(".front-angle-progress").width(((front_angle_progress.length/chunks)*100).toString()+"%")
                            }
 
                        }
@@ -145,6 +166,8 @@ function showLoader(){
                   console.log('file blob from offset...', offset)
                   console.log(file.slice(offset,offset+chunkSize));
 
+                  wish_chunks.push(chunk)
+
                   var formData = new FormData();
                   formData.append('file', file.slice(offset,offset+chunkSize));
                   formData.append('chunk_number', chunk);
@@ -160,8 +183,14 @@ function showLoader(){
                        processData: false,
                        contentType: false,
                        success : function(data) {
-                           if (data=="Complete"){
-                           completed = completed + 1;
+                            var index = wish_chunks.indexOf(parseInt(data));
+                            wish_chunks.pop(index)
+                            wish_progress.push(parseInt(data))
+
+                            if (wish_progress.length==chunks){
+                              completed = completed + 1;
+                            }
+
                             if (completed == 2 && $("#wish_video")[0].files.length==0){
                               OnComplete();
                             } else if(completed == 3){

@@ -977,7 +977,9 @@ def teachers_day_upload():
             with open(os.path.join(app.config['UPLOAD_FOLDER'], file_name), 'ab') as f:
                 f.seek(int(request.form['byteoffset']))
                 f.write(file.stream.read())
+
                 if str(f.tell()//(1024*1024)) == request.form['total_chunks']:
+                    print("Total", str(f.tell()//(1024*1024)))
                     return "Complete"
 
                 print(f.tell()//(1024*1024))
