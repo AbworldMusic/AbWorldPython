@@ -3,10 +3,11 @@ function OnComplete(){
 }
 
 function showLoader(){
+
     completed = 0;
 
     if($("#name").val().trim()!="" && $("#standard").val().trim()!="" && $("#top_angle_video").val().trim()!="" && $("#front_angle_video").val().trim()!=""){
-        console.log("All inputs received")
+        $(".submit-btn").attr("disabled", "true")
     }
     else{
        return true
@@ -26,7 +27,7 @@ function showLoader(){
             var link_id = data
             var input = $("#top_angle_video")[0]
             var file = input.files[0]
-            var chunkSize = 1024 * 1024 * 5;
+            var chunkSize = 1024 * 1024;
             var fileSize = file.size;
             var chunks = Math.ceil(file.size/chunkSize,chunkSize);
             var chunk = 0;
@@ -77,7 +78,7 @@ function showLoader(){
 
             var input = $("#front_angle_video")[0]
             var file = input.files[0]
-            var chunkSize = 1024 * 1024 * 5;
+            var chunkSize = 1024 * 1024;
             var fileSize = file.size;
             var chunks = Math.ceil(file.size/chunkSize,chunkSize);
             var chunk = 0;
@@ -129,7 +130,7 @@ function showLoader(){
             if($("#wish_video")[0].files.length>0){
                 var input = $("#wish_video")[0]
             var file = input.files[0]
-            var chunkSize = 1024 * 1024 * 5;
+            var chunkSize = 1024 * 1024;
             var fileSize = file.size;
             var chunks = Math.ceil(file.size/chunkSize,chunkSize);
             var chunk = 0;
