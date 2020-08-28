@@ -71,20 +71,18 @@ function showLoader(){
                             top_angle_chunks.pop(index)
                             top_angle_progress.push(parseInt(data))
 
-
-
                             if (top_angle_progress.length==chunks){
-                              completed = completed + 1;
-                            }
-                            if (completed == 2 && $("#wish_video")[0].files.length==0){
-                              OnComplete();
-                            } else if(completed == 3){
-                              OnComplete();
-                            }
-                            $(".top-angle-progress").width("100%")
+                                completed = completed + 1;
+
+                                if (completed == 2 && $("#wish_video")[0].files.length==0){
+                                  OnComplete();
+                                } else if(completed == 3){
+                                  OnComplete();
+                                }
+                                $(".top-angle-progress").width("100%")
                            }
                            else{
-                            $(".top-angle-progress").width(((top_angle_chunks.length/chunks)*100).toString()+"%")
+                               $(".top-angle-progress").width(((top_angle_chunks.length/chunks)*100).toString()+"%")
                            }
                        }
                   });
@@ -129,18 +127,18 @@ function showLoader(){
                             front_angle_progress.push(parseInt(data))
 
                             if (front_angle_progress.length==chunks){
-                              completed = completed + 1;
-                            }
-                            if (completed == 2 && $("#wish_video")[0].files.length==0){
-                              OnComplete();
-                            } else if(completed == 3){
-                              OnComplete();
-                            }
+                                completed = completed + 1;
 
-                            $(".front-angle-progress").width("100%")
+                                if (completed == 2 && $("#wish_video")[0].files.length==0){
+                                  OnComplete();
+                                } else if(completed == 3){
+                                  OnComplete();
+                                }
+
+                                $(".front-angle-progress").width("100%")
                            }
                            else{
-                            $(".front-angle-progress").width(((front_angle_progress.length/chunks)*100).toString()+"%")
+                                $(".front-angle-progress").width(((front_angle_progress.length/chunks)*100).toString()+"%")
                            }
 
                        }
@@ -188,18 +186,18 @@ function showLoader(){
                             wish_progress.push(parseInt(data))
 
                             if (wish_progress.length==chunks){
-                              completed = completed + 1;
-                            }
+                                completed = completed + 1;
 
-                            if (completed == 2 && $("#wish_video")[0].files.length==0){
-                              OnComplete();
-                            } else if(completed == 3){
-                              OnComplete();
-                            }
-                            $(".wish-progress").width("100%")
+
+                                if (completed == 2 && $("#wish_video")[0].files.length==0){
+                                  OnComplete();
+                                } else if(completed == 3){
+                                  OnComplete();
+                                }
+                                $(".wish-progress").width("100%")
                            }
                            else{
-                            $(".wish-progress").width(((parseFloat(data)/chunks)*100).toString()+"%")
+                                $(".wish-progress").width(((parseFloat(data)/chunks)*100).toString()+"%")
                            }
                        }
                   });
