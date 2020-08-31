@@ -962,6 +962,8 @@ def teachers_day_upload():
         file = request.files["file"]
         file_name = request.form['file_name']
         file_type = request.form['file_type']
+        print(file_name)
+        print(file_type)
         link_id = request.form['link_id']
         chunk_number = request.form['chunk_number']
 
@@ -978,7 +980,7 @@ def teachers_day_upload():
                 f.seek(int(request.form['byteoffset']))
                 f.write(file.stream.read())
 
-                if str(f.tell()//(1024*1024)) == request.form['total_chunks']:
+                if str(f.tell()//(1024*1024)) >= request.form['total_chunks']:
                     print("Total", str(f.tell()//(1024*1024)))
                     return "Complete"
 
@@ -1064,6 +1066,15 @@ def API_update_profile_picture_url():
 
                 image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
         return "Updated"
+
+@app.route("/API_community_post", methods=["POST"])
+def API_community_post():
+    if request.method=="POST":
+        user_id = request.form['user_id']
+        file = request.form['file']
+        caption = request.form['caption']
+        
+
 
 if __name__ == '__main__':
     app.run(debug=True)
