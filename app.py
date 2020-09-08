@@ -1073,7 +1073,27 @@ def API_community_post():
         user_id = request.form['user_id']
         file = request.form['file']
         caption = request.form['caption']
-        
+        mydate = datetime.datetime.now()
+        date = mydate.strftime("%d/%m/%Y %I:%M %p")
+        query = "INSERT into community (user_id, caption, date) values("+str(user_id)+",'"+caption+"','"+date+"')"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        mysql.connection.commit()
+
+        getLastPost = "SELECT id from community order by id DESC LIMIT 1"
+        cur.execute(getLastPost)
+        link_id = cur.fetchone()[0]
+
+        if "picture" in request.files:
+            f = request.files['picture']
+            if f.filename.strip() != "":
+                query = "INSERT into files (filename, type, link_id) values ('" + f.filename + "','community'," + str(link_id) + ")"
+                cur.execute(query)
+                mysql.connection.commit()
+
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+
+        return jsonify({"message","Post uploaded successfully"})
 
 
 if __name__ == '__main__':
