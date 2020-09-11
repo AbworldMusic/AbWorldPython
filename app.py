@@ -1094,6 +1094,29 @@ def API_community_post():
 
         return jsonify({"message":"Post uploaded successfully"})
 
+@app.route("/API_community_get", methods=['GET'])
+def API_community_get():
+    if request.method == "GET":
+        query = "SELECT * FROM community order by id DESC"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        results = cur.fetchall()
+        all_posts = []
+        for i in results:
+            record = {"id": i[0], 'user_id':i[1], 'caption': 1[2], 'date': i[3]}
+            userQuery = "SELECT name from enrollment WHERE id="+str(record['user_id'])
+            cur.execute(userQuery)
+            if cur.fetchone() is not None:
+                record['username'] = cur.fetchone()[0]
+            fileQuery = "SELECT filename from files WHERE id=" + str(record['id'])
+            cur.execute(fileQuery)
+            if cur.fetchone() is not None:
+                record['filename'] = cur.fetchone()[0]
+                all_posts.append(record)
+
+        return jsonify(all_posts)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
