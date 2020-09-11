@@ -1083,8 +1083,8 @@ def API_community_post():
         cur.execute(getLastPost)
         link_id = cur.fetchone()[0]
 
-        if "picture" in request.files:
-            f = request.files['picture']
+        if "attachment" in request.files:
+            f = request.files['attachment']
             if f.filename.strip() != "":
                 query = "INSERT into files (filename, type, link_id) values ('" + f.filename + "','community'," + str(link_id) + ")"
                 cur.execute(query)
@@ -1092,7 +1092,7 @@ def API_community_post():
 
                 f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
 
-        return jsonify({"message","Post uploaded successfully"})
+        return jsonify({"message":"Post uploaded successfully"})
 
 
 if __name__ == '__main__':
