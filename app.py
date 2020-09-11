@@ -1071,7 +1071,6 @@ def API_update_profile_picture_url():
 def API_community_post():
     if request.method=="POST":
         user_id = request.form['user_id']
-        file = request.form['file']
         caption = request.form['caption']
         mydate = datetime.datetime.now()
         date = mydate.strftime("%d/%m/%Y %I:%M %p")
