@@ -1103,7 +1103,7 @@ def API_community_get():
         results = cur.fetchall()
         all_posts = []
         for i in results:
-            record = {"id": i[0], 'user_id':i[1], 'caption': 1[2], 'date': i[3]}
+            record = {"id": i[0], 'user_id': i[1], 'caption': i[2], 'date': i[3]}
             userQuery = "SELECT name from enrollment WHERE id="+str(record['user_id'])
             cur.execute(userQuery)
             if cur.fetchone() is not None:
