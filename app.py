@@ -1109,7 +1109,7 @@ def API_community_get():
             res = cur.fetchone()
             if res is not None:
                 record['username'] = res[0]
-            fileQuery = "SELECT filename from files WHERE id=" + str(record['id'])
+            fileQuery = "SELECT filename from files WHERE link_id=" + str(record['id'])
             cur.execute(fileQuery)
             res = cur.fetchone()
             if res is not None:
