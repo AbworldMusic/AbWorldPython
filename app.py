@@ -1106,12 +1106,14 @@ def API_community_get():
             record = {"id": i[0], 'user_id': i[1], 'caption': i[2], 'date': i[3]}
             userQuery = "SELECT name from enrollment WHERE id="+str(record['user_id'])
             cur.execute(userQuery)
-            if cur.fetchone() is not None:
-                record['username'] = cur.fetchone()[0]
+            res = cur.fetchone()
+            if res is not None:
+                record['username'] = res[0]
             fileQuery = "SELECT filename from files WHERE id=" + str(record['id'])
             cur.execute(fileQuery)
-            if cur.fetchone() is not None:
-                record['filename'] = cur.fetchone()[0]
+            res = cur.fetchone()
+            if res is not None:
+                record['filename'] = res[0]
                 all_posts.append(record)
 
         return jsonify(all_posts)
