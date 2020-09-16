@@ -1113,12 +1113,46 @@ def API_community_get():
             cur.execute(fileQuery)
             res = cur.fetchone()
             if res is not None:
+                findQuery = "SELECT COUNT(*) from community_likes WHERE post_id=" + str(
+                    record['id'])
+                cur.execute(findQuery)
+                likesRes =  cur.fetchone()
+                if likesRes is None:
+                    record['likes'] = 0
+                else:
+                    record['likes'] = likesRes[0]
                 record['filename'] = res[0]
                 all_posts.append(record)
 
         return jsonify(all_posts)
 
+@app.route("/API_like_post", methods=['POST'])
+def API_like_post():
+    if request.method=="POST":
+        post_id = request.form['post_id']
+        user_id = request.form['user_id']
+        mydate = datetime.datetime.now()
+        date = mydate.strftime("%d/%m/%Y %I:%M %p")
 
+        cur = mysql.connection.cursor()
+        findQuery = "SELECT COUNT(*) from community_likes WHERE post_id="+str(post_id)+" AND user_id="+str(user_id)
+        cur.execute(findQuery)
+        res  = cur.fetchone()
+        if res is None:
+
+            query = "INSERT into community_likes (post_id, user_id, date) values("+str(post_id)+","+str(user_id)+",'"+date+"')"
+            cur.execute(query)
+            mysql.connection.commit()
+
+            return jsonify({"like": "+1"})
+
+        else:
+
+            query = "DELETE from community_likes WHERE post_id="+str(post_id)+" AND user_id="+str(user_id)
+            cur.execute(query)
+            mysql.connection.commit()
+
+            return jsonify({"like": "-1"})
 
 if __name__ == '__main__':
     app.run(debug=True)
