@@ -1074,7 +1074,7 @@ def API_community_post():
         caption = request.form['caption']
         mydate = datetime.datetime.now()
         date = mydate.strftime("%d/%m/%Y %I:%M %p")
-        query = "INSERT into community (user_id, caption, date) values("+str(user_id)+",'"+caption+"','"+date+"')"
+        query = "INSERT into community (user_id, caption, date) values("+str(user_id)+",'"+caption.replace("'","''")+"','"+date+"')"
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
