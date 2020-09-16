@@ -1118,9 +1118,9 @@ def API_community_get():
                 cur.execute(findQuery)
                 likesRes =  cur.fetchone()
                 if likesRes is None:
-                    record['likes'] = 0
+                    record['likes'] = "0"
                 else:
-                    record['likes'] = likesRes[0]
+                    record['likes'] = str(likesRes[0])
                 record['filename'] = res[0]
                 all_posts.append(record)
 
