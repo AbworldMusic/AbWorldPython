@@ -1128,7 +1128,7 @@ def API_community_get():
                 cur.execute(findSelfQuery)
                 likesRes = cur.fetchone()
                 if int(likesRes[0]) == 0:
-                    record['likedBySelf'] = "1"
+                    record['likedBySelf'] = "0"
                 else:
                     record['likedBySelf'] = "1"
 
