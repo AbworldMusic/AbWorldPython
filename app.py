@@ -1123,7 +1123,7 @@ def API_community_get():
                 else:
                     record['likes'] = str(likesRes[0])
 
-                findSelfQuery = "SELECT COUNT(*) from community_likes WHERE user_id="+ str(user_id) +"AND post_id=" + str(
+                findSelfQuery = "SELECT COUNT(*) from community_likes WHERE user_id="+ str(user_id) +" AND post_id=" + str(
                     record['id'])
                 cur.execute(findSelfQuery)
                 likesRes = cur.fetchone()
