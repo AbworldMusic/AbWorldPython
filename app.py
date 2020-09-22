@@ -1097,6 +1097,7 @@ def API_community_post():
 @app.route("/API_community_get", methods=['GET'])
 def API_community_get():
     if request.method == "GET":
+        user_id = request.args['user_id']
         query = "SELECT * FROM community order by id DESC"
         cur = mysql.connection.cursor()
         cur.execute(query)
@@ -1121,6 +1122,16 @@ def API_community_get():
                     record['likes'] = "0"
                 else:
                     record['likes'] = str(likesRes[0])
+
+                findSelfQuery = "SELECT COUNT(*) from community_likes WHERE user_id="+ str(user_id) +" post_id=" + str(
+                    record['id'])
+                cur.execute(findSelfQuery)
+                likesRes = cur.fetchone()
+                if int(likesRes[0]) == 0:
+                    record['likedBySelf'] = "1"
+                else:
+                    record['likedBySelf'] = "1"
+
                 record['filename'] = res[0]
                 all_posts.append(record)
 
@@ -1144,7 +1155,7 @@ def API_like_post():
             cur.execute(query)
             mysql.connection.commit()
 
-            return jsonify({"like": "+1", "res": str(findQuery)})
+            return jsonify({"like": "+1"})
 
         else:
 
@@ -1152,7 +1163,7 @@ def API_like_post():
             cur.execute(query)
             mysql.connection.commit()
 
-            return jsonify({"like": "-1", "res": str(findQuery)})
+            return jsonify({"like": "-1"})
 
 if __name__ == '__main__':
     app.run(debug=True)
