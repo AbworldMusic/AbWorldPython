@@ -1138,13 +1138,13 @@ def API_like_post():
         findQuery = "SELECT COUNT(*) from community_likes WHERE post_id="+str(post_id)+" AND user_id="+str(user_id)
         cur.execute(findQuery)
         res  = cur.fetchone()
-        if res is None:
+        if int(res[0]) == 0:
 
             query = "INSERT into community_likes (post_id, user_id, date) values("+str(post_id)+","+str(user_id)+",'"+date+"')"
             cur.execute(query)
             mysql.connection.commit()
 
-            return jsonify({"like": "+1"})
+            return jsonify({"like": "+1", "res": str(findQuery)})
 
         else:
 
@@ -1152,7 +1152,7 @@ def API_like_post():
             cur.execute(query)
             mysql.connection.commit()
 
-            return jsonify({"like": "-1"})
+            return jsonify({"like": "-1", "res": str(findQuery)})
 
 if __name__ == '__main__':
     app.run(debug=True)
