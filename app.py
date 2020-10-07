@@ -989,11 +989,9 @@ def teachers_day_upload():
 
 
 
-
-
 # Mobile app APIs
 
-@app.route("/API_login", methods=["POST"])
+@app.route("/api/API_login", methods=["GET","POST"])
 def API_login():
     if request.method == "POST":
         studentID = request.form["student_id"]
@@ -1014,6 +1012,8 @@ def API_login():
             return jsonify({
                 "message": "Login failed",
             })
+    else:
+        return "Hello"
 @app.route("/API_get_class_details", methods=["GET"])
 def API_get_next_class():
     if request.method == "GET":
