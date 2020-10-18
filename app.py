@@ -988,7 +988,7 @@ def teachers_day_upload():
                 return str(f.tell()//(1024*1024))
 
 @app.route("/new_user", methods=["GET","POST"])
-def users():
+def new_user():
     if request.method=="GET":
         return render_template("new_user.html")
     else:
