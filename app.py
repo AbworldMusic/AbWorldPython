@@ -1035,7 +1035,7 @@ def edit_user():
         id = request.form['id']
         fullname = request.form['fullname']
         email = request.form['email']
-        phone = request.form['role']
+        phone = request.form['phone']
         role = request.form['role']
         cur = mysql.connection.cursor()
         query = "UPDATE users set fullname='"+fullname+"',email='"+email+"',phone='"+phone+"',role='"+role+"' WHERE id="+id
