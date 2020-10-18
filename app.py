@@ -1038,7 +1038,7 @@ def edit_user():
         phone = request.form['role']
         role = request.form['role']
         cur = mysql.connection.cursor()
-        query = "UPDATE users set fullname='"+fullname+"',email='"+email+",phone='"+phone+",role='"+role+" WHERE id="+id
+        query = "UPDATE users set fullname='"+fullname+"',email='"+email+"',phone='"+phone+"',role='"+role+"' WHERE id="+id
         cur.execute(query)
         mysql.connection.commit()
         flash("User updated successfully", "success")
