@@ -997,7 +997,7 @@ def new_user():
         phone = request.form['role']
         role = request.form['role']
         cur = mysql.connection.cursor()
-        query = "INSERT into users (fullname, email, phone, role) values('"+fullname+'","'+email+'","'+phone+'","'+role+"')"
+        query = "INSERT into users (fullname, email, phone, role) values('"+fullname+"','"+email+"','"+phone+"','"+role+"')"
         cur.execute(query)
         mysql.connection.commit()
         flash("User created successfully","success")
@@ -1019,7 +1019,7 @@ def users():
                 "phone": i[3],
                 "role": i[4]
             })
-    return render_template("users.html", data=records)
+        return render_template("users.html", data=records)
 
 @app.route("/edit_user", methods=["GET","POST"])
 def edit_user():
