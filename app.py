@@ -994,7 +994,7 @@ def new_user():
     else:
         fullname = request.form['fullname']
         email = request.form['email']
-        phone = request.form['role']
+        phone = request.form['phone']
         role = request.form['role']
         cur = mysql.connection.cursor()
         query = "INSERT into users (fullname, email, phone, role) values('"+fullname+"','"+email+"','"+phone+"','"+role+"')"
