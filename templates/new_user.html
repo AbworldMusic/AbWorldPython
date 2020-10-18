@@ -1,0 +1,73 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+World of Music | Dashboard
+{% endblock %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"
+      xmlns="http://www.w3.org/1999/html"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="../static/style.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://momentjs.com/downloads/moment.js"></script>
+
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+{{ super() }}
+
+
+{% endblock %}
+
+
+{% block content %}
+<div id="tab" hidden>Slots</div>
+<div class="w-100 d-flex flex-column main">
+
+    <div class=' d-flex justify-content-start bg-light'>
+        <div class="my-4 container-fluid mx-3">
+            <h1>World of Music</h1>
+            <h4>New user</h4>
+        </div>
+    </div>
+    {{ super() }}
+    <div class="d-flex justify-content-center">
+        <div class="container m-4 mt-5">
+            <a class="btn btn-primary my-3 " href="/users">View all users</a>
+
+            <div class="row">
+                <form action="/new_user" method="post" class="form-group col-md-6">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" class="form-control" name="fullname" id="fullname">
+                    <label for="email" class="mt-3">Email address</label>
+                    <input type="email" class="form-control" name="email" id="email">
+                    <label for="phone" class="mt-3">Phone Number</label>
+                    <input type="number" class="form-control" name="phone" id="phone">
+                    <label for="role" class="mt-3">Role</label>
+                    <select name="role" id="role" class="form-control">
+                        <option value="Faculty">Faculty</option>
+                        <option value="Branch-incharge">Branch-incharge</option>
+                        <option value="Guest">Guest</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                    <button class="btn btn-primary btn-block mt-4">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
+
+</div>
+{% endblock %}

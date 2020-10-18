@@ -987,7 +987,73 @@ def teachers_day_upload():
                 print(f.tell()//(1024*1024))
                 return str(f.tell()//(1024*1024))
 
+@app.route("/new_user", methods=["GET","POST"])
+def users():
+    if request.method=="GET":
+        return render_template("new_user.html")
+    else:
+        fullname = request.form['fullname']
+        email = request.form['email']
+        phone = request.form['role']
+        role = request.form['role']
+        cur = mysql.connection.cursor()
+        query = "INSERT into users (fullname, email, phone, role) values('"+fullname+'","'+email+'","'+phone+'","'+role+"')"
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("User created successfully","success")
+        return redirect("/users")
 
+@app.route("/users", methods=["GET","POST"])
+def users():
+    if request.method=="GET":
+        cur = mysql.connection.cursor()
+        query = "SELECT id, fullname, email, phone, role  from users"
+        cur.execute(query)
+        result = cur.fetchall()
+        records = []
+        for i in result:
+            records.append({
+                "id": i[0],
+                "fullname": i[1],
+                "email": i[2],
+                "phone": i[3],
+                "role": i[4]
+            })
+    return render_template("users.html", data=records)
+
+@app.route("/edit_user", methods=["GET","POST"])
+def edit_user():
+    if request.method=="GET":
+        cur = mysql.connection.cursor()
+        id = request.args['id']
+        query = "SELECT * from users where id="+str(id)
+        cur.execute()
+        result = cur.fetchone()
+        data = {"id": result[0],"fullname": result[1],"email": result[2],"phone": result[3],"role": result[4]}
+        return render_template("edit_user", data=data)
+    else:
+        id = request.form['id']
+        fullname = request.form['fullname']
+        email = request.form['email']
+        phone = request.form['role']
+        role = request.form['role']
+        cur = mysql.connection.cursor()
+        query = "UPDATE users set fullname='"+fullname+"',email='"+email+",phone='"+phone+",role='"+role+" WHERE id="+id
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("User updated successfully", "success")
+        return redirect("/users")
+
+@app.route("/delete_user", methods=["GET","POST"])
+def delete_user():
+    if request.method=="GET":
+        cur = mysql.connection.cursor()
+        id = request.args['id']
+        query = "DELETE from users WHERE id="+id
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("User deleted",'danger')
+        return redirect('/users')
 
 # Mobile app APIs
 
