@@ -1027,10 +1027,10 @@ def edit_user():
         cur = mysql.connection.cursor()
         id = request.args['id']
         query = "SELECT * from users where id="+str(id)
-        cur.execute()
+        cur.execute(query)
         result = cur.fetchone()
         data = {"id": result[0],"fullname": result[1],"email": result[2],"phone": result[3],"role": result[4]}
-        return render_template("edit_user", data=data)
+        return render_template("edit_user.html", data=data)
     else:
         id = request.form['id']
         fullname = request.form['fullname']
