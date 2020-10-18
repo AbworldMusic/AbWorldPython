@@ -1019,7 +1019,7 @@ def users():
                 "phone": i[3],
                 "role": i[4]
             })
-        return jsonify(records)
+        return render_template("users.html", data=records)
 
 @app.route("/edit_user", methods=["GET","POST"])
 def edit_user():

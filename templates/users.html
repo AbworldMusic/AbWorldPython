@@ -35,13 +35,12 @@ World of Music | Dashboard
     <div class=' d-flex justify-content-start bg-light'>
         <div class="my-4 container-fluid mx-3">
             <h1>World of Music</h1>
-            <h4>Class Slots</h4>
+            <h4>All users</h4>
         </div>
     </div>
     {{ super() }}
     <div class="d-flex justify-content-center">
         <div class="container m-4 mt-5">
-            <a class="btn btn-outine-primary my-3 " href="/new_slot"> <i class="fa fa-plus"></i> Create new slot</a>
             <div id="all-slots" aria-labelledby="view-all-slots" role="tabpanel">
                 <table class="table table-striped">
                     <thead>
@@ -57,18 +56,18 @@ World of Music | Dashboard
                     <tbody>
                     {% for i in data %}
                     <tr>
-                        <td>{{i['fullname'}}</td>
-                        <td>{{i['email'}}</td>
-                        <td>{{i['phone'}}</td>
-                        <td>{{i['role'}}</td>
+                        <td>{{i['fullname']}}</td>
+                        <td>{{i['email']}}</td>
+                        <td>{{i['phone']}}</td>
+                        <td>{{i['role']}}</td>
                         <td>
                             <a class="btn btn-danger py-1"
-                               href="edit_user?id={{i['id'}}">Edit</a>
+                               href="/edit_user?id={{i['id'}}">Edit</a>
                         </td>
                         <td>
                             <a class="btn btn-danger py-1"
                                onclick="return confirm('Are you sure you want to delete this slot?');"
-                               href="delete_user?id={{i['id'}}">Delete</a>
+                               href="/delete_user?id={{i['id'}}">Delete</a>
                         </td>
                     </tr>
                     {% endfor %}
