@@ -1007,7 +1007,7 @@ def new_user():
 def users():
     if request.method=="GET":
         cur = mysql.connection.cursor()
-        query = "SELECT (id, fullname, email, phone, role) from users"
+        query = "SELECT * from users"
         cur.execute(query)
         result = cur.fetchall()
         records = []
