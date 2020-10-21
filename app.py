@@ -5,7 +5,7 @@ import datetime
 import time
 from time import mktime
 import os
-import base64
+import hashlib
 
 app = Flask(__name__)
 # Sql setup
@@ -41,6 +41,7 @@ def login():
     else:
         username = request.form['username'];
         password = request.form['password']
+        password = hashlib.sha3_256(password.encode()).hexdigest()
         cur = mysql.connection.cursor()
         query = "SELECT * FROM users WHERE fullname='" + username + "' OR email='" + username + "'"
         cur.execute(query)
@@ -49,7 +50,7 @@ def login():
             if records[0][5].strip() == "unset":
                 print(records)
                 return redirect("/reset_password?id="+str(records[0][0]))
-            elif records[0][5] == str(base64.b64encode(password)):
+            elif records[0][5] == password
                 session['username'] = records[0][2]
                 session['logged_in'] = True
                 flash("Logged in successfully", "success")
@@ -71,7 +72,7 @@ def reset_password():
             return redirect("/reset_password?id="+id)
         else:
             cur = mysql.connection.cursor()
-            password = str(base64.b64encode(password))
+            password = hashlib.sha3_256(password.encode()).hexdigest()
             query = "UPDATE users SET password='"+password+"' WHERE id="+id
             cur.execute(query)
             mysql.connection.commit()
