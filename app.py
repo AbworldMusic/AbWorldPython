@@ -46,9 +46,9 @@ def login():
         cur.execute(query)
         records = cur.fetchall()
         if len(records) > 0:
-            if records[0][4].strip() == "unset":
+            if records[0][5].strip() == "unset":
                 return redirect("/reset_password?id="+records[0][0])
-            elif records[0][4] == base64.encode(password):
+            elif records[0][5] == base64.encode(password):
                 session['username'] = records[0][2]
                 session['logged_in'] = True
                 flash("Logged in successfully", "success")
