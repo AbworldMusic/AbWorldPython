@@ -50,7 +50,7 @@ def login():
             if records[0][5].strip() == "unset":
                 print(records)
                 return redirect("/reset_password?id="+str(records[0][0]))
-            elif records[0][5] == password
+            elif records[0][5] == password:
                 session['username'] = records[0][2]
                 session['logged_in'] = True
                 flash("Logged in successfully", "success")
