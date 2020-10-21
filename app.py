@@ -47,8 +47,9 @@ def login():
         records = cur.fetchall()
         if len(records) > 0:
             if records[0][5].strip() == "unset":
-                return redirect("/reset_password?id="+records[0][0])
-            elif records[0][5] == base64.encode(password):
+                print(records)
+                return redirect("/reset_password?id="+str(records[0][0]))
+            elif records[0][5] == str(base64.encode(password)):
                 session['username'] = records[0][2]
                 session['logged_in'] = True
                 flash("Logged in successfully", "success")
@@ -70,9 +71,10 @@ def reset_password():
             return redirect("/reset_password?id="+id)
         else:
             cur = mysql.connection.cursor()
-            password = base64.encode(password)
+            password = str(base64.encode(password))
             query = "UPDATE users SET password='"+password+"' WHERE id="+id
             cur.execute(query)
+            mysql.connection.commit()
             flash("Password set succesfully. Login to continue","success")
             return redirect("/login")
 
