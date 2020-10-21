@@ -5,6 +5,7 @@ import datetime
 import time
 from time import mktime
 import os
+import base64
 
 app = Flask(__name__)
 # Sql setup
@@ -41,11 +42,13 @@ def login():
         username = request.form['username'];
         password = request.form['password']
         cur = mysql.connection.cursor()
-        query = "SELECT * FROM users WHERE name='" + username + "' OR email='" + username + "' AND organization_id=2"
+        query = "SELECT * FROM users WHERE fullname='" + username + "' OR email='" + username + "'"
         cur.execute(query)
         records = cur.fetchall()
         if len(records) > 0:
-            if records[0][4] == password:
+            if records[0][4].strip() == "unset":
+                return redirect("/reset_password?id="+records[0][0])
+            elif records[0][4] == base64.encode(password):
                 session['username'] = records[0][2]
                 session['logged_in'] = True
                 flash("Logged in successfully", "success")
@@ -53,6 +56,25 @@ def login():
         flash("Incorrect credentials", "danger")
         return redirect("/login")
 
+@app.route("/reset_password", methods=['GET', 'POST'])
+def reset_password():
+    if request.method=="GET":
+        id = request.args['id']
+        return render_template("reset_password.html", id=id)
+    else:
+        id = request.form['id']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        if password != confirm_password:
+            flash("Password fields do not match",'danger')
+            return redirect("/reset_password?id="+id)
+        else:
+            cur = mysql.connection.cursor()
+            password = base64.encode(password)
+            query = "UPDATE users SET password='"+password+"' WHERE id="+id
+            cur.execute(query)
+            flash("Password set succesfully. Login to continue","success")
+            return redirect("/login")
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
@@ -1060,15 +1082,15 @@ def delete_user():
 @app.route("/api/API_login", methods=["GET","POST"])
 def API_login():
     if request.method == "POST":
-        studentID = request.form["student_id"]
-        query = "SELECT name, age, instrument, course from enrollment WHERE id="+str(studentID)
+        userID = request.form["student_id"]
+        query = "SELECT name, age, instrument, course from enrollment WHERE id="+str(userID)
         cur = mysql.connection.cursor()
         cur.execute(query)
         result = cur.fetchone()
         if result is not None:
             return jsonify({
                 "message": "Login successful",
-                "id": studentID,
+                "id": userID,
                 "name": result[0],
                 "age": result[1],
                 "instrument": result[2],
