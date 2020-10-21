@@ -30,7 +30,7 @@ World of Music | Dashboard
 
 
 {% block content %}
-<div id="tab" hidden>Slots</div>
+<div id="tab" hidden>Users</div>
 <div class="w-100 d-flex flex-column main">
     <div class=' d-flex justify-content-start bg-light'>
         <div class="my-4 container-fluid mx-3">
@@ -40,6 +40,7 @@ World of Music | Dashboard
     </div>
     {{ super() }}
     <div class="d-flex justify-content-center">
+        <a class="btn btn-primary my-3 " href="/new_user">Create a new user</a>
         <div class="container m-4 mt-5">
             <div id="all-slots" aria-labelledby="view-all-slots" role="tabpanel">
                 <table class="table table-striped">
