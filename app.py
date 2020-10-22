@@ -1089,6 +1089,7 @@ def API_login():
         password = request.form['password']
         if 'ABSTAFF' in userID:
             userID = userID.replace("ABSTAFF","")
+            password = hashlib.sha3_256(password.encode()).hexdigest()
             query = "SELECT fullname, role, password FROM users WHERE fullname='" + userID + "' OR email='" + userID + "'"
             cur = mysql.connection.cursor()
             cur.execute(query)
@@ -1102,7 +1103,7 @@ def API_login():
                 })
             else:
                 return jsonify({
-                    "message": "Login failed",
+                    "message": "Login failed for staff",
                 })
         else:
             query = "SELECT name, age, instrument, course from enrollment WHERE id="+str(userID)
