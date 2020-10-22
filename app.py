@@ -1085,9 +1085,10 @@ def delete_user():
 @app.route("/api/API_login", methods=["GET","POST"])
 def API_login():
     if request.method == "POST":
-        userID = request.form["student_id"]
+        userID = request.form["id"]
         password = request.form['password']
         if 'ABSTAFF' in userID:
+            userID = userID.replace("ABSTAFF","")
             query = "SELECT fullname, role, password FROM users WHERE fullname='" + userID + "' OR email='" + userID + "'"
             cur = mysql.connection.cursor()
             cur.execute(query)
