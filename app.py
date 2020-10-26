@@ -1089,16 +1089,16 @@ def API_login():
         if 'ABSTAFF' in userID:
             userID = userID.replace("ABSTAFF","")
             password = hashlib.sha3_256(password.encode()).hexdigest()
-            query = "SELECT fullname, role, password FROM users WHERE fullname='" + userID + "' OR email='" + userID + "'"
+            query = "SELECT id, fullname, role, password FROM users WHERE fullname='" + userID + "' OR email='" + userID + "'"
             cur = mysql.connection.cursor()
             cur.execute(query)
             result = cur.fetchone()
             if result is not None and password == result[2]:
                 return jsonify({
                     "message": "Login successful",
-                    "id": userID,
-                    "name": result[0],
-                    "role": result[1]
+                    "id": result[0],
+                    "name": result[1],
+                    "role": result[2]
                 })
             else:
                 return jsonify({
@@ -1285,7 +1285,7 @@ def confirm_arrival():
         mydate = datetime.datetime.now()
         time = mydate.strftime("%A %d/%m/%Y %H:%M %p")
         cur = mysql.connection.cursor()
-        query  = "INSERT into arrival_logs(user_id, type, time) values("+str(userid)+",'"+type+"','"+time+"')"
+        query = "INSERT into arrival_logs(user_id, type, time) values("+str(userid)+",'"+type+"','"+time+"')"
         cur.execute(query)
         mysql.connection.commit()
         return jsonify({"message": "confirmed"})
