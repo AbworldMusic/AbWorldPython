@@ -1277,7 +1277,7 @@ def API_like_post():
             return jsonify({"like": "-1"})
 
 
-@app.route("/confirm_arrival", methods=['POST'])
+@app.route("/API_confirm_arrival", methods=['POST'])
 def confirm_arrival():
     if request.method == "POST":
         userid = request.form['user_id']
