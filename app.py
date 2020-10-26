@@ -1093,7 +1093,7 @@ def API_login():
             cur = mysql.connection.cursor()
             cur.execute(query)
             result = cur.fetchone()
-            if result is not None and password == result[2]:
+            if result is not None and password == result[3]:
                 return jsonify({
                     "message": "Login successful",
                     "id": result[0],
