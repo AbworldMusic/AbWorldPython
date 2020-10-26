@@ -1081,7 +1081,6 @@ def delete_user():
         return redirect('/users')
 
 # Mobile app APIs
-
 @app.route("/api/API_login", methods=["GET","POST"])
 def API_login():
     if request.method == "POST":
@@ -1276,6 +1275,20 @@ def API_like_post():
             mysql.connection.commit()
 
             return jsonify({"like": "-1"})
+
+
+@app.route("/confirm_arrival", methods=['POST'])
+def confirm_arrival():
+    if request.method == "POST":
+        userid = request.form['user_id']
+        type =  request.form['type']
+        mydate = datetime.datetime.now()
+        time = mydate.strftime("%A %d/%m/%Y %H:%M %p")
+        cur = mysql.connection.cursor()
+        query  = "INSERT into arrival_logs (user_id, type, time) value("+userid+",'"+type+"','"+time+"')"
+        cur.execute(query)
+        mysql.connection.commit()
+        return jsonify({"message": "confirmed"})
 
 if __name__ == '__main__':
     app.run(debug=True)
