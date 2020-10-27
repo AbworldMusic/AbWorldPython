@@ -82,7 +82,11 @@ World of Music | Dashboard
                     <label for="batch" class='mt-2 w-25'>Batch: </label>
                     <select name="slots[]" multiple="multiple" id="batch" class="form-control">
                         {% for i in slots %}
-                            <option value="{{i}}">{{slots[i]}}</option>
+                            {% if i in faculty_slots %}
+                                <option value="{{i}}" selected>{{slots[i]}}</option>
+                            {% else %}
+                                <option value="{{i}}">{{slots[i]}}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
 

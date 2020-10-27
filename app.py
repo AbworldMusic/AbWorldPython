@@ -1056,15 +1056,23 @@ def edit_user():
         cur.execute(query)
         result = cur.fetchone()
         data = {"id": result[0],"fullname": result[1],"email": result[2],"phone": result[3],"role": result[4]}
-        slots = {}
+        all_slots = {}
+        faculty_slots = []
         if data['role']=='Faculty':
             query = 'SELECT * from slots WHERE recurring=1'
             cur.execute(query)
             records = cur.fetchall()
             for i in records:
-                slots[i[0]] = i[2] + " " + i[3]
+                all_slots[i[0]] = i[2] + " " + i[3]
+            facultySlots = "SELECT slot_id from faculty_slots WHERE faculty_id="+id
+            cur.execute(facultySlots)
+            records = cur.fetchall()
+            for i in records:
+                slotQuery = 'SELECT SELECT * from slots WHERE recurring=1 AND id='+i
+                result = cur.fetchone()
+                facultySlots.append(result[2] + " " + result[3])
 
-        return render_template("edit_user.html", data=data, slots=slots)
+        return render_template("edit_user.html", data=data, slots=all_slots, faculty_slots=facultySlots)
     else:
         id = request.form['id']
         fullname = request.form['fullname']
