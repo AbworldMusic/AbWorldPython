@@ -1072,7 +1072,7 @@ def edit_user():
                 cur.execute(slotQuery)
                 # return slotQuery
                 result = cur.fetchone()
-                facultySlots.append(result[2] + " " + result[3])
+                faculty_slots.append(result[2] + " " + result[3])
 
         return render_template("edit_user.html", data=data, slots=all_slots, faculty_slots=facultySlots)
     else:
