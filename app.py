@@ -6,6 +6,7 @@ import time
 from time import mktime
 import os
 import hashlib
+import time
 
 app = Flask(__name__)
 # Sql setup
@@ -1055,7 +1056,15 @@ def edit_user():
         cur.execute(query)
         result = cur.fetchone()
         data = {"id": result[0],"fullname": result[1],"email": result[2],"phone": result[3],"role": result[4]}
-        return render_template("edit_user.html", data=data)
+        slots = {}
+        if data['role']=='Faculty':
+            query = 'SELECT * from slots WHERE recurring=1'
+            cur.execute(query)
+            records = cur.fetchall()
+            for i in records:
+                slots[i[0]] = i[2] + " " + i[3]
+
+        return render_template("edit_user.html", data=data, slots=slots)
     else:
         id = request.form['id']
         fullname = request.form['fullname']
@@ -1065,6 +1074,11 @@ def edit_user():
         cur = mysql.connection.cursor()
         query = "UPDATE users set fullname='"+fullname+"',email='"+email+"',phone='"+phone+"',role='"+role+"' WHERE id="+id
         cur.execute(query)
+        if role=="Faculty":
+            slots = request.form.getlist("slots[]")
+            for i in slots:
+                slotQuery = "INSERT into faculty_slots(student_id, slot_id) values(" + str(id[0]) + "," + str(i) + ")"
+                cur.execute(slotQuery)
         mysql.connection.commit()
         flash("User updated successfully", "success")
         return redirect("/users")

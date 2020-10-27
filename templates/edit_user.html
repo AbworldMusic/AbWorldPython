@@ -77,6 +77,18 @@ World of Music | Dashboard
                             <option value="Admin">Admin</option>
                         {% endif %}
                     </select>
+
+
+                     <div class="row d-flex justify-content-around my-2">
+                         <label for="batch" class='mt-2 w-25'>Batch: </label>
+                         <div class='w-50'>
+                            <select name="slots[]" multiple="multiple" id="batch">
+                                {% for i in slots %}
+                                <option value="{{i}}">{{slots[i]}}</option>
+                                {% endfor %}
+                            </select>
+                         </div>
+                    </div>
                     <button class="btn btn-primary btn-block mt-4">Submit</button>
                 </form>
             </div>
