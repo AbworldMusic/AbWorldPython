@@ -1085,6 +1085,9 @@ def edit_user():
         query = "UPDATE users set fullname='"+fullname+"',email='"+email+"',phone='"+phone+"',role='"+role+"' WHERE id="+id
         cur.execute(query)
         if role=="Faculty":
+            # Delete all slots first
+            deleteSlots = "DELETE from faculty_slots WHERE faculty_id="+id
+            cur.execute(deleteSlots)
             slots = request.form.getlist("slots[]")
             for i in slots:
                 slotQuery = "INSERT into faculty_slots(faculty_id, slot_id) values(" + id + "," + str(i) + ")"
