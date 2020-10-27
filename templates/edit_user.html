@@ -79,16 +79,13 @@ World of Music | Dashboard
                     </select>
 
 
-                     <div class="row d-flex justify-content-around my-2">
-                         <label for="batch" class='mt-2 w-25'>Batch: </label>
-                         <div class='w-50'>
-                            <select name="slots[]" multiple="multiple" id="batch">
-                                {% for i in slots %}
-                                <option value="{{i}}">{{slots[i]}}</option>
-                                {% endfor %}
-                            </select>
-                         </div>
-                    </div>
+                    <label for="batch" class='mt-2 w-25'>Batch: </label>
+                    <select name="slots[]" multiple="multiple" id="batch" class="form-control">
+                        {% for i in slots %}
+                            <option value="{{i}}">{{slots[i]}}</option>
+                        {% endfor %}
+                    </select>
+
                     <button class="btn btn-primary btn-block mt-4">Submit</button>
                 </form>
             </div>
