@@ -1069,6 +1069,7 @@ def edit_user():
             records = cur.fetchall()
             for i in records:
                 slotQuery = 'SELECT SELECT * from slots WHERE recurring=1 AND id='+i
+                cur.execute(slotQuery)
                 result = cur.fetchone()
                 facultySlots.append(result[2] + " " + result[3])
 
