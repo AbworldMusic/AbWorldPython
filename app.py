@@ -1317,5 +1317,28 @@ def confirm_arrival():
         mysql.connection.commit()
         return jsonify({"message": "confirmed"})
 
+@app.route("/API_get_slots_for_faculty", methods=['POST'])
+def API_get_slots_for_faculty():
+    if request.method == "POST":
+        userid = request.form['user_id']
+        day = request.form['day']
+        slotsQuery = "SELECT slot_id from faculty_slots WHERE faculty_id="+str(userid)
+        cur = mysql.connection.cursor()
+        cur.execute(slotsQuery)
+        records = cur.fetchall()
+        faculty_slots = []
+        for i in records:
+            slotQuery = 'SELECT * from slots WHERE recurring=1 AND id=' + str(i[0])
+            cur.execute(slotQuery)
+            result = cur.fetchone()
+            if day in result[2]:
+                faculty_slots.append(result[2] + " " + result[3])
+        if len(faculty_slots)==0:
+            return jsonify({"slots":"No slots today"})
+        else:
+            return jsonify({'slots': faculty_slots})
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
