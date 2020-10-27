@@ -1077,7 +1077,7 @@ def edit_user():
         if role=="Faculty":
             slots = request.form.getlist("slots[]")
             for i in slots:
-                slotQuery = "INSERT into faculty_slots(student_id, slot_id) values(" + str(id[0]) + "," + str(i) + ")"
+                slotQuery = "INSERT into faculty_slots(faculty_id, slot_id) values(" + id + "," + str(i) + ")"
                 cur.execute(slotQuery)
         mysql.connection.commit()
         flash("User updated successfully", "success")
