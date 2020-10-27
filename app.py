@@ -1074,7 +1074,7 @@ def edit_user():
                 result = cur.fetchone()
                 faculty_slots.append(result[2] + " " + result[3])
 
-        return render_template("edit_user.html", data=data, slots=all_slots, faculty_slots=facultySlots)
+        return render_template("edit_user.html", data=data, slots=all_slots, faculty_slots=faculty_slots)
     else:
         id = request.form['id']
         fullname = request.form['fullname']
