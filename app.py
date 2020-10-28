@@ -1326,18 +1326,33 @@ def API_get_slots_for_faculty():
         cur = mysql.connection.cursor()
         cur.execute(slotsQuery)
         records = cur.fetchall()
-        faculty_slots = []
+        faculty_slots = {}
         for i in records:
             slotQuery = 'SELECT * from slots WHERE recurring=1 AND id=' + str(i[0])
             cur.execute(slotQuery)
             result = cur.fetchone()
             if day in result[2]:
-                faculty_slots.append(result[2] + " " + result[3])
+                faculty_slots[i[0]] = result[2] + " " + result[3]
         if len(faculty_slots)==0:
             return jsonify({"slots":"No slots today"})
         else:
             return jsonify({'slots': faculty_slots})
 
+
+@app.route("/API_get_student_list", methods=['GET'])
+def API_get_student_list():
+    class_id = request.form['class_id']
+    query = "SELECT student_id from student_slots WHERE slot_id="+class_id
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    records = cur.fetch_all()
+    all_students = {}
+    for i in records:
+        studentQuery = "SELECT name from enrollment WHERE id="+i[0]
+        cur.execute(studentQuery)
+        result = cur.fetchone()
+        all_students[i[0]] = result[0]
+    return jsonify({"students": all_students})
 
 
 if __name__ == '__main__':
