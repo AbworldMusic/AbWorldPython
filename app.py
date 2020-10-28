@@ -1344,7 +1344,6 @@ def API_get_student_list():
     class_id = request.args['class_id']
     cur = mysql.connection.cursor()
     query = "SELECT student_id from student_slots WHERE slot_id="+str(class_id)
-    return  query
     cur.execute(query)
     records = cur.fetch_all()
     all_students = {}
