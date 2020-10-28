@@ -1341,7 +1341,7 @@ def API_get_slots_for_faculty():
 
 @app.route("/API_get_student_list", methods=['GET'])
 def API_get_student_list():
-    class_id = request.form['class_id']
+    class_id = request.args['class_id']
     query = "SELECT student_id from student_slots WHERE slot_id="+class_id
     cur = mysql.connection.cursor()
     cur.execute(query)
