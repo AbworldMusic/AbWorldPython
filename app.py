@@ -1355,6 +1355,7 @@ def API_get_student_list():
         result = cur.fetchone()
 
         attendance = "SELECT id from attendance WHERE student_id="+str(i[0])+" AND date_and_day='"+mydate+"'"
+        cur.execute(attendance)
         res = cur.fetchone()
         if res is not None:
             all_students[i[0]] = [result[0],'Present']
