@@ -1346,12 +1346,20 @@ def API_get_student_list():
     query = "SELECT student_id from student_slots WHERE slot_id="+str(class_id)
     cur.execute(query)
     records = cur.fetchall()
+    mydate = datetime.datetime.now()
+    mydate = mydate.strftime("%d/%m/%Y %A")
     all_students = {}
     for i in records:
         studentQuery = "SELECT name from enrollment WHERE id="+str(i[0])
         cur.execute(studentQuery)
         result = cur.fetchone()
-        all_students[i[0]] = result[0]
+
+        attendance = "SELECT id from attendance WHERE student_id="+str(i[0])+" AND date_and_day='"+mydate+"'"
+        res = cur.fetchone()
+        if res is not None:
+            all_students[i[0]] = [result[0],'Present']
+        else:
+            all_students[i[0]] = [result[0], 'Absent']
     return jsonify({"students": all_students})
 
 @app.route("/API_mark_attendance", methods=['GET','POST'])
