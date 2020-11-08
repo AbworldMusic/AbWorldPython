@@ -1372,7 +1372,7 @@ def API_mark_attendance():
             return jsonify({"message": "success","marked":"Absent"})
         else:
             query = "INSERT into attendance (slot_id, date_and_day, student_id, faculty_id) values("+ \
-                    str(slot_id)+ ",'" +str(date_and_day)+ "'," +str(student_id)+ ","+str(faculty_id)
+                    str(slot_id)+ ",'" +str(date_and_day)+ "'," +str(student_id)+ ","+str(faculty_id)+")"
             cur.execute(query)
             mysql.connection.commit()
             return jsonify({"message":"success", "marked":"Present"})
