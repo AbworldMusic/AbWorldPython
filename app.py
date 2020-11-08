@@ -1354,6 +1354,29 @@ def API_get_student_list():
         all_students[i[0]] = result[0]
     return jsonify({"students": all_students})
 
+@app.route("/API_mark_attendance", methods=['GET','POST'])
+def API_mark_attendance():
+    if request.method=="POST":
+        student_id = request.form['student_id']
+        faculty_id = request.form['faculty_id']
+        slot_id = request.form['slot_id']
+        date_and_day = request.form['date_and_day']
+        cur = mysql.connection.cursor()
+        check = "SELECT id from attendance WHERE student_id="+str(student_id)+" AND date_and_day='"+str(date_and_day)+"'"
+        cur.execute(check)
+        res = cur.fetchone()
+        if len(res) > 0:
+            query = "DELETE from attendance WHERE id="+str(res[0])
+            cur.execute(query)
+            mysql.connection.commit()
+            return jsonify({"message": "success","marked":"Absent"})
+        else:
+            query = "INSERT into attendance (slot_id, date_and_day, student_id, faculty_id) values("+ \
+                    str(slot_id)+ ",'" +str(date_and_day)+ "'," +str(student_id)+ ","+str(faculty_id)
+            cur.execute(query)
+            mysql.connection.commit()
+            return jsonify({"message":"success", "marked":"Present"})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
