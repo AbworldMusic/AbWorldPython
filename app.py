@@ -1365,7 +1365,7 @@ def API_mark_attendance():
         check = "SELECT id from attendance WHERE student_id="+str(student_id)+" AND date_and_day='"+str(date_and_day)+"'"
         cur.execute(check)
         res = cur.fetchone()
-        if len(res) > 0:
+        if res is not None:
             query = "DELETE from attendance WHERE id="+str(res[0])
             cur.execute(query)
             mysql.connection.commit()
