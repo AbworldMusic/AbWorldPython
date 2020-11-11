@@ -1386,6 +1386,26 @@ def API_mark_attendance():
             mysql.connection.commit()
             return jsonify({"message":"success", "marked":"Present"})
 
+@app.route("/API_promote_to_next_lesson", methods=['GET','POST'])
+def API_promote_to_next_lesson():
+    if request.method=="POST":
+        id = request.form['student_id']
+        current_lesson = "SELECT lesson_id from progress WHERE student_id="+str(id)
+        cur = mysql.connection.cursor()
+        cur.execute(current_lesson)
+        res = cur.fetchone()
+        current_lesson_id = str(res[0])
+        next_lesson = "SELECT id from lessons WHERE id>"+str(current_lesson_id)+" LIMIT 1"
+        cur.execute(next_lesson)
+        res = cur.fetchone()
+        if res is not None:
+            next_lesson_id = str(res[0])
+            update_lessons = "UPDATE progress SET lesson_id="+str(next_lesson_id)+" WHERE student_id="+str(id)
+            cur.execute(update_lessons)
+            mysql.connection.commit()
+            return jsonify({"message":"Student lesson updated successfully"})
+        else:
+            return jsonify({"message":"Student already on last lesson"})
 
 if __name__ == '__main__':
     app.run(debug=True)
