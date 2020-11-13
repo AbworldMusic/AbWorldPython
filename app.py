@@ -1355,7 +1355,7 @@ def API_get_student_list():
         cur.execute(studentQuery)
         result = cur.fetchone()
 
-        attendance = "SELECT id from attendance WHERE student_id="+str(i[0])+" AND date_and_day LIKE'"+mydate+"'"
+        attendance = "SELECT id from attendance WHERE student_id="+str(i[0])+" AND date_and_day LIKE '%"+mydate+"%'"
         cur.execute(attendance)
         res = cur.fetchone()
         if res is not None:
