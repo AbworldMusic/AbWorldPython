@@ -1349,6 +1349,7 @@ def API_get_student_list():
     mydate = datetime.datetime.now()
     mydate = mydate.strftime("%d/%m/%Y %A")
     all_students = {}
+    class_completed = False
     for i in records:
         studentQuery = "SELECT name from enrollment WHERE id="+str(i[0])
         cur.execute(studentQuery)
@@ -1358,10 +1359,11 @@ def API_get_student_list():
         cur.execute(attendance)
         res = cur.fetchone()
         if res is not None:
+            class_completed = True
             all_students[i[0]] = [result[0],'Present']
         else:
             all_students[i[0]] = [result[0], 'Absent']
-    return jsonify({"students": all_students})
+    return jsonify({"students": all_students, "class_completed": class_completed})
 
 @app.route("/API_mark_attendance", methods=['GET','POST'])
 def API_mark_attendance():
@@ -1406,6 +1408,34 @@ def API_promote_to_next_lesson():
             return jsonify({"message":"Student lesson updated successfully"})
         else:
             return jsonify({"message":"Student already on last lesson"})
+
+@app.route("/API_class_actions", methods=['GET','POST'])
+def API_class_actions():
+    if request.method=="POST":
+        student_id = request.form['student_id']
+        faculty_id = request.form['faculty_id']
+        slot_id = request.form['slot_id']
+        date_and_day = request.form['date_and_day']
+        status = request.form['status']
+        cur = mysql.connection.cursor()
+        query = "INSERT into attendance (slot_id, date_and_day, student_id, faculty_id) values(" + \
+                str(slot_id) + ",'" + str(date_and_day) + "'," + str(student_id) + "," + str(faculty_id) + ")"
+        cur.execute(query)
+        if status == "Promote":
+            current_lesson = "SELECT lesson_id from progress WHERE student_id=" + str(student_id)
+            cur.execute(current_lesson)
+            res = cur.fetchone()
+            current_lesson_id = str(res[0])
+            next_lesson = "SELECT id from lessons WHERE id>" + str(current_lesson_id) + " LIMIT 1"
+            cur.execute(next_lesson)
+            res = cur.fetchone()
+            if res is not None:
+                next_lesson_id = str(res[0])
+                update_lessons = "UPDATE progress SET lesson_id=" + str(next_lesson_id) + " WHERE student_id=" + str(student_id)
+                cur.execute(update_lessons)
+        mysql.connection.commit()
+        return jsonify({"message": "success"})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
