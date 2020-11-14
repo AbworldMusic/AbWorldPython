@@ -1171,7 +1171,7 @@ def API_reset_password():
         password = request.form['password']
         cur = mysql.connection.cursor()
         password = hashlib.sha3_256(password.encode()).hexdigest()
-        query = "UPDATE enrolment SET password='"+password+"' WHERE id="+id
+        query = "UPDATE enrollment SET password='"+password+"' WHERE id="+id
         cur.execute(query)
         mysql.connection.commit()
         return jsonify({"message":"success"})
