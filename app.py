@@ -1113,9 +1113,10 @@ def API_login():
     if request.method == "POST":
         userID = request.form["id"]
         password = request.form['password']
+        password = hashlib.sha3_256(password.encode()).hexdigest()
         if 'ABSTAFF' in userID:
             userID = userID.replace("ABSTAFF","")
-            password = hashlib.sha3_256(password.encode()).hexdigest()
+
             query = "SELECT id, fullname, role, password FROM users WHERE fullname='" + userID + "' OR email='" + userID + "'"
             cur = mysql.connection.cursor()
             cur.execute(query)
@@ -1132,26 +1133,49 @@ def API_login():
                     "message": "Login failed for staff",
                 })
         else:
-            query = "SELECT name, age, instrument, course from enrollment WHERE id="+str(userID)
+
+            userID = userID.replace("WOMSTU","")
+            query = "SELECT name, age, instrument, course, password from enrollment WHERE id="+str(userID)
             cur = mysql.connection.cursor()
             cur.execute(query)
             result = cur.fetchone()
             if result is not None:
-                return jsonify({
-                    "message": "Login successful",
-                    "id": userID,
-                    "role": "Student",
-                    "name": result[0],
-                    "age": result[1],
-                    "instrument": result[2],
-                    "course": result[3]
-                })
+                if result[4]=="unset":
+                    return jsonify({
+                        "message": "Password unset",
+                        "id": userID,
+                        "role": "Student"
+                    })
+                elif password == result[4]:
+                    return jsonify({
+                        "message": "Login successful",
+                        "id": userID,
+                        "role": "Student",
+                        "name": result[0],
+                        "age": result[1],
+                        "instrument": result[2],
+                        "course": result[3]
+                    })
             else:
                 return jsonify({
                     "message": "Login failed",
                 })
     else:
         return "Hello"
+
+
+@app.route("/API_reset_password", methods=['GET', 'POST'])
+def API_reset_password():
+    if request.method=="POST":
+        id = request.form['id']
+        password = request.form['password']
+        cur = mysql.connection.cursor()
+        password = hashlib.sha3_256(password.encode()).hexdigest()
+        query = "UPDATE enrolment SET password='"+password+"' WHERE id="+id
+        cur.execute(query)
+        mysql.connection.commit()
+        return jsonify({"message":"success"})
+
 @app.route("/API_get_class_details", methods=["GET"])
 def API_get_next_class():
     if request.method == "GET":
