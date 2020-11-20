@@ -426,6 +426,10 @@ def markFeePaid():
         query = "UPDATE enrollment SET fee_month='" + month + "', last_fee_paid_date='" + date + "' WHERE id=" + id
         cur = mysql.connection.cursor()
         cur.execute(query)
+        date = mydate.strftime("%d/%m/%Y %I:%M %p")
+        pr_name = "Fees for "+mydate.strftime("%B")
+        query = "INSERT into sales (student_id, date, product_name) values ("+id+",'"+date+"','"+pr_name+"')"
+        cur.execute(query)
         mysql.connection.commit()
         flash("Fee paid", "success")
         return redirect("/payment")
@@ -1116,7 +1120,6 @@ def API_login():
         password = hashlib.sha3_256(password.encode()).hexdigest()
         if 'ABSTAFF' in userID:
             userID = userID.replace("ABSTAFF","")
-
             query = "SELECT id, fullname, role, password FROM users WHERE fullname='" + userID + "' OR email='" + userID + "'"
             cur = mysql.connection.cursor()
             cur.execute(query)
