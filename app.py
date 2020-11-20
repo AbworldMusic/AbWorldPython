@@ -1415,6 +1415,19 @@ def API_mark_attendance():
             mysql.connection.commit()
             return jsonify({"message":"success", "marked":"Present"})
 
+@app.route("/API_fees", methods=['POST'])
+def API_fees():
+    if request.method=="POST":
+        id = request.form['id']
+        cur = mysql.connection.cursor()
+        query = "SELECT date, product_name from sales where student_id="+id
+        cur.execute(query)
+        res = cur.fetchall()
+        records = []
+        for i in res:
+            records.append({"name": i[1], "date": i[0]})
+        return jsonify(records)
+
 @app.route("/API_promote_to_next_lesson", methods=['GET','POST'])
 def API_promote_to_next_lesson():
     if request.method=="POST":
