@@ -426,9 +426,21 @@ def markFeePaid():
         query = "UPDATE enrollment SET fee_month='" + month + "', last_fee_paid_date='" + date + "' WHERE id=" + id
         cur = mysql.connection.cursor()
         cur.execute(query)
+        query = "SELECT course from enrollment WHERE id="+id
+        cur.execute(query)
+        res = cur.fetchone()
+        course = res[0]
+        fee = ""
+        if course=="Intermediate":
+            fee = 1000
+        elif course == "Hobby":
+            fee = 500
+        elif course == "Advanced":
+            fee = 1500
+
         date = mydate.strftime("%d/%m/%Y %I:%M %p")
         pr_name = "Fees for "+mydate.strftime("%B")
-        query = "INSERT into sales (student_id, date, product_name) values ("+id+",'"+date+"','"+pr_name+"')"
+        query = "INSERT into sales (student_id, date, product_name, product_price) values ("+id+",'"+date+"','"+pr_name+"','"+str(fee)+"')"
         cur.execute(query)
         mysql.connection.commit()
         flash("Fee paid", "success")
@@ -1420,12 +1432,12 @@ def API_fees():
     if request.method=="POST":
         id = request.form['id']
         cur = mysql.connection.cursor()
-        query = "SELECT date, product_name from sales where student_id="+id
+        query = "SELECT date, product_name, product_price from sales where student_id="+id
         cur.execute(query)
         res = cur.fetchall()
         records = []
         for i in res:
-            records.append({"name": i[1], "date": i[0]})
+            records.append({"name": i[1], "date": i[0], "price": i[2]})
         return jsonify(records)
 
 @app.route("/API_promote_to_next_lesson", methods=['GET','POST'])
