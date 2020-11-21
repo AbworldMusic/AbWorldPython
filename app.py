@@ -439,7 +439,7 @@ def markFeePaid():
             fee = 1500
 
         date = mydate.strftime("%d/%m/%Y %I:%M %p")
-        pr_name = "Fees for "+mydate.strftime("%B")
+        pr_name = "Fees for "+ month
         query = "INSERT into sales (student_id, date, product_name, product_price) values ("+id+",'"+date+"','"+pr_name+"','"+str(fee)+"')"
         cur.execute(query)
         mysql.connection.commit()
