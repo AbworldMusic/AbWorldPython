@@ -446,7 +446,16 @@ def markFeePaid():
         flash("Fee paid", "success")
         return redirect("/payment")
 
-
+@app.route("/API_facultyStatus", methods=['GET', 'POST'])
+def facultyStatus():
+    if request.method=="GET":
+        id = request.args['id']
+        query = "SELECT type from arrival_logs WHERE user_id="+str(id)+" LIMIT 1 ORDER BY id DESC"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        res = cur.fetchone()
+        return jsonify({"status": res})
+    
 @app.route("/getStatus", methods=['GET', 'POST'])
 def getStatus():
     id = request.form['id']
