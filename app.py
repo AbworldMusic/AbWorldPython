@@ -450,12 +450,12 @@ def markFeePaid():
 def facultyStatus():
     if request.method=="GET":
         id = request.args['id']
-        query = "SELECT type from arrival_logs WHERE user_id="+str(id)+" LIMIT 1 ORDER BY id DESC"
+        query = "SELECT type from arrival_logs WHERE user_id="+str(id)+" ORDER BY id DESC LIMIT 1 "
         cur = mysql.connection.cursor()
         cur.execute(query)
         res = cur.fetchone()
         return jsonify({"status": res})
-    
+
 @app.route("/getStatus", methods=['GET', 'POST'])
 def getStatus():
     id = request.form['id']
