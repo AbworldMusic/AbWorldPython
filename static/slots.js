@@ -75,5 +75,57 @@ $("th").on("click", function(){
             }
         }
     }
+    if(filter=="gender"){
+        names = [];
+        nameElements = $(".gender")
+        for(i=0;i<nameElements.length;i++){
+            names.push($(nameElements[i]).text().trim())
+        }
+        names.sort();
+        $("tbody").empty();
+
+        for(i=0;i<names.length;i++){
+            for(j=0;j<backup.length;j++){
+                if(names[i].toString().trim()==$(backup[j]).find('.gender').text().trim()){
+                    $("tbody").append($(backup[j]))
+                }
+            }
+        }
+    }
+    if(filter=="instrument"){
+        names = [];
+        nameElements = $(".instrument")
+        for(i=0;i<nameElements.length;i++){
+            names.push($(nameElements[i]).text().trim())
+        }
+        names.sort();
+        $("tbody").empty();
+
+        for(i=0;i<names.length;i++){
+            for(j=0;j<backup.length;j++){
+                if(names[i].toString().trim()==$(backup[j]).find('.instrument').text().trim()){
+                    $("tbody").append($(backup[j]))
+                }
+            }
+        }
+    }
+    if(filter=="course"){
+        names = [];
+        nameElements = $(".course")
+        for(i=0;i<nameElements.length;i++){
+            names.push($(nameElements[i]).text().trim())
+        }
+        names.sort();
+        $("tbody").empty();
+
+        for(i=0;i<names.length;i++){
+            for(j=0;j<backup.length;j++){
+                if(names[i].toString().trim()==$(backup[j]).find('.course').text().trim()){
+                    $("tbody").append($(backup[j]))
+                }
+            }
+        }
+    }
+
 
 })
