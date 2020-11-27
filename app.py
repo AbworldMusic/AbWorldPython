@@ -474,17 +474,20 @@ def getStatus():
     feeMonth = time.strptime(str(month_number + 1), "%m")
     feeMonth = time.strftime("%B", feeMonth)
 
+    lastMonth = time.strptime(str(month_number), "%m")
+    lastMonth = time.strftime("%B", lastMonth)
+
     mydate = datetime.datetime.now()
     currentMonth = mydate.strftime("%B")
-    lastPayment = "SELECT date from sales WHERE student_id="+str(id)+" AND product_name like '%Fees for%' order by id LIMIT 1"
+    lastPayment = "SELECT date, product_name from sales WHERE student_id="+str(id)+" AND product_name like '%Fees for%' order by id LIMIT 1"
     cur.execute(lastPayment)
     res = cur.fetchone()
     if res is not None:
-        lastPayment  = res[0]
+        lastPayment  = res[0]+" ("+res[1]+")"
     else:
         lastPayment = ""
 
-    if currentMonth == feeMonth:
+    if currentMonth == lastMonth:
         status = "Paid"
     else:
         status = "Due"
