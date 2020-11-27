@@ -479,7 +479,10 @@ def getStatus():
     lastPayment = "SELECT date from sales WHERE student_id="+str(id)+" AND product_name like '%Fees for%' order by id LIMIT 1"
     cur.execute(lastPayment)
     res = cur.fetchone()
-    lastPayment  = res[0]
+    if res is not None:
+        lastPayment  = res[0]
+    else:
+        lastPayment = ""
 
     if currentMonth == feeMonth:
         status = "Paid"
