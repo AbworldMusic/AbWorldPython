@@ -55,15 +55,15 @@ World of Music | Students
                     <tbody>
                     {% for i in data %}
                     <tr>
-                        <td>{{i['id']}}</td>
+                        <td class="id">{{i['id']}}</td>
                         <td>
-                            <a href="/student_dashboard?id={{i['id']}}">
+                            <a class="name" href="/student_dashboard?id={{i['id']}}">
                                 {{i['name']}}
                             </a>
                         </td>
-                        <td>{{i['gender']}}</td>
-                        <td>{{i['instrument']}}</td>
-                        <td>{{i['course']}}</td>
+                        <td class="gender">{{i['gender']}}</td>
+                        <td class="instrument">{{i['instrument']}}</td>
+                        <td class="course">{{i['course']}}</td>
                     </tr>
                     {% endfor %}
                     </tbody>

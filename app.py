@@ -605,7 +605,7 @@ def delete_item():
 @app.route("/students", methods=['GET', 'POST'])
 def students():
     if request.method == "GET":
-        query = "SELECT id, name, gender, instrument, course from enrollment"
+        query = "SELECT id, name, gender, instrument, course from enrollment order by id"
         cur = mysql.connection.cursor()
         cur.execute(query)
         results = cur.fetchall()
