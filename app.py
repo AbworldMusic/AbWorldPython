@@ -474,12 +474,20 @@ def getStatus():
 
     feeMonth = time.strptime(str(month_number + 1), "%m")
     feeMonth = time.strftime("%B", feeMonth)
-    if last_fee_paid == feeMonth:
+
+    mydate = datetime.datetime.now()
+    currentMonth = mydate.strftime("%m")
+    lastPayment = "SELECT date from sales WHERE student_id="+str(id)+" AND date like '%Fees for%' order by id LIMIT 1"
+    cur.execute(lastPayment)
+    res = cur.fetchone()
+    lastPayment  = res[0]
+
+    if currentMonth == feeMonth:
         status = "Paid"
     else:
         status = "Due"
 
-    return jsonify({"name": name, "status": status, "month": feeMonth})
+    return jsonify({"name": name, "status": status, "month": feeMonth, "lastPayment": lastPayment})
 
 
 @app.route("/dashboard", methods=["GET"])

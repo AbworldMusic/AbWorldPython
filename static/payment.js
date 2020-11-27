@@ -27,6 +27,7 @@ $(".check-status").click(function(){
           $(".name").html(data['name'])
           $(".status").html(data['status'])
           $(".month").text(data['month'])
+          $(".lastPayment").text(data['lastPayment'])
           $("#feeMonth").val(data['month'])
           if(data['status']=="Due"){
             $(".received").removeClass("d-none")
