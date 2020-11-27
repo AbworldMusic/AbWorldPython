@@ -477,7 +477,7 @@ def getStatus():
 
     mydate = datetime.datetime.now()
     currentMonth = mydate.strftime("%m")
-    lastPayment = "SELECT date from sales WHERE student_id="+str(id)+" AND date like '%Fees for%' order by id LIMIT 1"
+    lastPayment = "SELECT date from sales WHERE student_id="+str(id)+" AND product_name like '%Fees for%' order by id LIMIT 1"
     cur.execute(lastPayment)
     res = cur.fetchone()
     lastPayment  = res[0]
