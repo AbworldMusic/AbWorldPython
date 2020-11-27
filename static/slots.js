@@ -41,17 +41,18 @@ $("th").on("click", function(){
     var filter = $(this).text().toLowerCase();
 
     backup = $("tr")
-    $("tbody").empty();
     if(filter=="id"){
         ids = [];
         idElements = $(".id")
         for(i=0;i<idElements.length;i++){
-            ids.push(idElements[i].innerHTML)
+            ids.push(parseInt(idElements[i].innerHTML))
         }
-        ids.sort();
+        ids.sort(function(a, b){return a-b});
+        $("tbody").empty();
+
         for(i=0;i<ids.length;i++){
             for(j=0;j<backup.length;j++){
-                if(ids[i].toString()==$(backup[j]).find('.id').text()){
+                if(ids[i].toString().trim()==$(backup[j]).find('.id').text().trim()){
                     $("tbody").append($(backup[j]))
                 }
             }
@@ -61,12 +62,14 @@ $("th").on("click", function(){
         names = [];
         nameElements = $(".name")
         for(i=0;i<nameElements.length;i++){
-            names.push($(nameElements[i]).find("a").text())
+            names.push($(nameElements[i]).text().trim())
         }
         names.sort();
+        $("tbody").empty();
+
         for(i=0;i<names.length;i++){
             for(j=0;j<backup.length;j++){
-                if(names[i].toString()==$(backup[j]).find('.name').text()){
+                if(names[i].toString().trim()==$(backup[j]).find('.name').text().trim()){
                     $("tbody").append($(backup[j]))
                 }
             }
