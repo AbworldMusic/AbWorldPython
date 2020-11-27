@@ -7,7 +7,6 @@ from time import mktime
 import os
 import hashlib
 import time
-
 app = Flask(__name__)
 # Sql setup
 app.config['MYSQL_HOST'] = 'localhost'
@@ -476,7 +475,7 @@ def getStatus():
     feeMonth = time.strftime("%B", feeMonth)
 
     mydate = datetime.datetime.now()
-    currentMonth = mydate.strftime("%m")
+    currentMonth = mydate.strftime("%B")
     lastPayment = "SELECT date from sales WHERE student_id="+str(id)+" AND product_name like '%Fees for%' order by id LIMIT 1"
     cur.execute(lastPayment)
     res = cur.fetchone()
