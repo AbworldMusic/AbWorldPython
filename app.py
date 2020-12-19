@@ -187,7 +187,18 @@ def enrollment():
         for i in slots:
             slotQuery = "INSERT into student_slots(student_id, slot_id) values(" + str(id[0]) + "," + str(i) + ")"
             cur.execute(slotQuery)
-            mysql.connection.commit()
+
+        # Update sales
+        fee = ""
+        if course == "Intermediate":
+            fee = 1500
+        elif course == "Hobby":
+            fee = 1000
+        elif course == "Advanced":
+            fee = 2000
+        salesQuery = "INSERT into sales (student_id, date, product_name, product_price) values (" + link_id + ",'" + last_fee_paid_date + "','Fees for enrollment','" + str(fee) + "')"
+        cur.execute(salesQuery)
+        mysql.connection.commit()
         return redirect('/enrollment?type=student')
 
 
@@ -431,11 +442,11 @@ def markFeePaid():
         course = res[0]
         fee = ""
         if course=="Intermediate":
-            fee = 1000
-        elif course == "Hobby":
-            fee = 500
-        elif course == "Advanced":
             fee = 1500
+        elif course == "Hobby":
+            fee = 1000
+        elif course == "Advanced":
+            fee = 2000
 
         date = mydate.strftime("%d/%m/%Y %I:%M %p")
         pr_name = "Fees for "+ month
@@ -1297,11 +1308,17 @@ def API_community_post():
 def API_community_get():
     if request.method == "GET":
         user_id = request.args['user_id']
-        query = "SELECT * FROM community order by id DESC"
+        if "id" in request.form:
+            id = request.form['id']
+            query = "SELECT * FROM community WHERE id > "+str(id)+" order by id DESC LIMIT 5"
+        else:
+            query = "SELECT * FROM community order by id DESC LIMIT 5"
         cur = mysql.connection.cursor()
         cur.execute(query)
         results = cur.fetchall()
         all_posts = []
+        if len(results)==0:
+            return jsonify({"message":"No more post"})
         for i in results:
             record = {"id": i[0], 'user_id': i[1], 'caption': i[2], 'date': i[3]}
             userQuery = "SELECT name from enrollment WHERE id="+str(record['user_id'])
