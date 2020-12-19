@@ -1310,7 +1310,7 @@ def API_community_get():
         user_id = request.args['user_id']
         if "id" in request.args:
             id = request.args['id']
-            query = "SELECT * FROM community WHERE id > "+str(id)+" order by id DESC LIMIT 5"
+            query = "SELECT * FROM community WHERE id < "+str(id)+" order by id DESC LIMIT 5"
         else:
             query = "SELECT * FROM community order by id DESC LIMIT 5"
         cur = mysql.connection.cursor()
