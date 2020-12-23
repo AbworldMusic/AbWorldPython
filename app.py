@@ -672,6 +672,29 @@ def student_dashboard():
             return render_template("student_dashboard.html", data=data, image=image)
 
 
+@app.route("/studioSessions", methods=['GET','POST'])
+def studioSessions():
+    if request.method=="GET":
+        return render_template("studio_sessions.html")
+    else:
+        student_id  = request.form['student_id']
+        scheduled_on = request.form['scheduled_on']
+        song = request.form['song']
+        details = request.form['details']
+        cur = mysql.connection.cursor()
+        checkStudent = "SELECT * from enrollment WHERE id="+str(student_id)
+        cur.execute(checkStudent)
+        res = cur.fetchall()
+        if res is None or len(res)==0:
+            flash("Student id not found", "danger")
+            return redirect("/studioSessions")
+
+        query = "INSERT into studio (student_id, scheduled_on, song, details) values ("+str(student_id)+",'"+scheduled_on+"','"+song+"','"+details+"')"
+        cur.execute(query)
+        mysql.connection.commit()
+        flash("Studio session scheduled successfully", "success")
+        return redirect('/studioSessions')
+
 @app.route("/lessonPlan", methods=['GET'])
 def lessonPlan():
     if request.method == "GET":
