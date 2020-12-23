@@ -1552,6 +1552,41 @@ def API_class_actions():
         mysql.connection.commit()
         return jsonify({"message": "success"})
 
+@app.route("/API_studio_sessions", methods=['GET'])
+def API_studio_sessions():
+    if request.method=='GET':
+        id = request.args['id']
+        query = 'SELECT scheduled_on, song, details, completed from studio WHERE student_id='+str(id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        records = []
+        res = cur.fetchall()
+        if res is not None:
+            for i in res:
+                records.append({"scheduled_on": i[0],"song": i[1], "details": i[2], "completed": i[3]})
+        return jsonify(records)
+
+@app.route("/API_current_lesson", methods=['GET'])
+def API_current_lesson():
+    id = request.args['id']
+    current_lesson = "SELECT lesson_id from progress WHERE student_id=" + str(id)
+    cur = mysql.connection.cursor()
+    cur.execute(current_lesson)
+    res = cur.fetchone()
+    if res is not None:
+        lesson_id = res[0]
+        lessonQuery = "SELECT title, description, image, level from lessons WHEE id="+str(lesson_id)
+        cur.execute(current_lesson)
+        res = cur.fetchone()
+        if res is not None:
+            return jsonify({"title": res[0], "description": res[1], "image": res[2], "level": res[3]})
+        else:
+            return jsonify({})
+    else:
+        return jsonify({})
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
