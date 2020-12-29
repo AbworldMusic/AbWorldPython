@@ -1578,7 +1578,7 @@ def API_current_lesson():
     if res is not None:
         lesson_id = res[0]
         lessonQuery = "SELECT title, description, image, level from lessons WHEE id="+str(lesson_id)
-        cur.execute(current_lesson)
+        cur.execute(lessonQuery)
         res = cur.fetchone()
         if res is not None:
             return jsonify({"title": res[0], "description": res[1], "image": res[2], "level": res[3]})
