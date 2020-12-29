@@ -198,6 +198,14 @@ def enrollment():
             fee = 2000
         salesQuery = "INSERT into sales (student_id, date, product_name, product_price) values (" + link_id + ",'" + last_fee_paid_date + "','Fees for enrollment','" + str(fee) + "')"
         cur.execute(salesQuery)
+
+        # Update students lesson
+        lessonQuery = "SELECT id from lessons WHERE category='"+instrument+"' ORDER BY id ASC LIMIT 1"
+        cur.execute(lessonQuery)
+        res = cur.fetchone()
+        if res is not None:
+            updateLesson = "INSERT into progress (student_id, lesson_id) values ("+link_id+","+str(res[0])+")"
+            cur.execute(updateLesson)
         mysql.connection.commit()
         return redirect('/enrollment?type=student')
 
@@ -1577,7 +1585,7 @@ def API_current_lesson():
     res = cur.fetchone()
     if res is not None:
         lesson_id = res[0]
-        lessonQuery = "SELECT title, description, image, level from lessons WHEE id="+str(lesson_id)
+        lessonQuery = "SELECT title, description, image, level from lessons WHERE id="+str(lesson_id)
         cur.execute(lessonQuery)
         res = cur.fetchone()
         if res is not None:
