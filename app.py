@@ -459,8 +459,10 @@ def markFeePaid():
 @app.route("/API_facultyStatus", methods=['GET', 'POST'])
 def facultyStatus():
     if request.method=="GET":
+        mydate = datetime.datetime.now()
+        date = mydate.strftime("%d/%m/%Y")
         id = request.args['id']
-        query = "SELECT type from arrival_logs WHERE user_id="+str(id)+" ORDER BY id DESC LIMIT 1 "
+        query = "SELECT type from arrival_logs WHERE user_id="+str(id)+" AND time LIKE '%"+ date +"%' ORDER BY id DESC LIMIT 1"
         cur = mysql.connection.cursor()
         cur.execute(query)
         res = cur.fetchone()
