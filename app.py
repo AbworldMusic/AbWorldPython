@@ -1566,7 +1566,7 @@ def API_class_actions():
 def API_studio_sessions():
     if request.method=='GET':
         id = request.args['id']
-        query = 'SELECT scheduled_on, song, details, completed from studio WHERE student_id='+str(id)
+        query = "SELECT song, details, scheduled_on, completed from studio WHERE student_id="+str(id)
         cur = mysql.connection.cursor()
         cur.execute(query)
         records = []
