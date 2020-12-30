@@ -489,14 +489,15 @@ def getStatus():
     last_fee_paid = last_fee_paid[1]
 
     month_number = time.strptime(last_fee_paid, "%B").tm_mon
+    lastMonth = time.strptime(str(month_number), "%m")
+    lastMonth = time.strftime("%B", lastMonth)
     if month_number == 12:
         month_number = 0
 
     feeMonth = time.strptime(str(month_number + 1), "%m")
     feeMonth = time.strftime("%B", feeMonth)
 
-    lastMonth = time.strptime(str(month_number), "%m")
-    lastMonth = time.strftime("%B", lastMonth)
+
 
     mydate = datetime.datetime.now()
     currentMonth = mydate.strftime("%B")
