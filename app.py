@@ -204,7 +204,7 @@ def enrollment():
         cur.execute(lessonQuery)
         res = cur.fetchone()
         if res is not None:
-            updateLesson = "INSERT into progress (student_id, lesson_id) values ("+link_id+","+str(res[0])+")"
+            updateLesson = "INSERT into progress (student_id, lesson_id) values ("+str(link_id)+","+str(res[0])+")"
             cur.execute(updateLesson)
         mysql.connection.commit()
         return redirect('/enrollment?type=student')
