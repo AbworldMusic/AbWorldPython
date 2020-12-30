@@ -196,7 +196,7 @@ def enrollment():
             fee = 1000
         elif course == "Advanced":
             fee = 2000
-        salesQuery = "INSERT into sales (student_id, date, product_name, product_price) values (" + link_id + ",'" + last_fee_paid_date + "','Fees for enrollment','" + str(fee) + "')"
+        salesQuery = "INSERT into sales (student_id, date, product_name, product_price) values (" + str(link_id) + ",'" + last_fee_paid_date + "','Fees for enrollment','" + str(fee) + "')"
         cur.execute(salesQuery)
 
         # Update students lesson
