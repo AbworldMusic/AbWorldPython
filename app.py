@@ -1566,14 +1566,14 @@ def API_class_actions():
 def API_studio_sessions():
     if request.method=='GET':
         id = request.args['id']
-        query = "SELECT song, details, scheduled_on, completed from studio WHERE student_id="+str(id)
+        query = "SELECT song, details, scheduled_on, completed from studio WHERE student_id="+str(id)+" ORDER by id"
         cur = mysql.connection.cursor()
         cur.execute(query)
         records = []
         res = cur.fetchall()
         if res is not None:
             for i in res:
-                records.append({"scheduled_on": i[0],"song": i[1], "details": i[2], "completed": i[3]})
+                records.append({"song": i[0],"details": i[1], "scheduled": i[2], "completed": i[3]})
         return jsonify(records)
 
 @app.route("/API_current_lesson", methods=['GET'])
