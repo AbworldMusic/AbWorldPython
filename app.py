@@ -1619,11 +1619,12 @@ def new_enquiry():
     query  = "INSERT into leads (name, phone, email, enquiry_for, note) values('"+name+"','"+phone+"','"+email+"','"+instrument+" "+course+"','"+goal+"')"
     cur.execute(query)
     mysql.connection.commit()
+    id = cur.lastrowid
     waitingListQuery = "SELECT COUNT(id) from leads where closed=0"
     cur.execute(waitingListQuery)
     count = cur.fetchone()
     if count[0]!=0:
-        return jsonify({"message": "success","type": "new", "id": cur.lastrowid, "queue_no": count})
+        return jsonify({"message": "success","type": "new", "id": id, "queue_no": count})
     else:
         return jsonify({"message": "success"})
 
