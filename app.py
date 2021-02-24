@@ -1610,7 +1610,7 @@ def new_enquiry():
     checkQuery = "SELECT COUNT(id), id, closed from leads where phone='"+phone+"'"
     cur.execute(checkQuery)
     count = cur.fetchone()
-    if count is not None:
+    if count[0]!=0:
         if bool(count[2]):
             return jsonify({"message": "success", "type": "closed", "id": count[1], "queue_no": count[0]})
         else:
@@ -1622,7 +1622,7 @@ def new_enquiry():
     waitingListQuery = "SELECT COUNT(id) from leads where closed=0"
     cur.execute(waitingListQuery)
     count = cur.fetchone()
-    if count is not None:
+    if count[0]!=0:
         return jsonify({"message": "success","type": "new", "id": cur.lastrowid, "queue_no": count})
     else:
         return jsonify({"message": "success"})
