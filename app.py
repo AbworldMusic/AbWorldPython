@@ -1597,7 +1597,34 @@ def API_current_lesson():
         return jsonify({})
 
 
+@app.route("/API_new_enquiry", methods=['POST'])
+def new_enquiry():
+    name = request.form["name"]
+    phone = request.form["phone"]
+    course = request.form["course"]
+    instrument = request.form['instrument']
+    goal = request.form["goal"]
 
+    cur = mysql.connection.cursor()
+    checkQuery = "SELECT COUNT(id), id, closed from enquiries where phone='"+phone+"'"
+    cur.execute(checkQuery)
+    count = cur.fetchone()
+    if len(count)>1:
+        if bool(count[2]):
+            return jsonify({"message": "success", "type": "closed", "id": cur[1], "queue_no": count[0]})
+        else:
+            return jsonify({"message": "success", "type": "old", "id": cur[1], "queue_no": count[0]})
+
+    query  = "INSERT into enquiries (name, phone, course, instrument, goal) values('"+name+"','"+phone+"','"+course+"','"+instrument+"','"+goal+"')"
+    cur.execute(query)
+    mysql.connection.commit()
+    waitingListQuery = "SELECT COUNT(id) from enquiries where closed=0"
+    cur.execute(waitingListQuery)
+    count = cur.fetchone()
+    if len(count)>0:
+        return jsonify({"message": "success","type": "new", "id": cur.lastrowid, "queue_no": count})
+    else:
+        return jsonify({"message": "success"})
 
 if __name__ == '__main__':
     app.run(debug=True)
