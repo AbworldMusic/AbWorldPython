@@ -1624,7 +1624,7 @@ def new_enquiry():
     cur.execute(waitingListQuery)
     count = cur.fetchone()
     if count[0]!=0:
-        return jsonify({"message": "success","type": "new", "id": id, "queue_no": count})
+        return jsonify({"message": "success","type": "new", "id": id, "queue_no": count[0]})
     else:
         return jsonify({"message": "success"})
 
