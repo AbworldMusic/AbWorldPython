@@ -1612,9 +1612,9 @@ def new_enquiry():
     count = cur.fetchone()
     if count is not None:
         if bool(count[2]):
-            return jsonify({"message": "success", "type": "closed", "id": cur[1], "queue_no": count[0]})
+            return jsonify({"message": "success", "type": "closed", "id": count[1], "queue_no": count[0]})
         else:
-            return jsonify({"message": "success", "type": "old", "id": cur[1], "queue_no": count[0]})
+            return jsonify({"message": "success", "type": "old", "id": count[1], "queue_no": count[0]})
 
     query  = "INSERT into leads (name, phone, email, enquiry_for, note) values('"+name+"','"+phone+"','"+email+"','"+instrument+" "+course+"','"+goal+"')"
     cur.execute(query)
