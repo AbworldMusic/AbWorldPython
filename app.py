@@ -1603,10 +1603,11 @@ def new_enquiry():
     phone = request.form["phone"]
     course = request.form["course"]
     instrument = request.form['instrument']
+    email = request.form['email']
     goal = request.form["goal"]
 
     cur = mysql.connection.cursor()
-    checkQuery = "SELECT COUNT(id), id, closed from enquiries where phone='"+phone+"'"
+    checkQuery = "SELECT COUNT(id), id, closed from leads where phone='"+phone+"'"
     cur.execute(checkQuery)
     count = cur.fetchone()
     if len(count)>1:
@@ -1615,10 +1616,10 @@ def new_enquiry():
         else:
             return jsonify({"message": "success", "type": "old", "id": cur[1], "queue_no": count[0]})
 
-    query  = "INSERT into enquiries (name, phone, course, instrument, goal) values('"+name+"','"+phone+"','"+course+"','"+instrument+"','"+goal+"')"
+    query  = "INSERT into leads (name, phone, email, enquiry_for, note) values('"+name+"','"+phone+"','"+email+"','"+instrument+" "+course+"','"+goal+"')"
     cur.execute(query)
     mysql.connection.commit()
-    waitingListQuery = "SELECT COUNT(id) from enquiries where closed=0"
+    waitingListQuery = "SELECT COUNT(id) from leads where closed=0"
     cur.execute(waitingListQuery)
     count = cur.fetchone()
     if len(count)>0:
