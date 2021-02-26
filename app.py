@@ -1247,17 +1247,17 @@ def API_forgot_password():
     cur = mysql.connection.cursor()
     studentQuery = "SELECT id from enrollment where phone='" + phone + "' AND email='" + email + "'"
     cur.execute(studentQuery)
-    result = cur.fetchOne()
+    result = cur.fetchone()
     if result is not None:
         return jsonify({"message": "success", "found_in":'enrollment', "id": result[0]})
     facultyQuery = "SELECT id from users where phone='" + phone + "' AND email='" + email + "'"
     cur.execute(facultyQuery)
-    result = cur.fetchOne()
+    result = cur.fetchone()
     if result is not None:
         return jsonify({"message": "success","found_in":'users', "id": result[0]})
     guestQuery = "SELECT id from leads where phone='" + phone + "' AND email='" + email + "'"
     cur.execute(guestQuery)
-    result = cur.fetchOne()
+    result = cur.fetchone()
     if result is not None:
         return jsonify({"message": "success","found_in":'leads', "id": result[0]})
 
