@@ -1226,7 +1226,7 @@ def API_login():
                 "name": result[1],
             })
 
-        guestQuery = "SELECT id, name, instrument, course from leads where phone='" + id + "' AND password='" + password + "'"
+        guestQuery = "SELECT id, name, enquiry_for from leads where phone='" + id + "' AND password='" + password + "'"
         cur.execute(guestQuery)
         result = cur.fetchone()
         if result is not None:
@@ -1260,7 +1260,7 @@ def API_forgot_password():
     result = cur.fetchone()
     if result is not None:
         return jsonify({"message": "success","found_in":'leads', "id": result[0]})
-
+    return jsonify({"message": "success","found_in": ""})
 
 
 @app.route("/API_reset_password", methods=['GET', 'POST'])
