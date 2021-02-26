@@ -1194,56 +1194,73 @@ def delete_user():
 @app.route("/api/API_login", methods=["GET","POST"])
 def API_login():
     if request.method == "POST":
-        userID = request.form["id"]
+        id = request.form["id"]
         password = request.form['password']
         password = hashlib.sha3_256(password.encode()).hexdigest()
-        if 'ABSTAFF' in userID:
-            userID = userID.replace("ABSTAFF","")
-            query = "SELECT id, fullname, role, password FROM users WHERE fullname='" + userID + "' OR email='" + userID + "'"
-            cur = mysql.connection.cursor()
-            cur.execute(query)
-            result = cur.fetchone()
-            if result is not None and password == result[3]:
-                return jsonify({
-                    "message": "Login successful",
-                    "id": result[0],
-                    "name": result[1],
-                    "role": result[2]
-                })
-            else:
-                return jsonify({
-                    "message": "Login failed for staff",
-                })
-        else:
 
-            userID = userID.replace("WOMSTU","")
-            query = "SELECT name, age, instrument, course, password from enrollment WHERE id="+str(userID)
-            cur = mysql.connection.cursor()
-            cur.execute(query)
-            result = cur.fetchone()
-            if result is not None:
-                if result[4]=="unset":
-                    return jsonify({
-                        "message": "Password unset",
-                        "id": userID,
-                        "role": "Student"
-                    })
-                elif password == result[4]:
-                    return jsonify({
-                        "message": "Login successful",
-                        "id": userID,
-                        "role": "Student",
-                        "name": result[0],
-                        "age": result[1],
-                        "instrument": result[2],
-                        "course": result[3]
-                    })
-            else:
-                return jsonify({
-                    "message": "Login failed",
-                })
-    else:
-        return "Hello"
+        cur = mysql.connection.cursor()
+
+        studentQuery = "SELECT id, name, age, instrument, course from enrollment where phone='"+id+"' AND password='"+password+"'"
+        cur.execute(studentQuery)
+        result = cur.fetchone()
+        if result is not None:
+            return jsonify({
+                "message": "success",
+                "id": result[0],
+                "role": "Student",
+                "name": result[1],
+                "age": result[2],
+                "instrument": result[3],
+                "course": result[4]
+            })
+
+
+        userQuery = "SELECT id, fullname, role from users where phone='"+id+"' AND password='"+password+"'"
+        cur.execute(userQuery)
+        result = cur.fetchone()
+        if result is not None:
+            return jsonify({
+                "message": "success",
+                "id": result[0],
+                "role": result[2],
+                "name": result[1],
+            })
+
+        guestQuery = "SELECT id, name, instrument, course from leads where phone='" + id + "' AND password='" + password + "'"
+        cur.execute(guestQuery)
+        result = cur.fetchone()
+        if result is not None:
+            return jsonify({
+                "message": "success",
+                "id": result[0],
+                "role": "Guest",
+                "name": result[1],
+                "instrument": result[2],
+                "course": result[3]
+            })
+
+
+@app.route("/API_forgot_password", methods=['POST'])
+def API_forgot_password():
+    phone = request.form['phone']
+    email = request.form['email']
+    cur = mysql.connection.cursor()
+    studentQuery = "SELECT id from enrollment where phone='" + phone + "' AND email='" + email + "'"
+    cur.execute(studentQuery)
+    result = cur.fetchOne()
+    if result is not None:
+        return jsonify({"message": "success", "found_in":'enrollment', "id": result[0]})
+    facultyQuery = "SELECT id from users where phone='" + phone + "' AND email='" + email + "'"
+    cur.execute(facultyQuery)
+    result = cur.fetchOne()
+    if result is not None:
+        return jsonify({"message": "success","found_in":'users', "id": result[0]})
+    guestQuery = "SELECT id from leads where phone='" + phone + "' AND email='" + email + "'"
+    cur.execute(guestQuery)
+    result = cur.fetchOne()
+    if result is not None:
+        return jsonify({"message": "success","found_in":'leads', "id": result[0]})
+
 
 
 @app.route("/API_reset_password", methods=['GET', 'POST'])
@@ -1251,9 +1268,10 @@ def API_reset_password():
     if request.method=="POST":
         id = request.form['id']
         password = request.form['password']
+        role = request.form['role']
         cur = mysql.connection.cursor()
         password = hashlib.sha3_256(password.encode()).hexdigest()
-        query = "UPDATE enrollment SET password='"+password+"' WHERE id="+id
+        query = "UPDATE "+role+" SET password='"+password+"' WHERE id="+id
         cur.execute(query)
         mysql.connection.commit()
         return jsonify({"message":"success"})
@@ -1616,6 +1634,7 @@ def new_enquiry():
         else:
             return jsonify({"message": "success", "type": "old", "id": count[1], "queue_no": count[0]})
 
+
     query  = "INSERT into leads (name, phone, email, enquiry_for, note) values('"+name+"','"+phone+"','"+email+"','"+instrument+" "+course+"','"+goal+"')"
     cur.execute(query)
     mysql.connection.commit()
@@ -1624,6 +1643,11 @@ def new_enquiry():
     cur.execute(waitingListQuery)
     count = cur.fetchone()
     if count[0]!=0:
+        password = "WOMSTU"+str(id)
+        password = hashlib.sha3_256(password.encode()).hexdigest()
+        updatePw = "Update leads SET password='"+password+"' WHERE id="+str(id)
+        cur.execute(updatePw)
+        mysql.connection.commit()
         return jsonify({"message": "success","type": "new", "id": id, "queue_no": count[0]})
     else:
         return jsonify({"message": "success"})
