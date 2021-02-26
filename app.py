@@ -1236,7 +1236,6 @@ def API_login():
                 "role": "Guest",
                 "name": result[1],
                 "instrument": result[2],
-                "course": result[3]
             })
         return jsonify({
             "message": "failure",
