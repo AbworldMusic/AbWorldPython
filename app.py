@@ -1238,6 +1238,9 @@ def API_login():
                 "instrument": result[2],
                 "course": result[3]
             })
+        return jsonify({
+            "message": "failure",
+        })
 
 
 @app.route("/API_forgot_password", methods=['POST'])
