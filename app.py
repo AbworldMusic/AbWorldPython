@@ -1503,7 +1503,7 @@ def API_get_attendance():
     if request.method=="GET":
         id = request.args['id']
         cur = mysql.connection.cursor()
-        query = "SELECT day_and_date, faculty_id, status, reason from attendance WHERE student_id="+str(id)
+        query = "SELECT date_and_day, faculty_id, status, reason from attendance WHERE student_id="+str(id)
         cur.execute(query)
         res = cur.fetchall()
         response = []
@@ -1513,7 +1513,7 @@ def API_get_attendance():
                 cur.execute(facultyQuery)
                 facRes = cur.fetchone()
                 response.append({
-                    "day_and_date": i[0],
+                    "date_and_day": i[0],
                     "faculty_id": facRes[0],
                     "status": i[2],
                     "reason": i[3]
