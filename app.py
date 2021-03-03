@@ -1518,6 +1518,7 @@ def API_get_attendance():
                     "status": i[2],
                     "reason": i[3]
                 })
+        return jsonify(response)
 
 
 
