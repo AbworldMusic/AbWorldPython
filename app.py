@@ -1514,7 +1514,7 @@ def API_get_attendance():
                 facRes = cur.fetchone()
                 response.append({
                     "date_and_day": i[0],
-                    "faculty_id": facRes[0],
+                    "faculty": facRes[0],
                     "status": i[2],
                     "reason": i[3]
                 })
