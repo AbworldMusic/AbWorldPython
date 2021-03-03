@@ -129,7 +129,7 @@ def enrollment():
             type = "Working"
             email = request.form['email']
         if type == "True":
-            phone = ""
+            phone = request.form['studentPhone']
             fatherName = request.form['fatherName']
             fatherPhone = request.form['fatherPhone']
             fatherEmail = request.form['fatherEmail']
@@ -139,7 +139,7 @@ def enrollment():
             motherEmail = request.form['motherEmail']
             motherOccupation = request.form['motheroccupation']
             type = 'Student'
-            email = ''
+            email = request.form['studentEmail']
         instrument = request.form['Instrument']
         haveInstrument = request.form['haveInstrument']
         course = request.form['Course']
