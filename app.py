@@ -165,9 +165,7 @@ def enrollment():
         cur.execute(query)
         mysql.connection.commit()
         flash("Enrollment successful", 'success')
-        getLastEnrollment = "SELECT id from enrollment order by id DESC LIMIT 1"
-        cur.execute(getLastEnrollment)
-        link_id = cur.fetchone()[0]
+        link_id = cur.lastrowid
 
         # Upload picture
         if "picture" in request.files:
@@ -200,12 +198,16 @@ def enrollment():
         cur.execute(salesQuery)
 
         # Update students lesson
-        lessonQuery = "SELECT id from lessons WHERE category='"+instrument+"' ORDER BY id ASC LIMIT 1"
-        cur.execute(lessonQuery)
+        levelQuery = "SELECT id from levels WHERE instrument='"+instrument+"' ORDER BY id ASC LIMIT 1"
+        cur.execute(levelQuery)
         res = cur.fetchone()
         if res is not None:
-            updateLesson = "INSERT into progress (student_id, lesson_id) values ("+str(link_id)+","+str(res[0])+")"
-            cur.execute(updateLesson)
+            lessonQuery = "SELECT id from lessons WHERE level="+str(res[0])+" ORDER BY id ASC LIMIT 1"
+            cur.execute(levelQuery)
+            res = cur.fetchone()
+            if res is not None:
+                updateLesson = "INSERT into progress (student_id, lesson_id) values ("+str(link_id)+","+str(res[0])+")"
+                cur.execute(updateLesson)
         mysql.connection.commit()
         return redirect('/enrollment?type=student')
 
@@ -731,8 +733,9 @@ def add_new_level():
         name = request.form['name']
         position = request.form['position']
         color = request.form['color']
+        category = request.form['category']
         cur = mysql.connection.cursor()
-        query = "INSERT into levels (name, position, color) values('"+name+"',"+position+",'"+color+"')"
+        query = "INSERT into levels (name, position, color, instrument) values('"+name+"',"+position+",'"+color+"','"+category+"')"
         print(query)
         cur.execute(query)
         mysql.connection.commit()
@@ -753,16 +756,13 @@ def add_new_lesson():
         name = request.form['name']
         level = request.form['level']
         desc = request.form['desc']
-        category = request.form['category']
         desc = desc.replace("'","")
-        query = "INSERT into lessons (title, category, description, level) values('"+name+"','"+category+"','"+desc+"',"+level+")"
+        query = "INSERT into lessons (title, description, level) values('"+name+"','"+desc+"',"+level+")"
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
 
-        getLatestId = "SELECT id from lessons order by id DESC LIMIT 1"
-        cur.execute(getLatestId)
-        lessonId = cur.fetchone()[0]
+        lessonId = cur.lastrowid
         images = request.files.getlist("images[]")
         for i in images:
             query = "INSERT into files (filename, type, link_id) values ('"+i.filename+"','lesson',"+str(lessonId)+")"
@@ -1685,6 +1685,22 @@ def new_enquiry():
         return jsonify({"message": "success","type": "new", "id": id, "queue_no": count[0]})
     else:
         return jsonify({"message": "success"})
+
+@app.route("/API_get_all_levels", methods=['POST'])
+def API_get_all_levels():
+    if request.method=="GET":
+        instrument = request.args["instrument"]
+        cur = mysql.connection.cursor()
+        query = "SELECT id, name, color from levels WHERE instrument="+instrument
+        cur.execute(query)
+        res = cur.execute(query)
+        response = []
+        if res is not None:
+            response.append({
+                "id": res[0],
+                "name": res[1],
+                "color": res[2]
+            })
 
 if __name__ == '__main__':
     app.run(debug=True)

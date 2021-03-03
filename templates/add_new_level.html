@@ -27,16 +27,24 @@ World of Music | Dashboard
             <form method="post" class="form-group">
                 <h4>Add a new Level</h4>
                 <div class="my-3">
-                    <label for="level_name">Level Name</label>
+                    <label for="level_name">Group Name</label>
                     <input type="text" id="level_name" name="name" class="form-control">
                 </div>
                 <div class="my-3">
-                    <label for="level_pos">Level Position</label>
+                    <label for="level_pos">Group Position</label>
                     <input type="text" id="level_pos" name='position' placeholder="What positions do you want this level to be displayed at" class="form-control">
                 </div>
                 <div class="my-4">
-                    <label for="level_color">Level Color</label><br>
+                    <label for="level_color">Group Color</label><br>
                     <input type="color" id="level_color" name="color">
+                </div>
+                <div class="my-3">
+                    <label for="level_cat">Group category</label>
+                    <select name="category" id="level_cat" class="form-control">
+                        <option>Guitar</option>
+                        <option>Keyboard</option>
+                        <option>Drums</option>
+                    </select>
                 </div>
                 <button class="btn btn-primary">Submit</button>
             </form>
