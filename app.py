@@ -1588,10 +1588,16 @@ def API_class_actions():
         date_and_day = request.form['date_and_day']
         status = request.form['status']
         attendance = request.form['attendance']
+        reason = request.form['reason']
         cur = mysql.connection.cursor()
         if attendance=="Present":
-            query = "INSERT into attendance (slot_id, date_and_day, student_id, faculty_id) values(" + \
-                    str(slot_id) + ",'" + str(date_and_day) + "'," + str(student_id) + "," + str(faculty_id) + ")"
+            query = "INSERT into attendance (slot_id, date_and_day, student_id, faculty_id, status) values(" + \
+                    str(slot_id) + ",'" + str(date_and_day) + "'," + str(student_id) + "," + str(faculty_id) + ",'Present')"
+            cur.execute(query)
+        else:
+            query = "INSERT into attendance (slot_id, date_and_day, student_id, faculty_id, status, reason) values(" + \
+                    str(slot_id) + ",'" + str(date_and_day) + "'," + str(student_id) + "," + str(
+                faculty_id) + ",'Absent','"+reason+"')"
             cur.execute(query)
         if status == "Promote":
             current_lesson = "SELECT lesson_id from progress WHERE student_id=" + str(student_id)
