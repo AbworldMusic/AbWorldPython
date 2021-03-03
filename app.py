@@ -1487,12 +1487,12 @@ def API_get_student_list():
         cur.execute(studentQuery)
         result = cur.fetchone()
         if result is not None:
-            attendance = "SELECT id from attendance WHERE student_id="+str(i[0])+" AND date_and_day LIKE '%"+mydate+"%'"
+            attendance = "SELECT id, status, reason from attendance WHERE student_id="+str(i[0])+" AND date_and_day LIKE '%"+mydate+"%'"
             cur.execute(attendance)
             res = cur.fetchone()
             if res is not None:
                 class_completed = True
-                all_students[i[0]] = [result[0],'Present']
+                all_students[i[0]] = [result[0],result[1],result[2]]
             else:
                 all_students[i[0]] = [result[0], 'Absent']
 
