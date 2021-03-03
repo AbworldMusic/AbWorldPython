@@ -1495,8 +1495,7 @@ def API_get_student_list():
                 all_students[i[0]] = [result[0],'Present']
             else:
                 all_students[i[0]] = [result[0], 'Absent']
-        else:
-            del all_students[i[0]]
+
     return jsonify({"students": all_students, "class_completed": class_completed})
 
 @app.route("/API_get_attendance", methods=['GET'])
