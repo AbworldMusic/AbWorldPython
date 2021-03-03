@@ -1486,16 +1486,42 @@ def API_get_student_list():
         studentQuery = "SELECT name from enrollment WHERE id="+str(i[0])
         cur.execute(studentQuery)
         result = cur.fetchone()
-
-        attendance = "SELECT id from attendance WHERE student_id="+str(i[0])+" AND date_and_day LIKE '%"+mydate+"%'"
-        cur.execute(attendance)
-        res = cur.fetchone()
-        if res is not None:
-            class_completed = True
-            all_students[i[0]] = [result[0],'Present']
+        if result is not None:
+            attendance = "SELECT id from attendance WHERE student_id="+str(i[0])+" AND date_and_day LIKE '%"+mydate+"%'"
+            cur.execute(attendance)
+            res = cur.fetchone()
+            if res is not None:
+                class_completed = True
+                all_students[i[0]] = [result[0],'Present']
+            else:
+                all_students[i[0]] = [result[0], 'Absent']
         else:
-            all_students[i[0]] = [result[0], 'Absent']
+            del all_students[i[0]]
     return jsonify({"students": all_students, "class_completed": class_completed})
+
+@app.route("/API_get_attendance", methods=['GET'])
+def API_get_attendance():
+    if request.method=="GET":
+        id = request.form['id']
+        cur = mysql.connection.cursor()
+        query = "SELECT day_and_date, faculty_id, status, reason from attendance WHERE student_id="+str(id)
+        cur.execute(query)
+        res  = cur.fetchall()
+        response = []
+        if res is not None:
+            for i in res:
+                facultyQuery = "SELECT fullname from users where id="+str(i[1])
+                cur.execute(facultyQuery)
+                facRes = cur.fetchone()
+                response.append({
+                    "day_and_date": i[0],
+                    "faculty_id": facRes[0],
+                    "status": i[2],
+                    "reason": i[3]
+                })
+
+
+
 
 @app.route("/API_mark_attendance", methods=['GET','POST'])
 def API_mark_attendance():
@@ -1509,7 +1535,7 @@ def API_mark_attendance():
         cur.execute(check)
         res = cur.fetchone()
         if res is not None:
-            query = "DELETE from attendance WHERE id="+str(res[0])
+            query = "UPDATE attendance set status='Absent' WHERE id="+str(res[0])
             cur.execute(query)
             mysql.connection.commit()
             return jsonify({"message": "success","marked":"Absent"})
