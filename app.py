@@ -1501,11 +1501,11 @@ def API_get_student_list():
 @app.route("/API_get_attendance", methods=['GET'])
 def API_get_attendance():
     if request.method=="GET":
-        id = request.form['id']
+        id = request.args['id']
         cur = mysql.connection.cursor()
         query = "SELECT day_and_date, faculty_id, status, reason from attendance WHERE student_id="+str(id)
         cur.execute(query)
-        res  = cur.fetchall()
+        res = cur.fetchall()
         response = []
         if res is not None:
             for i in res:
