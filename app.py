@@ -1492,7 +1492,7 @@ def API_get_student_list():
             res = cur.fetchone()
             if res is not None:
                 class_completed = True
-                all_students[i[0]] = [result[0],result[1],result[2]]
+                all_students[i[0]] = [result[0],res[1],res[2]]
             else:
                 all_students[i[0]] = [result[0], 'Absent']
 
