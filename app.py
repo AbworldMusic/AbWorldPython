@@ -1695,8 +1695,17 @@ def API_get_all_levels():
         cur = mysql.connection.cursor()
         query = "SELECT id, name, color, position from levels WHERE instrument='"+instrument+"'"
         cur.execute(query)
-        res = cur.execute(query)
+        cur.execute(query)
+        res = cur.fetchall()
         response = []
+        if res is not None:
+            for i in res:
+                response.append({
+                    "id": i[0],
+                    "name": i[1],
+                    "color": i[2],
+                    "position": i[3]
+                })
         student_id = request.args['id']
         studentLesson = "SELECT lesson_id from progress WHERE student_id="+str(student_id)
         cur.execute(studentLesson)
@@ -1708,14 +1717,7 @@ def API_get_all_levels():
             level = cur.fetchone()
             if level is not None:
                 current_level = level[0]
-        if res is not None:
-            for i in res:
-                response.append({
-                    "id": i[0],
-                    "name": i[1],
-                    "color": i[2],
-                    "position": i[3]
-                })
+
 
         return jsonify([{"current_level": current_level, "levels": response}])
 
