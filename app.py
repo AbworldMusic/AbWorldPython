@@ -1701,7 +1701,7 @@ def API_get_all_levels():
             response.append({
                 "id": res[0],
                 "name": res[1],
-                "color": res[2]
+                "color": res[2],
                 "position": res[3]
             })
 
