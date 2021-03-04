@@ -1693,7 +1693,7 @@ def API_get_all_levels():
     if request.method=="GET":
         instrument = request.args["instrument"]
         cur = mysql.connection.cursor()
-        query = "SELECT id, name, color, position from levels WHERE instrument="+instrument
+        query = "SELECT id, name, color, position from levels WHERE instrument='"+instrument+"'"
         cur.execute(query)
         res = cur.execute(query)
         response = []
