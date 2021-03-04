@@ -741,9 +741,9 @@ def add_new_level():
         if levelNoCheck is not None:
             changeLevelNo = "UPDATE levels SET position = position + 1 WHERE position>"+str(int(leveCheckRes[0])-1)
             cur.execute(changeLevelNo)
-        else:
-            query = "INSERT into levels (name, position, color, instrument) values('"+name+"',"+position+",'"+color+"','"+category+"')"
-            cur.execute(query)
+
+        query = "INSERT into levels (name, position, color, instrument) values('"+name+"',"+position+",'"+color+"','"+category+"')"
+        cur.execute(query)
         mysql.connection.commit()
         flash("Level was created successfully", "success")
         return redirect('/lessonPlan')
