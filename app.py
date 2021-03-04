@@ -1688,7 +1688,7 @@ def new_enquiry():
     else:
         return jsonify({"message": "success"})
 
-@app.route("/API_get_all_levels", methods=['POST'])
+@app.route("/API_get_all_levels", methods=['GET'])
 def API_get_all_levels():
     if request.method=="GET":
         instrument = request.args["instrument"]
