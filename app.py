@@ -1697,6 +1697,16 @@ def API_get_all_levels():
         cur.execute(query)
         res = cur.execute(query)
         response = []
+        student_id = request.args['id']
+        studentLesson = "SELECT lesson_id from progress WHERE student_id="+str(student_id)
+        cur.execute(studentLesson)
+        lesson = cur.fetchone()
+        current_level = ''
+        if lesson is not None:
+            current_level = "SELECT level from lesson WHERE id="+str(lesson[0])
+            cur.execute(current_level)
+            if cur.fetchone() is not None:
+                current_level = cur.fetchone()[1]
         if res is not None:
             response.append({
                 "id": res[0],
@@ -1704,6 +1714,8 @@ def API_get_all_levels():
                 "color": res[2],
                 "position": res[3]
             })
+
+        return jsonify([{"current_level": current_level, "levels": response}])
 
 if __name__ == '__main__':
     app.run(debug=True)
