@@ -1709,12 +1709,13 @@ def API_get_all_levels():
             if level is not None:
                 current_level = level[0]
         if res is not None:
-            response.append({
-                "id": res[0],
-                "name": res[1],
-                "color": res[2],
-                "position": res[3]
-            })
+            for i in res:
+                response.append({
+                    "id": i[0],
+                    "name": i[1],
+                    "color": i[2],
+                    "position": i[3]
+                })
 
         return jsonify([{"current_level": current_level, "levels": response}])
 
