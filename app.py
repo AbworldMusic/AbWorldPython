@@ -793,16 +793,18 @@ def view_lesson():
     if request.method=="GET":
         if "id" in request.args:
             cur = mysql.connection.cursor()
-            query = "SELECT title, category, description, level from lessons WHERE id="+request.args['id']
+            query = "SELECT title, description, level from lessons WHERE id="+request.args['id']
             cur.execute(query)
             result = cur.fetchone()
             data = {
                 'id': request.args['id'],
                 'name': result[0],
-                'category': result[1],
-                'desc': result[2],
-                'level': result[3]
+                'desc': result[1]
             }
+            groupQuery = "SELECT name from levels WHERE id="+str(result[2])
+            cur.execute(groupQuery)
+            data["group"] = cur.fetchone()[0]
+
             return render_template("view_lesson.html",data=data)
 
 @app.route("/view_images_for_lesson", methods=['GET',"POST"])
@@ -1691,7 +1693,7 @@ def API_get_all_levels():
     if request.method=="GET":
         instrument = request.args["instrument"]
         cur = mysql.connection.cursor()
-        query = "SELECT id, name, color from levels WHERE instrument="+instrument
+        query = "SELECT id, name, color, position from levels WHERE instrument="+instrument
         cur.execute(query)
         res = cur.execute(query)
         response = []
@@ -1700,6 +1702,7 @@ def API_get_all_levels():
                 "id": res[0],
                 "name": res[1],
                 "color": res[2]
+                "position": res[3]
             })
 
 if __name__ == '__main__':
