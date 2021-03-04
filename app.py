@@ -1706,7 +1706,7 @@ def API_get_all_levels():
             current_level = "SELECT level from lessons WHERE id="+str(lesson[0])
             cur.execute(current_level)
             if cur.fetchone() is not None:
-                current_level = cur.fetchone()[1]
+                current_level = cur.fetchone()[0]
         if res is not None:
             response.append({
                 "id": res[0],
