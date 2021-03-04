@@ -735,9 +735,15 @@ def add_new_level():
         color = request.form['color']
         category = request.form['category']
         cur = mysql.connection.cursor()
-        query = "INSERT into levels (name, position, color, instrument) values('"+name+"',"+position+",'"+color+"','"+category+"')"
-        print(query)
-        cur.execute(query)
+        levelNoCheck = "SELECT id from levels WHERE position="+str(position)
+        cur.execute(levelNoCheck)
+        leveCheckRes = cur.fetchone()
+        if levelNoCheck is not None:
+            changeLevelNo = "UPDATE levels SET position = position + 1 WHERE position>"+str(int(leveCheckRes[0])-1)
+            cur.execute(changeLevelNo)
+        else:
+            query = "INSERT into levels (name, position, color, instrument) values('"+name+"',"+position+",'"+color+"','"+category+"')"
+            cur.execute(query)
         mysql.connection.commit()
         flash("Level was created successfully", "success")
         return redirect('/lessonPlan')
