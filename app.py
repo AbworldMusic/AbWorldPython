@@ -753,7 +753,7 @@ def add_new_lesson():
     if request.method=="GET":
         if "id" in request.args:
             id=request.args['id']
-            query = "SELECT name from levels WHERE id="+str(id)
+            query = "SELECT name from levels WHERE id="+str(id)+" ORDER BY position"
             cur = mysql.connection.cursor()
             cur.execute(query)
             level = cur.fetchone()[0]
@@ -762,8 +762,9 @@ def add_new_lesson():
         name = request.form['name']
         level = request.form['level']
         desc = request.form['desc']
+        position = request.form['position']
         desc = desc.replace("'","")
-        query = "INSERT into lessons (title, description, level) values('"+name+"','"+desc+"',"+level+")"
+        query = "INSERT into lessons (title, description, level, position) values('"+name+"','"+desc+"',"+level+","+position+")"
         cur = mysql.connection.cursor()
         cur.execute(query)
         mysql.connection.commit()
@@ -782,7 +783,7 @@ def add_new_lesson():
 def load_lessons():
     if request.method == "POST":
         cur = mysql.connection.cursor()
-        query = "SELECT id, title from lessons WHERE level="+request.form['id']
+        query = "SELECT id, title from lessons WHERE level="+request.form['id']+" ORDER BY position"
         print(query)
         cur.execute(query)
         result = cur.fetchall()
@@ -1699,7 +1700,7 @@ def API_get_all_levels():
     if request.method=="GET":
         instrument = request.args["instrument"]
         cur = mysql.connection.cursor()
-        query = "SELECT id, name, color, position from levels WHERE instrument='"+instrument+"'"
+        query = "SELECT id, name, color, position from levels WHERE instrument='"+instrument+"' ORDER BY position"
         cur.execute(query)
         cur.execute(query)
         res = cur.fetchall()
